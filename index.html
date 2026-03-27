@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30-Day IG Challenge — Build Plan</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/quick');
+
+:root {
+  --color-primary:   #889CA2;
+  --color-coral:     #F49C8E;
+  --color-yellow:    #F3B548;
+  --color-sage:      #BFD9CC;
+  --color-blush:     #F6D5CD;
+  --color-mist:      #B3DCDA;
+  --color-bg:        #F2F2F2;
+  --color-surface:   #FFFFFF;
+  --color-body-text: #555555;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--color-bg);
+  font-family: 'Nunito', sans-serif;
+  color: var(--color-body-text);
+  line-height: 1.75;
+}
+
+/* ─── HEADER ─── */
+header {
+  background: var(--color-primary);
+  padding: 48px 60px 40px;
+}
+
+.header-eyebrow {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 12px;
+}
+
+header h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(32px, 5vw, 56px);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #FFFFFF;
+  line-height: 1.0;
+  margin-bottom: 4px;
+}
+
+.header-sub {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 32px;
+}
+
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-right: 36px;
+  margin-right: 36px;
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+.meta-item:last-child { border-right: none; }
+
+.meta-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5);
+}
+
+.meta-value {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* ─── ROADMAP STRIP ─── */
+.roadmap-wrap {
+  background: var(--color-surface);
+  border-bottom: 2px solid var(--color-bg);
+  padding: 32px 60px;
+}
+
+.roadmap-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 20px;
+}
+
+.roadmap-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  position: relative;
+}
+
+.roadmap-track::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  background: var(--color-bg);
+  z-index: 0;
+}
+
+.roadmap-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.roadmap-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-bg);
+  border: 2px solid var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+
+.roadmap-dot svg {
+  width: 14px;
+  height: 14px;
+  display: none;
+}
+
+.roadmap-step.done .roadmap-dot {
+  background: var(--color-sage);
+  border-color: var(--color-sage);
+}
+
+.roadmap-step.done .roadmap-dot svg { display: block; }
+
+.roadmap-step.done .roadmap-dot .dot-num { display: none; }
+
+.dot-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 13px;
+  color: var(--color-primary);
+  opacity: 0.5;
+}
+
+.roadmap-step.active .roadmap-dot {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.roadmap-step.active .dot-num {
+  color: #fff;
+  opacity: 1;
+}
+
+.roadmap-step-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-body-text);
+  opacity: 0.5;
+  text-align: center;
+  line-height: 1.4;
+  max-width: 90px;
+}
+
+.roadmap-step.active .roadmap-step-label {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+.roadmap-step.done .roadmap-step-label {
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+/* progress bar under track */
+.roadmap-progress-bar {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--color-bg);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-sage);
+  border-radius: 50px;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+/* nav removed */
+
+/* ─── MAIN ─── */
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 48px 60px 80px;
+}
+
+/* ─── SECTION ACCORDION ─── */
+.phase-block {
+  margin-bottom: 16px;
+}
+
+.phase-header {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.phase-header:hover { background: #f8f8f8; }
+
+.phase-block.open .phase-header {
+  border-radius: 16px 16px 0 0;
+  background: var(--color-surface);
+}
+
+.phase-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 28px;
+  color: var(--color-blush);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+.phase-block.done .phase-num { color: var(--color-sage); }
+.phase-block.active .phase-num { color: var(--color-primary); }
+
+.phase-header-text {
+  flex: 1;
+}
+
+.phase-eyebrow {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 2px;
+}
+
+.phase-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.phase-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.phase-count {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-body-text);
+  opacity: 0.6;
+}
+
+.phase-chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  opacity: 0.4;
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+
+.phase-block.open .phase-chevron { transform: rotate(180deg); opacity: 0.7; }
+
+.phase-badge {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 4px 12px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.badge-done { background: var(--color-sage); color: #2D7A72; }
+.badge-active { background: var(--color-primary); color: #fff; }
+.badge-todo { background: var(--color-bg); color: var(--color-primary); opacity: 0.7; }
+
+/* ─── DONE STATE — visible but clearly receded ─── */
+.phase-block.done .phase-header {
+  background: #E4EAEC;
+  opacity: 1;
+}
+.phase-block.done .phase-header:hover {
+  background: #dce4e7;
+}
+.phase-block.done.open .phase-header {
+  border-radius: 16px 16px 0 0;
+}
+.phase-block.done .phase-body {
+  background: #edf1f3;
+  border-top: 1px solid #d8e0e3;
+}
+.phase-block.done .phase-eyebrow {
+  color: #9eaaad;
+  opacity: 1;
+}
+.phase-block.done .phase-title {
+  color: #9eaaad;
+  opacity: 1;
+}
+.phase-block.done .phase-num {
+  color: #b8c4c7;
+}
+.phase-block.done .phase-chevron { opacity: 0.3; }
+/* keep green elements fully visible on done cards */
+.phase-block.done .badge-done { opacity: 1; }
+.phase-block.done .phase-inline-fill { opacity: 1; }
+.phase-block.done .phase-inline-label { color: var(--color-primary); opacity: 0.6; }
+
+/* ─── INLINE PHASE PROGRESS BAR ─── */
+.phase-inline-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.phase-inline-track {
+  flex: 1;
+  height: 4px;
+  background: var(--color-bg);
+  border-radius: 50px;
+  overflow: hidden;
+  max-width: 160px;
+}
+.phase-inline-fill {
+  height: 100%;
+  background: var(--color-sage);
+  border-radius: 50px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.phase-block.done .phase-inline-fill { background: var(--color-sage); }
+.phase-block.active .phase-inline-fill { background: var(--color-primary); opacity: 0.6; }
+.phase-inline-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-body-text);
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* ─── PHASE BODY ─── */
+.phase-body {
+  display: none;
+  background: var(--color-surface);
+  border-radius: 0 0 16px 16px;
+  border-top: 1px solid var(--color-bg);
+  overflow: hidden;
+}
+
+.phase-block.open .phase-body { display: block; }
+
+/* ─── TASK GROUPS ─── */
+.task-group {
+  padding: 28px 32px;
+  border-bottom: 1px solid var(--color-bg);
+}
+
+.task-group:last-child { border-bottom: none; }
+
+.task-group-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tg-platform {
+  background: var(--color-bg);
+  color: var(--color-primary);
+  padding: 2px 10px;
+  border-radius: 50px;
+  font-size: 9px;
+}
+
+/* platform-specific tag colors */
+.tg-zapier   { background: #FFF0E8; color: #C4622D; }
+.tg-sheets   { background: #E8F5E8; color: #2D7A3A; }
+.tg-flodesk  { background: #F5E8F5; color: #7A2D8B; }
+.tg-telegram { background: #E8F0FF; color: #2D5AC4; }
+.tg-kajabi   { background: #FFF5E0; color: #B8860B; }
+.tg-samcart  { background: #FFE8E8; color: #C42D2D; }
+.tg-cowork   { background: var(--color-mist); color: #2D7A72; }
+.tg-manual   { background: var(--color-blush); color: #8B4F47; }
+
+/* ─── TASK ITEMS ─── */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-bg);
+}
+
+.task-item:last-child { border-bottom: none; }
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+/* custom checkbox */
+.task-cb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 2px solid var(--color-sage);
+  background: var(--color-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.task-cb:checked {
+  background: var(--color-sage);
+  border-color: var(--color-sage);
+}
+
+.task-cb:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 5px;
+  width: 6px; height: 10px;
+  border: 2px solid #2D7A72;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.task-text {
+  font-size: 15px;
+  color: var(--color-body-text);
+  line-height: 1.6;
+  flex: 1;
+  transition: all 0.2s;
+}
+
+.task-note {
+  font-size: 13px;
+  color: var(--color-body-text);
+  opacity: 0.6;
+  margin-top: 3px;
+  line-height: 1.5;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: var(--color-bg);
+  color: var(--color-primary);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.note-box {
+  background: #FFFBF0;
+  border-left: 3px solid var(--color-yellow);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 12px 0 4px;
+  font-size: 13px;
+  color: var(--color-body-text);
+  line-height: 1.7;
+}
+
+.note-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-yellow);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ─── TABLE ─── */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ref-table th {
+  font-family: 'Quick', sans-serif;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #fff;
+  background: var(--color-primary);
+  text-align: left;
+  padding: 8px 12px;
+}
+
+.ref-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--color-bg);
+  color: var(--color-body-text);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.ref-table tr:last-child td { border-bottom: none; }
+.ref-table .col-key { font-weight: 700; color: var(--color-primary); font-size: 12px; }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--color-primary);
+  padding: 24px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #FFFFFF;
+}
+
+.footer-sub {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.5);
+}
+
+@media (max-width: 720px) {
+  header, .roadmap-wrap, nav, main, footer { padding-left: 20px; padding-right: 20px; }
+  .roadmap-step-label { font-size: 8px; max-width: 60px; }
+  .phase-header { padding: 16px 20px; }
+  .task-group { padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-eyebrow">Simple Creator Co. — System Architecture</div>
+  <h1>30-Day IG Challenge</h1>
+  <div class="header-sub">Automation Build Plan</div>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="meta-label">Offer</span>
+      <span class="meta-value">30-Day IG Challenge — $67</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Position</span>
+      <span class="meta-value">Backend 1 — 5th Offer in Funnel</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Pod Size</span>
+      <span class="meta-value">6–9 per cohort</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Cadence</span>
+      <span class="meta-value">2× Monthly — 1st &amp; 15th</span>
+    </div>
+  </div>
+</header>
+
+<!-- ─── ROADMAP ─── -->
+<div class="roadmap-wrap">
+  <div class="roadmap-label">Build Roadmap</div>
+  <div class="roadmap-track" id="roadmapTrack">
+    <div class="roadmap-step" data-phase="phase1" onclick="scrollToPhase('phase1')">
+      <div class="roadmap-dot"><span class="dot-num">1</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Google Sheet</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase2" onclick="scrollToPhase('phase2')">
+      <div class="roadmap-dot"><span class="dot-num">2</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">SamCart + Kajabi</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase3" onclick="scrollToPhase('phase3')">
+      <div class="roadmap-dot"><span class="dot-num">3</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Zap 1</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase4" onclick="scrollToPhase('phase4')">
+      <div class="roadmap-dot"><span class="dot-num">4</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Flodesk Emails</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase5" onclick="scrollToPhase('phase5')">
+      <div class="roadmap-dot"><span class="dot-num">5</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Telegram Ref Doc</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase6" onclick="scrollToPhase('phase6')">
+      <div class="roadmap-dot"><span class="dot-num">6</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Pod Grouping</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase7" onclick="scrollToPhase('phase7')">
+      <div class="roadmap-dot"><span class="dot-num">7</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Zap 2A + 2B</div>
+    </div>
+    <div class="roadmap-step" data-phase="phase8" onclick="scrollToPhase('phase8')">
+      <div class="roadmap-dot"><span class="dot-num">8</span><svg viewBox="0 0 14 14" fill="none"><path d="M2 7l3.5 3.5L12 3.5" stroke="#2D7A72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="roadmap-step-label">Cowork Brief + Test</div>
+    </div>
+  </div>
+  <div class="roadmap-progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-text" id="progressText">0 of 8 complete</div>
+  </div>
+</div>
+
+
+
+
+<!-- ─── MAIN ─── -->
+<main>
+
+  <!-- PHASE 1 -->
+  <div class="phase-block" id="phase1">
+    <div class="phase-header" onclick="togglePhase('phase1')">
+      <div class="phase-num">1</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Foundation — Do First</div>
+        <div class="phase-title">Google Sheet — Master Roster + Cohort Log</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase1-bar"></div></div>
+          <span class="phase-inline-label" id="phase1-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase1-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Create the Sheet
+          <span class="tg-platform tg-sheets">Google Sheets</span>
+        </div>
+        <div class="task-item" id="t-1-1">
+          <input type="checkbox" class="task-cb" data-id="t-1-1" data-phase="phase1">
+          <div class="task-text">Create a new Google Sheet and name it clearly (e.g. "30-Day IG Challenge — System Roster")</div>
+        </div>
+        <div class="task-item" id="t-1-2">
+          <input type="checkbox" class="task-cb" data-id="t-1-2" data-phase="phase1">
+          <div class="task-text">Create Tab 1 and name it "Master Roster"</div>
+        </div>
+        <div class="task-item" id="t-1-3">
+          <input type="checkbox" class="task-cb" data-id="t-1-3" data-phase="phase1">
+          <div class="task-text">Create Tab 2 and name it "Cohort Log"</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Tab 1 — Master Roster Columns
+          <span class="tg-platform tg-sheets">Google Sheets</span>
+        </div>
+        <table class="ref-table">
+          <thead><tr><th>Col</th><th>Field Name</th><th>Filled By</th></tr></thead>
+          <tbody>
+            <tr><td class="col-key">A</td><td>Timestamp</td><td>Zapier (auto)</td></tr>
+            <tr><td class="col-key">B</td><td>First Name</td><td>Zapier — from SamCart order</td></tr>
+            <tr><td class="col-key">C</td><td>Email</td><td>Zapier — from SamCart order</td></tr>
+            <tr><td class="col-key">D</td><td>Purchase Date</td><td>Zapier — from SamCart order</td></tr>
+            <tr><td class="col-key">E</td><td>Cohort Month</td><td>e.g. "June 2026" — Zap 2 or Apps Script</td></tr>
+            <tr><td class="col-key">F</td><td>Pod Number</td><td>e.g. "Pod 1" — Zap 2 or Apps Script</td></tr>
+            <tr><td class="col-key">G</td><td>Assignment Status</td><td>Pending → Assigned</td></tr>
+            <tr><td class="col-key">H</td><td>Telegram Invite Link</td><td>Populated by Cowork</td></tr>
+            <tr><td class="col-key">I</td><td>Welcome Email Sent</td><td>Yes / No</td></tr>
+            <tr><td class="col-key">J</td><td>Notes</td><td>Manual field</td></tr>
+          </tbody>
+        </table>
+        <div class="task-item" style="margin-top:12px;" id="t-1-4">
+          <input type="checkbox" class="task-cb" data-id="t-1-4" data-phase="phase1">
+          <div class="task-text">Add all 10 column headers to Tab 1 — Master Roster</div>
+        </div>
+        <div class="task-item" id="t-1-5">
+          <input type="checkbox" class="task-cb" data-id="t-1-5" data-phase="phase1">
+          <div class="task-text">Freeze Row 1 as a header row</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Tab 2 — Cohort Log Columns
+          <span class="tg-platform tg-sheets">Google Sheets</span>
+        </div>
+        <table class="ref-table">
+          <thead><tr><th>Col</th><th>Field Name</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="col-key">A</td><td>Cohort Name</td><td>e.g. "June 2026 — 1st — Pod 1"</td></tr>
+            <tr><td class="col-key">B</td><td>Start Date</td><td>Always the 1st or 15th</td></tr>
+            <tr><td class="col-key">C</td><td>Cutoff Date</td><td>29th (1st cohort) or 13th (15th cohort)</td></tr>
+            <tr><td class="col-key">D</td><td>Member Count</td><td>Auto or manual</td></tr>
+            <tr><td class="col-key">E</td><td>Telegram Group Link</td><td>Populated by Cowork</td></tr>
+            <tr><td class="col-key">F</td><td>Flodesk Segment Name</td><td>e.g. "Challenge — June 2026 — 1st — Pod 1"</td></tr>
+            <tr><td class="col-key">G</td><td>Status</td><td>Building / Active / Complete</td></tr>
+          </tbody>
+        </table>
+        <div class="task-item" style="margin-top:12px;" id="t-1-6">
+          <input type="checkbox" class="task-cb" data-id="t-1-6" data-phase="phase1">
+          <div class="task-text">Add all 7 column headers to Tab 2 — Cohort Log</div>
+        </div>
+        <div class="task-item" id="t-1-7">
+          <input type="checkbox" class="task-cb" data-id="t-1-7" data-phase="phase1">
+          <div class="task-text">Freeze Row 1 as a header row</div>
+        </div>
+        <div class="task-item" id="t-1-8">
+          <input type="checkbox" class="task-cb" data-id="t-1-8" data-phase="phase1">
+          <div class="task-text">Save the sheet URL somewhere accessible — Zapier and Cowork will both need it</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-block" id="phase2">
+    <div class="phase-header" onclick="togglePhase('phase2')">
+      <div class="phase-num">2</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Platform Setup</div>
+        <div class="phase-title">SamCart Connection + Kajabi Offer</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase2-bar"></div></div>
+          <span class="phase-inline-label" id="phase2-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase2-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          SamCart Setup
+          <span class="tg-platform tg-samcart">SamCart</span>
+        </div>
+        <div class="task-item" id="t-2-1">
+          <input type="checkbox" class="task-cb" data-id="t-2-1" data-phase="phase2">
+          <div class="task-text">Confirm the 30-Day IG Challenge ($67) is live and positioned as a backend offer in your funnel</div>
+        </div>
+        <div class="task-item" id="t-2-2">
+          <input type="checkbox" class="task-cb" data-id="t-2-2" data-phase="phase2">
+          <div class="task-text">In SamCart integrations, connect your Zapier account</div>
+        </div>
+        <div class="task-item" id="t-2-3">
+          <input type="checkbox" class="task-cb" data-id="t-2-3" data-phase="phase2">
+          <div class="task-text">Enable the "Order Created" webhook on the challenge product so every purchase fires to Zapier immediately</div>
+        </div>
+        <div class="task-item" id="t-2-4">
+          <input type="checkbox" class="task-cb" data-id="t-2-4" data-phase="phase2">
+          <div class="task-text">Do a test purchase (or confirm a test event works) to verify the webhook fires correctly to Zapier</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Kajabi Setup
+          <span class="tg-platform tg-kajabi">Kajabi</span>
+        </div>
+        <div class="task-item" id="t-2-5">
+          <input type="checkbox" class="task-cb" data-id="t-2-5" data-phase="phase2">
+          <div class="task-text">Create the 30-Day IG Challenge product in Kajabi if not already done</div>
+        </div>
+        <div class="task-item" id="t-2-6">
+          <input type="checkbox" class="task-cb" data-id="t-2-6" data-phase="phase2">
+          <div class="task-text">Set up an Offer in Kajabi for the challenge product — this is what Zapier will grant to buyers automatically</div>
+        </div>
+        <div class="task-item" id="t-2-7">
+          <input type="checkbox" class="task-cb" data-id="t-2-7" data-phase="phase2">
+          <div class="task-text">Turn off Kajabi's default welcome email for this product — Flodesk is handling all email communication</div>
+        </div>
+        <div class="task-item" id="t-2-8">
+          <input type="checkbox" class="task-cb" data-id="t-2-8" data-phase="phase2">
+          <div class="task-text">Confirm the Kajabi offer can be granted via Zapier's "Grant Offer to Member" action — test it with a dummy email</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-block" id="phase3">
+    <div class="phase-header" onclick="togglePhase('phase3')">
+      <div class="phase-num">3</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Automation — Instant Purchase Trigger</div>
+        <div class="phase-title">Zap 1 — Purchase to Roster + Access + Tag</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase3-bar"></div></div>
+          <span class="phase-inline-label" id="phase3-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase3-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Build the Zap
+          <span class="tg-platform tg-zapier">Zapier</span>
+        </div>
+        <div class="note-box">
+          <span class="note-label">What this zap does</span>
+          Fires instantly on every purchase. Three things happen in sequence: Kajabi grants access, buyer lands in the roster, Flodesk sends the confirmation email.
+        </div>
+        <div class="task-item" style="margin-top:12px;" id="t-3-1">
+          <input type="checkbox" class="task-cb" data-id="t-3-1" data-phase="phase3">
+          <div class="task-text">In Zapier, create a new Zap with trigger: SamCart → New Order (select the 30-Day IG Challenge product)</div>
+        </div>
+        <div class="task-item" id="t-3-2">
+          <input type="checkbox" class="task-cb" data-id="t-3-2" data-phase="phase3">
+          <div class="task-text">Add Action 1: Kajabi → Grant Offer to Member — map buyer's email from SamCart trigger</div>
+        </div>
+        <div class="task-item" id="t-3-3">
+          <input type="checkbox" class="task-cb" data-id="t-3-3" data-phase="phase3">
+          <div class="task-text">Add Action 2: Google Sheets → Create Spreadsheet Row in Master Roster — map: Timestamp, First Name, Email, Purchase Date, set Status = "Pending"</div>
+        </div>
+        <div class="task-item" id="t-3-4">
+          <input type="checkbox" class="task-cb" data-id="t-3-4" data-phase="phase3">
+          <div class="task-text">Add Action 3: Flodesk → Add/Update Subscriber — map buyer's email + first name, apply tag: <code>challenge-purchased</code></div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Test + Activate
+          <span class="tg-platform tg-zapier">Zapier</span>
+        </div>
+        <div class="task-item" id="t-3-5">
+          <input type="checkbox" class="task-cb" data-id="t-3-5" data-phase="phase3">
+          <div class="task-text">Run a test purchase and confirm all 3 actions fire correctly — check Kajabi for access, Google Sheet for the new row, Flodesk for the tag</div>
+        </div>
+        <div class="task-item" id="t-3-6">
+          <input type="checkbox" class="task-cb" data-id="t-3-6" data-phase="phase3">
+          <div class="task-text">Turn the Zap on and mark it active</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-block" id="phase4">
+    <div class="phase-header" onclick="togglePhase('phase4')">
+      <div class="phase-num">4</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Email — Two Templates</div>
+        <div class="phase-title">Flodesk — Purchase Confirmation + Welcome Template</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase4-bar"></div></div>
+          <span class="phase-inline-label" id="phase4-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase4-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Email 1 — Purchase Confirmation (sends immediately)
+          <span class="tg-platform tg-flodesk">Flodesk</span>
+        </div>
+        <div class="task-item" id="t-4-1">
+          <input type="checkbox" class="task-cb" data-id="t-4-1" data-phase="phase4">
+          <div class="task-text">Create a new workflow in Flodesk triggered by the tag: <code>challenge-purchased</code></div>
+        </div>
+        <div class="task-item" id="t-4-2">
+          <input type="checkbox" class="task-cb" data-id="t-4-2" data-phase="phase4">
+          <div class="task-text">Write + design the confirmation email — celebrate the purchase, set expectations ("your pod opens on the 1st or 15th — watch for your invite")</div>
+        </div>
+        <div class="task-item" id="t-4-3">
+          <input type="checkbox" class="task-cb" data-id="t-4-3" data-phase="phase4">
+          <div class="task-text">Include delivery of the Profile Audit Tool as an immediate bonus (link or attachment)</div>
+        </div>
+        <div class="task-item" id="t-4-4">
+          <input type="checkbox" class="task-cb" data-id="t-4-4" data-phase="phase4">
+          <div class="task-text">Test the full trigger → email sends flow with a test subscriber using the <code>challenge-purchased</code> tag</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Email 2 — Welcome + Pod Invite (Reusable Template)
+          <span class="tg-platform tg-flodesk">Flodesk</span>
+        </div>
+        <div class="note-box">
+          <span class="note-label">Important</span>
+          This email is a template Cowork duplicates and customizes each cohort. Keep it clean and easy to edit. The placeholder <code>[TELEGRAM_LINK]</code> must be clearly visible.
+        </div>
+        <div class="task-item" style="margin-top:12px;" id="t-4-5">
+          <input type="checkbox" class="task-cb" data-id="t-4-5" data-phase="phase4">
+          <div class="task-text">Create this as a standalone email template (not inside a workflow) so Cowork can duplicate it each cohort</div>
+        </div>
+        <div class="task-item" id="t-4-6">
+          <input type="checkbox" class="task-cb" data-id="t-4-6" data-phase="phase4">
+          <div class="task-text">Headline: "Your pod is ready — here's your invite link" with <code>[TELEGRAM_LINK]</code> as a clearly labeled placeholder</div>
+        </div>
+        <div class="task-item" id="t-4-7">
+          <input type="checkbox" class="task-cb" data-id="t-4-7" data-phase="phase4">
+          <div class="task-text">Add one prominent CTA button pointing to <code>[TELEGRAM_LINK]</code></div>
+        </div>
+        <div class="task-item" id="t-4-8">
+          <input type="checkbox" class="task-cb" data-id="t-4-8" data-phase="phase4">
+          <div class="task-text">Include a brief week-by-week roadmap overview and what to expect from the 5 scheduled check-ins</div>
+        </div>
+        <div class="task-item" id="t-4-9">
+          <input type="checkbox" class="task-cb" data-id="t-4-9" data-phase="phase4">
+          <div class="task-text">Note the template name somewhere accessible — Cowork needs to know exactly what to search for in Flodesk</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase-block" id="phase5">
+    <div class="phase-header" onclick="togglePhase('phase5')">
+      <div class="phase-num">5</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Reference Content — Write Once, Use Forever</div>
+        <div class="phase-title">Telegram Scheduled Messages Reference Doc</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase5-bar"></div></div>
+          <span class="phase-inline-label" id="phase5-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase5-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Create the Doc
+          <span class="tg-platform tg-manual">Google Drive</span>
+        </div>
+        <div class="task-item" id="t-5-1">
+          <input type="checkbox" class="task-cb" data-id="t-5-1" data-phase="phase5">
+          <div class="task-text">Create a new Google Doc and name it "30-Day IG Challenge — Telegram Scheduled Messages"</div>
+        </div>
+        <div class="task-item" id="t-5-2">
+          <input type="checkbox" class="task-cb" data-id="t-5-2" data-phase="phase5">
+          <div class="task-text">Write the final copy for all 5 check-in message prompts (see schedule below) — Cowork will copy these verbatim into every new group</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">Message Schedule</div>
+        <table class="ref-table">
+          <thead><tr><th>Day</th><th>Prompt Topic</th><th>Written?</th></tr></thead>
+          <tbody>
+            <tr><td class="col-key">Day 1</td><td>Welcome + drop the weekly roadmap</td><td><input type="checkbox" class="task-cb" data-id="t-5-d1" data-phase="phase5"></td></tr>
+            <tr><td class="col-key">Day 7</td><td>Week 1 check — drop your profile link for peer feedback</td><td><input type="checkbox" class="task-cb" data-id="t-5-d7" data-phase="phase5"></td></tr>
+            <tr><td class="col-key">Day 14</td><td>Halfway point — who's run their first ad? Share your numbers</td><td><input type="checkbox" class="task-cb" data-id="t-5-d14" data-phase="phase5"></td></tr>
+            <tr><td class="col-key">Day 21</td><td>ManyChat live? Drop your keyword — let's test each other's funnels</td><td><input type="checkbox" class="task-cb" data-id="t-5-d21" data-phase="phase5"></td></tr>
+            <tr><td class="col-key">Day 30</td><td>Final share — biggest win from this month</td><td><input type="checkbox" class="task-cb" data-id="t-5-d30" data-phase="phase5"></td></tr>
+          </tbody>
+        </table>
+        <div class="task-item" style="margin-top:12px;" id="t-5-3">
+          <input type="checkbox" class="task-cb" data-id="t-5-3" data-phase="phase5">
+          <div class="task-text">Save the doc URL — Cowork will reference this doc every time it creates a new pod</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 6 -->
+  <div class="phase-block" id="phase6">
+    <div class="phase-header" onclick="togglePhase('phase6')">
+      <div class="phase-num">6</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Decision Required</div>
+        <div class="phase-title">Pod Grouping Logic — Manual or Apps Script</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase6-bar"></div></div>
+          <span class="phase-inline-label" id="phase6-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase6-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Make the Decision
+          <span class="tg-platform tg-sheets">Google Sheets</span>
+        </div>
+        <div class="note-box">
+          <span class="note-label">Context</span>
+          Zapier can't do the "group into pods of 6–9" math on its own. Someone or something has to fill in the Cohort Month + Pod Number columns before Zap 2 fires. Option A is manual. Option B automates it with a Google Apps Script — ~1 hour of dev work, worth it at expected volume (40–80 buyers/cohort).
+        </div>
+        <div class="task-item" style="margin-top:12px;" id="t-6-1">
+          <input type="checkbox" class="task-cb" data-id="t-6-1" data-phase="phase6">
+          <div class="task-text">Decide: Manual (Option A) or Apps Script (Option B) — consider your expected volume before choosing</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Option A — Manual
+          <span class="tg-platform tg-manual">Manual</span>
+        </div>
+        <div class="task-item" id="t-6-a1">
+          <input type="checkbox" class="task-cb" data-id="t-6-a1" data-phase="phase6">
+          <div class="task-text">Document the manual process: before each cutoff date, open the Master Roster, sort by Purchase Date, fill in Cohort Month + Pod Number for each pending buyer in groups of 6–9, then change status to "Assigned"</div>
+        </div>
+        <div class="task-item" id="t-6-a2">
+          <input type="checkbox" class="task-cb" data-id="t-6-a2" data-phase="phase6">
+          <div class="task-text">Add a reminder to your calendar on the 12th and 28th of each month to do pod assignments before cutoff</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Option B — Apps Script (Recommended)
+          <span class="tg-platform tg-sheets">Google Sheets</span>
+        </div>
+        <div class="task-item" id="t-6-b1">
+          <input type="checkbox" class="task-cb" data-id="t-6-b1" data-phase="phase6">
+          <div class="task-text">Write (or have Claude write) a Google Apps Script that: finds all rows where Status = "Pending," groups them in batches of 6–9, fills in Cohort Month + Pod Number, and sets Status = "Assigned"</div>
+        </div>
+        <div class="task-item" id="t-6-b2">
+          <input type="checkbox" class="task-cb" data-id="t-6-b2" data-phase="phase6">
+          <div class="task-text">Set the script to trigger automatically on the 29th and 13th of each month, OR trigger it manually before each cutoff</div>
+        </div>
+        <div class="task-item" id="t-6-b3">
+          <input type="checkbox" class="task-cb" data-id="t-6-b3" data-phase="phase6">
+          <div class="task-text">Test the script on a sheet with dummy data rows before using it on real buyers</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 7 -->
+  <div class="phase-block" id="phase7">
+    <div class="phase-header" onclick="togglePhase('phase7')">
+      <div class="phase-num">7</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Automation — Scheduled Cohort Tagging</div>
+        <div class="phase-title">Zap 2A + 2B — Flodesk Segment Assignment</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase7-bar"></div></div>
+          <span class="phase-inline-label" id="phase7-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase7-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Zap 2A — 1st Cohort (fires 29th)
+          <span class="tg-platform tg-zapier">Zapier</span>
+        </div>
+        <div class="task-item" id="t-7-1">
+          <input type="checkbox" class="task-cb" data-id="t-7-1" data-phase="phase7">
+          <div class="task-text">Create Zap 2A with trigger: Zapier Schedule → Monthly, day 29</div>
+        </div>
+        <div class="task-item" id="t-7-2">
+          <input type="checkbox" class="task-cb" data-id="t-7-2" data-phase="phase7">
+          <div class="task-text">Add Action 1: Google Sheets → Lookup rows where Assignment Status = "Assigned" and upcoming Start Date = 1st of next month</div>
+        </div>
+        <div class="task-item" id="t-7-3">
+          <input type="checkbox" class="task-cb" data-id="t-7-3" data-phase="phase7">
+          <div class="task-text">Add Action 2: Flodesk → for each matched row, add subscriber to their pod segment (e.g. <code>june-1st-pod-1</code>)</div>
+        </div>
+        <div class="task-item" id="t-7-4">
+          <input type="checkbox" class="task-cb" data-id="t-7-4" data-phase="phase7">
+          <div class="task-text">Test Zap 2A with dummy rows in the sheet to confirm correct segment tagging</div>
+        </div>
+        <div class="task-item" id="t-7-5">
+          <input type="checkbox" class="task-cb" data-id="t-7-5" data-phase="phase7">
+          <div class="task-text">Turn Zap 2A on</div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Zap 2B — 15th Cohort (fires 13th)
+          <span class="tg-platform tg-zapier">Zapier</span>
+        </div>
+        <div class="task-item" id="t-7-6">
+          <input type="checkbox" class="task-cb" data-id="t-7-6" data-phase="phase7">
+          <div class="task-text">Duplicate Zap 2A and update trigger to fire on the 13th of each month</div>
+        </div>
+        <div class="task-item" id="t-7-7">
+          <input type="checkbox" class="task-cb" data-id="t-7-7" data-phase="phase7">
+          <div class="task-text">Update the lookup to filter for Start Date = 15th of the current month</div>
+        </div>
+        <div class="task-item" id="t-7-8">
+          <input type="checkbox" class="task-cb" data-id="t-7-8" data-phase="phase7">
+          <div class="task-text">Test Zap 2B with dummy rows and confirm correct segment tagging for 15th cohort pods</div>
+        </div>
+        <div class="task-item" id="t-7-9">
+          <input type="checkbox" class="task-cb" data-id="t-7-9" data-phase="phase7">
+          <div class="task-text">Turn Zap 2B on</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 8 -->
+  <div class="phase-block" id="phase8">
+    <div class="phase-header" onclick="togglePhase('phase8')">
+      <div class="phase-num">8</div>
+      <div class="phase-header-text">
+        <div class="phase-eyebrow">Final Step — Monthly Recurring Task</div>
+        <div class="phase-title">Cowork Task Brief — Write + Dry Run</div>
+        <div class="phase-inline-progress">
+          <div class="phase-inline-track"><div class="phase-inline-fill" id="phase8-bar"></div></div>
+          <span class="phase-inline-label" id="phase8-count"></span>
+        </div>
+      </div>
+      <span class="phase-badge badge-todo" id="phase8-badge">To Do</span>
+      <svg class="phase-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7.5l5 5 5-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="phase-body">
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Write the Task Brief
+          <span class="tg-platform tg-cowork">Claude Cowork</span>
+        </div>
+        <div class="task-item" id="t-8-1">
+          <input type="checkbox" class="task-cb" data-id="t-8-1" data-phase="phase8">
+          <div class="task-text">Create a saved task brief doc (Google Drive or Notion) with all the info Cowork needs</div>
+        </div>
+        <div class="task-item" id="t-8-2">
+          <input type="checkbox" class="task-cb" data-id="t-8-2" data-phase="phase8">
+          <div class="task-text">Include: Master Roster Google Sheet URL (direct link)</div>
+        </div>
+        <div class="task-item" id="t-8-3">
+          <input type="checkbox" class="task-cb" data-id="t-8-3" data-phase="phase8">
+          <div class="task-text">Include: Scheduled Messages Reference Doc URL (from Phase 5)</div>
+        </div>
+        <div class="task-item" id="t-8-4">
+          <input type="checkbox" class="task-cb" data-id="t-8-4" data-phase="phase8">
+          <div class="task-text">Include: Telegram group naming convention — "30-Day IG Challenge — [Month] [Year] — [1st or 15th] — Pod [#]"</div>
+        </div>
+        <div class="task-item" id="t-8-5">
+          <input type="checkbox" class="task-cb" data-id="t-8-5" data-phase="phase8">
+          <div class="task-text">Include: Flodesk segment naming convention — "Challenge — [Month] [Year] — [1st or 15th] — Pod [#]"</div>
+        </div>
+        <div class="task-item" id="t-8-6">
+          <input type="checkbox" class="task-cb" data-id="t-8-6" data-phase="phase8">
+          <div class="task-text">Include: the exact name of the Flodesk welcome email template to duplicate</div>
+        </div>
+        <div class="task-item" id="t-8-7">
+          <input type="checkbox" class="task-cb" data-id="t-8-7" data-phase="phase8">
+          <div class="task-text">Include: placeholder text to replace — <code>[TELEGRAM_LINK]</code></div>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group-label">
+          Dry Run — Test on a Dummy Cohort
+          <span class="tg-platform tg-cowork">Claude Cowork</span>
+          <span class="tg-platform tg-telegram">Telegram</span>
+        </div>
+        <div class="note-box">
+          <span class="note-label">Important</span>
+          Telegram's bot API cannot create groups — only human accounts can. Cowork uses web.telegram.org to do this. Always do a full dry run before the first real cohort.
+        </div>
+        <div class="task-item" style="margin-top:12px;" id="t-8-8">
+          <input type="checkbox" class="task-cb" data-id="t-8-8" data-phase="phase8">
+          <div class="task-text">Add 2–3 dummy rows to the Master Roster and assign them to a test pod (e.g. "Test Cohort — Pod 1")</div>
+        </div>
+        <div class="task-item" id="t-8-9">
+          <input type="checkbox" class="task-cb" data-id="t-8-9" data-phase="phase8">
+          <div class="task-text">Trigger Cowork with the task brief for this test pod</div>
+        </div>
+        <div class="task-item" id="t-8-10">
+          <input type="checkbox" class="task-cb" data-id="t-8-10" data-phase="phase8">
+          <div class="task-text">Verify: Telegram group created with correct name at web.telegram.org</div>
+        </div>
+        <div class="task-item" id="t-8-11">
+          <input type="checkbox" class="task-cb" data-id="t-8-11" data-phase="phase8">
+          <div class="task-text">Verify: all 5 check-in messages scheduled correctly in the Telegram group</div>
+        </div>
+        <div class="task-item" id="t-8-12">
+          <input type="checkbox" class="task-cb" data-id="t-8-12" data-phase="phase8">
+          <div class="task-text">Verify: invite link logged correctly in the Cohort Log tab and the matching Master Roster rows</div>
+        </div>
+        <div class="task-item" id="t-8-13">
+          <input type="checkbox" class="task-cb" data-id="t-8-13" data-phase="phase8">
+          <div class="task-text">Verify: Flodesk welcome email template duplicated with correct invite link replacing <code>[TELEGRAM_LINK]</code></div>
+        </div>
+        <div class="task-item" id="t-8-14">
+          <input type="checkbox" class="task-cb" data-id="t-8-14" data-phase="phase8">
+          <div class="task-text">Verify: email assigned to the correct Flodesk segment and scheduled to send on the correct date</div>
+        </div>
+        <div class="task-item" id="t-8-15">
+          <input type="checkbox" class="task-cb" data-id="t-8-15" data-phase="phase8">
+          <div class="task-text">Fix anything that didn't work, re-run the dry run if needed, then mark the system ready for the first real cohort</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="footer-brand">Simple Creator Co.</span>
+  <span class="footer-sub">30-Day IG Challenge · Build Plan · thesimplecreator.com</span>
+</footer>
+
+<script>
+// ─── STORAGE KEY PREFIX ───
+const KEY = 'igchallenge_';
+
+// ─── PHASE CONFIG ───
+const PHASES = ['phase1','phase2','phase3','phase4','phase5','phase6','phase7','phase8'];
+
+// ─── RESTORE CHECKBOXES FROM LOCALSTORAGE ───
+function loadCheckboxes() {
+  document.querySelectorAll('.task-cb').forEach(cb => {
+    const id = cb.dataset.id;
+    if (!id) return;
+    const stored = localStorage.getItem(KEY + id);
+    if (stored === 'true') {
+      cb.checked = true;
+      cb.closest('.task-item')?.classList.add('completed');
+    }
+  });
+}
+
+// ─── SAVE CHECKBOX STATE ───
+function saveCheckbox(cb) {
+  const id = cb.dataset.id;
+  if (!id) return;
+  localStorage.setItem(KEY + id, cb.checked);
+  cb.closest('.task-item')?.classList.toggle('completed', cb.checked);
+  updatePhaseProgress(cb.dataset.phase);
+  updateRoadmap();
+  autoAdvancePhases();
+}
+
+// ─── PHASE PROGRESS ───
+function getPhaseStats(phaseId) {
+  const all = document.querySelectorAll(`.task-cb[data-phase="${phaseId}"]`);
+  const done = [...all].filter(cb => cb.checked).length;
+  return { total: all.length, done };
+}
+
+function updatePhaseProgress(phaseId) {
+  if (!phaseId) return;
+  const { total, done } = getPhaseStats(phaseId);
+  const countEl = document.getElementById(phaseId + '-count');
+  const barEl   = document.getElementById(phaseId + '-bar');
+  const badgeEl = document.getElementById(phaseId + '-badge');
+  const block   = document.getElementById(phaseId);
+
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  if (countEl) countEl.textContent = `${done} / ${total}`;
+  if (barEl)   barEl.style.width   = pct + '%';
+
+  if (done === total && total > 0) {
+    block.classList.add('done');
+    block.classList.remove('active');
+    if (badgeEl) { badgeEl.textContent = 'Done'; badgeEl.className = 'phase-badge badge-done'; }
+  } else if (done > 0) {
+    block.classList.remove('done');
+    block.classList.add('active');
+    if (badgeEl) { badgeEl.textContent = 'In Progress'; badgeEl.className = 'phase-badge badge-active'; }
+  } else {
+    block.classList.remove('done','active');
+    if (badgeEl) { badgeEl.textContent = 'To Do'; badgeEl.className = 'phase-badge badge-todo'; }
+  }
+}
+
+// ─── ROADMAP UPDATE ───
+function updateRoadmap() {
+  let doneCount = 0;
+  PHASES.forEach(phaseId => {
+    const { total, done } = getPhaseStats(phaseId);
+    const stepEl = document.querySelector(`.roadmap-step[data-phase="${phaseId}"]`);
+    if (!stepEl) return;
+    if (done === total && total > 0) {
+      stepEl.classList.add('done');
+      stepEl.classList.remove('active');
+      doneCount++;
+    } else if (done > 0) {
+      stepEl.classList.remove('done');
+      stepEl.classList.add('active');
+    } else {
+      stepEl.classList.remove('done','active');
+    }
+  });
+  const pct = Math.round((doneCount / PHASES.length) * 100);
+  const fill = document.getElementById('progressFill');
+  const txt = document.getElementById('progressText');
+  if (fill) fill.style.width = pct + '%';
+  if (txt) txt.textContent = `${doneCount} of ${PHASES.length} complete`;
+}
+
+// ─── AUTO ADVANCE: open first incomplete phase ───
+function autoAdvancePhases() {
+  // only auto-open if no phase is currently manually open by user
+  // We just update classes; open state is stored per session
+  const savedOpen = sessionStorage.getItem(KEY + 'openPhase');
+  if (savedOpen) return; // user has taken control — don't override
+  openFirstIncomplete();
+}
+
+function openFirstIncomplete() {
+  let opened = false;
+  PHASES.forEach(phaseId => {
+    const block = document.getElementById(phaseId);
+    if (!block) return;
+    if (!opened && !block.classList.contains('done')) {
+      block.classList.add('open');
+      opened = true;
+    } else {
+      block.classList.remove('open');
+    }
+  });
+}
+
+// ─── TOGGLE PHASE ───
+function togglePhase(phaseId) {
+  const block = document.getElementById(phaseId);
+  const isOpen = block.classList.contains('open');
+  // close all
+  PHASES.forEach(p => document.getElementById(p)?.classList.remove('open'));
+  if (!isOpen) {
+    block.classList.add('open');
+    sessionStorage.setItem(KEY + 'openPhase', phaseId);
+  } else {
+    sessionStorage.removeItem(KEY + 'openPhase');
+  }
+}
+
+// ─── SCROLL TO PHASE ───
+function scrollToPhase(phaseId) {
+  const el = document.getElementById(phaseId);
+  if (!el) return;
+  // open it
+  PHASES.forEach(p => document.getElementById(p)?.classList.remove('open'));
+  el.classList.add('open');
+  sessionStorage.setItem(KEY + 'openPhase', phaseId);
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', () => {
+  // load saved checkbox states
+  loadCheckboxes();
+
+  // attach listeners
+  document.querySelectorAll('.task-cb').forEach(cb => {
+    cb.addEventListener('change', () => saveCheckbox(cb));
+  });
+
+  // update all phase progress displays
+  PHASES.forEach(updatePhaseProgress);
+  updateRoadmap();
+
+  // determine which phase to open
+  const savedOpen = sessionStorage.getItem(KEY + 'openPhase');
+  if (savedOpen && document.getElementById(savedOpen)) {
+    document.getElementById(savedOpen).classList.add('open');
+  } else {
+    openFirstIncomplete();
+  }
+});
+</script>
+
+</body>
+</html>
