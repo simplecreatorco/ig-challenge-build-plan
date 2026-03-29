@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Hook Bank — Simple Creator Co.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/quick');
+
+:root {
+  --color-primary:   #889CA2;
+  --color-coral:     #F49C8E;
+  --color-yellow:    #F3B548;
+  --color-sage:      #BFD9CC;
+  --color-blush:     #F6D5CD;
+  --color-mist:      #B3DCDA;
+  --color-bg:        #F2F2F2;
+  --color-surface:   #FFFFFF;
+  --color-body-text: #555555;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--color-bg);
+  font-family: 'Nunito', sans-serif;
+  color: var(--color-body-text);
+  line-height: 1.75;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────── */
+.page-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.header {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 44px 48px 40px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.header-eyebrow {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 12px;
+}
+
+.header-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: clamp(38px, 6vw, 58px);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  letter-spacing: -1px;
+  line-height: 1.0;
+  margin-bottom: 16px;
+}
+
+.header-sub {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+.header-desc {
+  font-size: 15px;
+  color: var(--color-body-text);
+  max-width: 600px;
+  line-height: 1.75;
+  margin: 0 auto;
+}
+
+/* ── HOW TO USE ─────────────────────────────────────── */
+.how-to-use {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 36px 48px;
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 16px;
+}
+
+.htu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.htu-heading {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--color-primary);
+}
+
+.htu-arrow {
+  font-size: 20px;
+  color: var(--color-primary);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+
+.htu-arrow.open { transform: rotate(180deg); }
+
+.htu-body {
+  display: none;
+  margin-top: 20px;
+}
+
+.htu-body.open { display: block; }
+
+.htu-intro {
+  font-size: 15px;
+  color: var(--color-body-text);
+  margin-bottom: 20px;
+  line-height: 1.75;
+}
+
+.bracket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.bracket-item {
+  background: var(--color-bg);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.bracket-key {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.bracket-desc {
+  font-size: 13px;
+  color: var(--color-body-text);
+  line-height: 1.6;
+}
+
+.htu-rule {
+  margin-top: 20px;
+  background: var(--color-blush);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--color-body-text);
+}
+
+.htu-rule strong {
+  color: var(--color-coral);
+  font-weight: 700;
+}
+
+/* ── CONTROLS ───────────────────────────────────────── */
+.controls {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.controls-row-1 {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.controls-row-2 {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-shuffle {
+  background: var(--color-yellow);
+  color: #fff;
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 10px 22px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-shuffle:hover { opacity: 0.88; }
+
+/* ── TABS ────────────────────────────────────────────── */
+
+.tab-btn {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  background: var(--color-bg);
+  color: var(--color-body-text);
+  white-space: nowrap;
+}
+
+.tab-btn:hover { background: #e5e5e5; }
+
+.tab-btn.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ── COUNT BAR ──────────────────────────────────────── */
+.count-bar {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+/* ── HOOK GRID ──────────────────────────────────────── */
+.hook-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .hook-grid { grid-template-columns: 1fr; }
+}
+
+/* ── HOOK CARD ──────────────────────────────────────── */
+.hook-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.2s;
+  position: relative;
+}
+
+.hook-card.is-used {
+  opacity: 0.5;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cat-badge {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.cat-badge.qualifier    { background: #E8C8DF; color: #7A3B6A; }
+.cat-badge.objection    { background: #889CA2; color: #FFFFFF; }
+.cat-badge.proof        { background: #B8DDB0; color: #2E5E28; }
+.cat-badge.curiosity    { background: rgba(243,181,72,0.22); color: #9A6800; }
+
+.custom-badge {
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.hook-num {
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-coral);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.hook-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: var(--color-body-text);
+  line-height: 1.75;
+  flex: 1;
+}
+
+.view-original-link {
+  font-size: 12px;
+  color: var(--color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* ── MAD LIBS INPUTS ────────────────────────────────── */
+.hook-text.madlibs {
+  line-height: 2.2;
+  word-break: break-word;
+}
+
+.ml-field-wrap {
+  display: inline;
+}
+
+.ml-input {
+  display: inline;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--color-primary);
+  border-radius: 0;
+  padding: 0 2px;
+  outline: none;
+  min-width: 40px;
+  max-width: 260px;
+  transition: border-color 0.15s, background 0.15s;
+  vertical-align: baseline;
+}
+
+.ml-input::placeholder {
+  color: #B8B8B8;
+  font-weight: 400;
+}
+
+.ml-input:focus {
+  background: rgba(136,156,162,0.08);
+  border-bottom-color: var(--color-yellow);
+}
+
+/* ── CARD ACTIONS ───────────────────────────────────── */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 4px;
+  border-top: 1px solid var(--color-bg);
+}
+
+.action-btn {
+  background: var(--color-bg);
+  border: none;
+  border-radius: 50px;
+  padding: 7px 14px;
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-body-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.action-btn:hover { background: #e5e5e5; }
+
+.action-btn.active-fav { color: #E07070; background: #fdeaea; }
+.action-btn.active-used { color: var(--color-primary); background: var(--color-sage); }
+.action-btn.copied { background: var(--color-sage); color: var(--color-primary); }
+
+/* ── EMPTY STATE ────────────────────────────────────── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 24px;
+  color: #aaa;
+  font-size: 15px;
+}
+
+/* ── FAVORITES SECTION ──────────────────────────────── */
+.favorites-section {
+  display: none;
+  margin-top: 16px;
+}
+
+.favorites-section.has-items {
+  display: block;
+}
+
+.fav-header {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 32px 40px;
+  margin-bottom: 16px;
+}
+
+.fav-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.fav-sub {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+}
+
+.tab-btn.tab-fav { color: #E07070; }
+.tab-btn.tab-fav.active { background: #E07070; color: #fff; }
+
+.fav-cat-group { margin-bottom: 20px; }
+
+.fav-empty {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  color: #aaa;
+  font-size: 15px;
+  font-family: 'Nunito', sans-serif;
+}
+
+.fav-cat-label {
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--color-coral);
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .fav-grid { grid-template-columns: 1fr; }
+}
+
+/* ── SHUFFLE MODAL ──────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(80, 80, 80, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal-card {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 44px 48px;
+  max-width: 620px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-eyebrow {
+  margin-bottom: 16px;
+}
+
+.modal-hook-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--color-primary);
+  line-height: 1.4;
+  margin-bottom: 28px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.modal-action-btn {
+  background: var(--color-bg);
+  border: none;
+  border-radius: 50px;
+  padding: 9px 18px;
+  font-family: 'Quick', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-body-text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.modal-action-btn:hover { background: #e5e5e5; }
+.modal-action-btn.active-fav { color: #E07070; background: #fdeaea; }
+.modal-action-btn.active-used { color: var(--color-primary); background: var(--color-sage); }
+.modal-action-btn.copied { background: var(--color-sage); color: var(--color-primary); }
+
+.modal-btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-shuffle-again {
+  background: var(--color-yellow);
+  color: #fff;
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 13px 28px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-shuffle-again:hover { opacity: 0.88; }
+
+.btn-close-modal {
+  background: transparent;
+  color: var(--color-body-text);
+  font-family: 'Quick', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding: 13px 28px;
+  border-radius: 50px;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.btn-close-modal:hover { border-color: var(--color-primary); }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .page-wrap { padding: 24px 16px 60px; }
+  .header { padding: 32px 24px 28px; }
+  .how-to-use { padding: 28px 24px; }
+  .controls { padding: 16px; }
+  .modal-card { padding: 32px 24px; }
+  .fav-header { padding: 24px 28px; }
+  .hook-grid { grid-template-columns: 1fr; }
+  .fav-grid { grid-template-columns: 1fr; }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-eyebrow">Simple Creator Co. — Instagram Passive Sales System</div>
+    <div class="header-title">Instagram Hook Bank</div>
+    <div class="header-sub">Done-for-you hooks for every post type.</div>
+    <div class="header-desc">Fill in the brackets. Post with intention. Every hook is built to stop the scroll, call in your exact buyer, and drive your funnel — for any niche, any product, any audience.</div>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="how-to-use">
+    <div class="section-label">Before You Start</div>
+    <div class="htu-toggle" onclick="toggleHowTo()">
+      <div class="htu-heading">How to Use This Hook Bank</div>
+      <span class="htu-arrow" id="htu-arrow">▼</span>
+    </div>
+    <div class="htu-body" id="htu-body">
+      <p class="htu-intro">Every hook is a fill-in-the-blank template designed to work for any niche, any product, any audience. Here's all you need to know before you start.</p>
+      <div class="section-label" style="margin-bottom:8px;">The Brackets</div>
+      <div class="bracket-grid">
+        <div class="bracket-item">
+          <div class="bracket-key">[identity]</div>
+          <div class="bracket-desc">The specific person you're talking to. Not a category — a person. The more specific, the better it works. "Moms of toddlers who haven't had a meal that didn't come from a drive-through in three weeks" beats "busy moms" every time.</div>
+        </div>
+        <div class="bracket-item">
+          <div class="bracket-key">[desired outcome]</div>
+          <div class="bracket-desc">What they want. Be specific. "Feel better" is vague. "Cook a week's worth of dinners in 90 minutes on Sunday" is a hook.</div>
+        </div>
+        <div class="bracket-item">
+          <div class="bracket-key">[struggle / pain point]</div>
+          <div class="bracket-desc">What's hard for them right now. Use their words, not yours.</div>
+        </div>
+        <div class="bracket-item">
+          <div class="bracket-key">[your product]</div>
+          <div class="bracket-desc">Whatever you sell: a guide, planner, workbook, template, course, pattern, printable — anything.</div>
+        </div>
+        <div class="bracket-item">
+          <div class="bracket-key">[result]</div>
+          <div class="bracket-desc">The proof. Can be financial ($X from one product) or transformational (X people completed the challenge, X five-star reviews, X students got the outcome).</div>
+        </div>
+        <div class="bracket-item">
+          <div class="bracket-key">[relatable constraint]</div>
+          <div class="bracket-desc">What makes them feel like it won't work for them — limited time, no budget, no experience, life in the way.</div>
+        </div>
+      </div>
+      <div class="htu-rule"><strong>One rule above all:</strong> Never be clever when you can be clear. Your hook has one job — make the right person stop and feel seen.</div>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="controls-row-1">
+      <button class="tab-btn active" data-cat="all" onclick="setTab('all')">All</button>
+      <button class="tab-btn" data-cat="qualifier" onclick="setTab('qualifier')">🎯 Qualifier</button>
+      <button class="tab-btn" data-cat="objection" onclick="setTab('objection')">🔨 Objection Crusher</button>
+      <button class="tab-btn" data-cat="proof" onclick="setTab('proof')">🙌🏼 Proof</button>
+      <button class="tab-btn" data-cat="curiosity" onclick="setTab('curiosity')">✨ Curiosity Gap</button>
+    </div>
+    <div class="controls-row-2">
+      <button class="tab-btn tab-fav" data-cat="favorites" onclick="setTab('favorites')">♥ Favorites</button>
+      <button class="btn-shuffle" onclick="openShuffle()">✦ Shuffle</button>
+    </div>
+  </div>
+
+  <!-- COUNT BAR -->
+  <div class="count-bar" id="countBar">Showing 250 of 250 hooks</div>
+
+  <!-- MAIN CONTENT (hooks grid OR favorites) -->
+  <div id="hookGrid" class="hook-grid"></div>
+  <div id="favoritesSection" class="favorites-section" style="display:none;">
+    <div id="favContent"></div>
+  </div>
+
+</div>
+
+<!-- SHUFFLE MODAL -->
+<div class="modal-overlay" id="shuffleModal">
+  <div class="modal-card">
+    <div class="modal-eyebrow" id="modalBadge"></div>
+    <div class="modal-hook-text" id="modalHookText">Loading...</div>
+    <div class="modal-actions">
+      <button class="modal-action-btn" id="modalCopyBtn" onclick="modalCopy()">📋 Copy</button>
+      <button class="modal-action-btn" id="modalFavBtn" onclick="modalToggleFav()">♥ Favorite</button>
+      <button class="modal-action-btn" id="modalUsedBtn" onclick="modalToggleUsed()">✓ Mark as Used</button>
+    </div>
+    <div class="modal-btn-row">
+      <button class="btn-shuffle-again" onclick="shuffleAgain()">✦ Shuffle Again</button>
+      <button class="btn-close-modal" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script type="text/babel">
+// ── HOOK DATA ────────────────────────────────────────────────────────────────
+
+const HOOKS = [
+  // QUALIFIER (q1–q63)
+  {id:'q1',cat:'qualifier',text:'This is for the [identity] who\'s been [doing X thing] and still not seeing results.'},
+  {id:'q2',cat:'qualifier',text:'If you\'re a [identity] quietly Googling how to [desired outcome] — this is for you.'},
+  {id:'q3',cat:'qualifier',text:'This one\'s for the [identity] who keeps saying "I\'ll start when [excuse]."'},
+  {id:'q4',cat:'qualifier',text:'POV: You\'re a [identity] who\'s [situation] and you\'re starting to wonder if [fear].'},
+  {id:'q5',cat:'qualifier',text:'For the [identity] who wants [desired outcome] but doesn\'t want to [common tradeoff they\'re afraid of].'},
+  {id:'q6',cat:'qualifier',text:'This is not for everyone. But if you\'re a [identity] trying to [goal] — keep watching.'},
+  {id:'q7',cat:'qualifier',text:'If [desired outcome] sounds too good to be true, you\'re probably a [identity] who\'s been burned before. I see you.'},
+  {id:'q8',cat:'qualifier',text:'This is for the [identity] doing [thing] at [relatable time] wondering if it\'s ever going to work.'},
+  {id:'q9',cat:'qualifier',text:'If you\'ve ever [relatable action] and thought "[fear or doubt]" — I made this for you.'},
+  {id:'q10',cat:'qualifier',text:'For the [identity] who wants [desired outcome] without [common tradeoff they\'re afraid of].'},
+  {id:'q11',cat:'qualifier',text:'Are you a [identity] who\'s [situation]? Then you need to hear this.'},
+  {id:'q12',cat:'qualifier',text:'This post is specifically for [identity] who [specific problem they\'re experiencing].'},
+  {id:'q13',cat:'qualifier',text:'You\'re probably a [identity] if you\'ve ever [relatable struggle or scenario].'},
+  {id:'q14',cat:'qualifier',text:'POV: It\'s [time of day/week] and you\'re [relatable struggle] instead of [dream scenario].'},
+  {id:'q15',cat:'qualifier',text:'If you\'ve tried [X] and [Y] and still can\'t seem to [desired outcome] — you\'re in the right place.'},
+  {id:'q16',cat:'qualifier',text:'This is for the [identity] who\'s been at [current situation] long enough and is ready for [desired situation].'},
+  {id:'q17',cat:'qualifier',text:'For the [identity] who has [something — a skill, a story, an experience people ask about] but hasn\'t figured out what to do with it yet.'},
+  {id:'q18',cat:'qualifier',text:'This one\'s for the [identity] who\'s been watching other people get [result] and wondering why not them.'},
+  {id:'q19',cat:'qualifier',text:'If your [goal] keeps getting pushed to next month, this is your sign.'},
+  {id:'q20',cat:'qualifier',text:'For the [identity] who doesn\'t have [X], [Y], or [Z] — and still wants [desired outcome].'},
+  {id:'q21',cat:'qualifier',text:'If you resonated with "[relatable statement]" — hi, I\'m talking to you.'},
+  {id:'q22',cat:'qualifier',text:'You don\'t have to be a [stereotypical version of the expert] to [achieve outcome]. Let me show you.'},
+  {id:'q23',cat:'qualifier',text:'This is the post for every [identity] who feels like they\'re [too late / not enough / too much].'},
+  {id:'q24',cat:'qualifier',text:'If [common frustration] is your entire personality right now — same. And here\'s what I found.'},
+  {id:'q25',cat:'qualifier',text:'For the [identity] who keeps getting told [limiting belief] but refuses to believe it.'},
+  {id:'q26',cat:'qualifier',text:'POV: You\'ve been [doing X] for [time period] and you have nothing to show for it. Yet.'},
+  {id:'q27',cat:'qualifier',text:'This is for the [identity] who wants [outcome] but thought it was only possible for [someone else — the expert / the person with more time / the one who has it all together].'},
+  {id:'q28',cat:'qualifier',text:'If [outcome] is your goal and [relatable constraint] is your reality — this is exactly what you need.'},
+  {id:'q29',cat:'qualifier',text:'Raise your hand if you\'re a [identity] who\'s been thinking about [goal] way longer than you\'re willing to admit.'},
+  {id:'q30',cat:'qualifier',text:'This is not a motivational post. This is for [identity] who actually wants to [take one specific action].'},
+  {id:'q31',cat:'qualifier',text:'You\'re a [identity] if [super specific scenario that only your ideal person would relate to].'},
+  {id:'q32',cat:'qualifier',text:'For the [identity] who has tried [X], [Y], and [Z] and is tired of things that don\'t work for people like them.'},
+  {id:'q33',cat:'qualifier',text:'This is for the [identity] who wants [outcome] but needs it to work around [real-life constraint — their schedule, their budget, their season of life].'},
+  {id:'q34',cat:'qualifier',text:'If you\'ve ever opened your [phone / laptop / journal] at [time] and thought "[relatable anxious thought]" — hi.'},
+  {id:'q35',cat:'qualifier',text:'For the [identity] who is one [tool / system / resource] away from [breakthrough they\'re after].'},
+  {id:'q36',cat:'qualifier',text:'This is for the quietly ambitious [identity] who doesn\'t want [thing everyone else is pushing] — they just want [specific tangible outcome].'},
+  {id:'q37',cat:'qualifier',text:'If you\'re a [identity] and [relatable situation], you\'re going to want to watch this.'},
+  {id:'q38',cat:'qualifier',text:'POV: You\'re a [identity] who is great at [something] but has no idea how to [take it to the next level / help more people with it / make it work harder for you].'},
+  {id:'q39',cat:'qualifier',text:'This is for the [identity] who keeps saying [reason they haven\'t started yet] — and deep down knows that\'s not the real reason.'},
+  {id:'q40',cat:'qualifier',text:'For the [identity] who\'s been [doing X] but keeps [getting Y result they don\'t want].'},
+  {id:'q41',cat:'qualifier',text:'If [common advice in your niche] has never worked for you — you might just be a [specific type of person this is for].'},
+  {id:'q42',cat:'qualifier',text:'This is for the [identity] doing [thing] who wants [desired outcome] without [tradeoff].'},
+  {id:'q43',cat:'qualifier',text:'Are you the [identity] who [specific relatable problem — keeps starting over / never gets past step one / does all the research and none of the action]? This is your content.'},
+  {id:'q44',cat:'qualifier',text:'If you\'ve been [working hard at X] and still [not seeing result] — this is not a you problem.'},
+  {id:'q45',cat:'qualifier',text:'For the [identity] who doesn\'t want to become [thing they don\'t want to be] — they just want [what they actually want].'},
+  {id:'q46',cat:'qualifier',text:'This post is going to make every [identity] who [struggle] feel so much less alone.'},
+  {id:'q47',cat:'qualifier',text:'POV: You\'re a [identity] who\'s [situation] and you\'re finally ready to [action].'},
+  {id:'q48',cat:'qualifier',text:'This is for the [identity] who told themselves "[limiting belief]" and is starting to realize that\'s not true.'},
+  {id:'q49',cat:'qualifier',text:'If [outcome] feels possible for everyone except you — keep watching.'},
+  {id:'q50',cat:'qualifier',text:'For the [identity] who wants [goal] but has been waiting for [external permission or circumstance — the right time, enough confidence, perfect conditions].'},
+  {id:'q51',cat:'qualifier',text:'This is for every [identity] who\'s been [doing X] the hard way without knowing there was an easier one.'},
+  {id:'q52',cat:'qualifier',text:'If you\'re a [identity] who [relatable pain point] — this might be the most important thing you watch today.'},
+  {id:'q53',cat:'qualifier',text:'POV: You just [relatable moment] and realized you have no idea how to [next step].'},
+  {id:'q54',cat:'qualifier',text:'For the [identity] who keeps bookmarking posts about [topic] but hasn\'t actually [taken action] yet.'},
+  {id:'q55',cat:'qualifier',text:'This one\'s for the [identity] who\'s been [trying X] but secretly wonders if [self-doubt thought].'},
+  {id:'q56',cat:'qualifier',text:'If your version of [outcome] looks like [specific, relatable, smaller goal] — this is still for you.'},
+  {id:'q57',cat:'qualifier',text:'You know you\'re a [identity] when [hyper-specific relatable moment].'},
+  {id:'q58',cat:'qualifier',text:'This is the post I wish I had when I was a [identity] trying to [goal] with [limited resources].'},
+  {id:'q59',cat:'qualifier',text:'For the [identity] who wants [outcome] but keeps choosing [easier distraction] instead.'},
+  {id:'q60',cat:'qualifier',text:'If you\'ve been on the fence about [decision] for [time period] — this post is going to push you.'},
+  {id:'q61',cat:'qualifier',text:'This is for the [identity] who\'s good at [their thing] but hasn\'t figured out how to [next step].'},
+  {id:'q62',cat:'qualifier',text:'POV: You\'re [relatable situation] and you finally found the [resource / person / answer] who gets it.'},
+  {id:'q63',cat:'qualifier',text:'For the [identity] who doesn\'t need more [advice / content / inspiration] — they need [what will actually move the needle for them].'},
+
+  // OBJECTION CRUSHER (o1–o63)
+  {id:'o1',cat:'objection',text:'Think you need [X] to [achieve outcome]? You don\'t. Here\'s proof.'},
+  {id:'o2',cat:'objection',text:'You don\'t need [common prerequisite] to [desired outcome]. You need this.'},
+  {id:'o3',cat:'objection',text:'"[Objection]" is the lie keeping most [identity] from [outcome]. Let\'s talk about it.'},
+  {id:'o4',cat:'objection',text:'No [resource], no [resource], no [resource]? You can still [achieve outcome]. Here\'s how.'},
+  {id:'o5',cat:'objection',text:'The biggest myth in [niche]: that you need [X] before you can [Y].'},
+  {id:'o6',cat:'objection',text:'If you think [objection] is what\'s stopping you — it\'s not. Watch this.'},
+  {id:'o7',cat:'objection',text:'Stop waiting until you have [X] to start [Y]. Here\'s what actually matters.'},
+  {id:'o8',cat:'objection',text:'Can\'t [desired outcome] because you don\'t have [common barrier]? I hear that a lot. Here\'s the truth.'},
+  {id:'o9',cat:'objection',text:'Having [X] doesn\'t guarantee [outcome]. Not having it doesn\'t stop you either.'},
+  {id:'o10',cat:'objection',text:'The reason [objection] is not actually your problem — and what is.'},
+  {id:'o11',cat:'objection',text:'Unpopular opinion: You don\'t need [commonly believed requirement] to [achieve outcome].'},
+  {id:'o12',cat:'objection',text:'I used to think I needed [X] to [Y]. I was wrong. Here\'s what changed everything.'},
+  {id:'o13',cat:'objection',text:'"[Objection]" — said every [identity] who almost [achieved outcome] but didn\'t. Let me show you why.'},
+  {id:'o14',cat:'objection',text:'If [X] were a requirement for [outcome], a lot of people who have [outcome] wouldn\'t have it.'},
+  {id:'o15',cat:'objection',text:'The truth about [common objection] that nobody in [niche] wants to say out loud.'},
+  {id:'o16',cat:'objection',text:'[Outcome] doesn\'t require [X]. It never did. Here\'s what it actually requires.'},
+  {id:'o17',cat:'objection',text:'You\'ve been using [objection] as a reason not to [start / try / go for it]. Let\'s dismantle that today.'},
+  {id:'o18',cat:'objection',text:'What if the thing you think is stopping you from [outcome] is actually the thing keeping you stuck?'},
+  {id:'o19',cat:'objection',text:'"But I don\'t have [X]." I had [less than X] when I got [result]. Here\'s the real story.'},
+  {id:'o20',cat:'objection',text:'Nobody who has [outcome] had everything figured out before they started. Nobody.'},
+  {id:'o21',cat:'objection',text:'The [X] objection is real. Here\'s why it doesn\'t have to be a dealbreaker.'},
+  {id:'o22',cat:'objection',text:'If [common objection] is your reason for not [starting / trying / buying] — I want you to watch this.'},
+  {id:'o23',cat:'objection',text:'You can [achieve outcome] without [common thing people think they need]. And here\'s how I know.'},
+  {id:'o24',cat:'objection',text:'The problem isn\'t that you don\'t have [X]. The problem is [actual barrier]. Let me explain.'},
+  {id:'o25',cat:'objection',text:'Waiting for [X] to start [Y] is the most expensive mistake in [niche]. Here\'s why.'},
+  {id:'o26',cat:'objection',text:'Every [identity] I know who got [outcome] started with [less than you think].'},
+  {id:'o27',cat:'objection',text:'"I\'ll do it when [condition]." That condition isn\'t coming. This is.'},
+  {id:'o28',cat:'objection',text:'Think [niche] is too saturated for you to stand out? Here\'s what the data actually says.'},
+  {id:'o29',cat:'objection',text:'[Objection] is not the reason you haven\'t [achieved outcome]. I promise you. Watch this.'},
+  {id:'o30',cat:'objection',text:'The [common advice] isn\'t working because it was never designed for someone like you.'},
+  {id:'o31',cat:'objection',text:'You do not need [X], [Y], or [Z] to [achieve outcome]. You need [simple real answer].'},
+  {id:'o32',cat:'objection',text:'"I\'m not [techy / experienced / credentialed] enough" is not a [niche] problem. It\'s an information problem. Let me fix that.'},
+  {id:'o33',cat:'objection',text:'Let\'s be honest — [common objection] is a reason, not the reason. Here\'s what\'s really going on.'},
+  {id:'o34',cat:'objection',text:'The [X] you think you\'re missing? It\'s not what creates [outcome]. Here\'s what does.'},
+  {id:'o35',cat:'objection',text:'I\'ve seen people with [lots of X] fail and people with [almost no X] succeed. Here\'s the difference.'},
+  {id:'o36',cat:'objection',text:'"I don\'t have time to [action]." You have time. You just don\'t have a system. Let me give you one.'},
+  {id:'o37',cat:'objection',text:'The [objection] thing is real — and it\'s also completely solvable. Here\'s how.'},
+  {id:'o38',cat:'objection',text:'If [external condition] were a requirement for [outcome], I wouldn\'t have [result]. Here\'s my story.'},
+  {id:'o39',cat:'objection',text:'You don\'t need to be [the expert version of yourself] to [achieve outcome]. Here\'s what you actually need.'},
+  {id:'o40',cat:'objection',text:'What nobody tells you about [common barrier]: it\'s not the obstacle — it\'s the excuse.'},
+  {id:'o41',cat:'objection',text:'[Outcome] doesn\'t care how much experience you have. It cares about [simple true thing].'},
+  {id:'o42',cat:'objection',text:'Stop letting [fear or objection] be the thing that keeps you at [current situation] instead of [desired situation].'},
+  {id:'o43',cat:'objection',text:'The [niche] industry wants you to think you need [X]. You don\'t. Here\'s what works instead.'},
+  {id:'o44',cat:'objection',text:'"What if [fear]?" — the answer is [simple reframe]. And here\'s how that changes everything.'},
+  {id:'o45',cat:'objection',text:'I started with [relatable humble starting point] and [objection]. Here\'s what actually mattered.'},
+  {id:'o46',cat:'objection',text:'If [objection] were true, [example of someone who got the result anyway] wouldn\'t exist. But it does.'},
+  {id:'o47',cat:'objection',text:'"I\'m not ready yet." Ready is a feeling, not a fact. Here\'s how to know when to start anyway.'},
+  {id:'o48',cat:'objection',text:'The reason [common advice] doesn\'t work for [identity] — and what to do instead.'},
+  {id:'o49',cat:'objection',text:'You can [achieve outcome] even if you\'re [relatable constraint]. I know because I did.'},
+  {id:'o50',cat:'objection',text:'Your [objection] is not unique to you. And neither is the solution. Here it is.'},
+  {id:'o51',cat:'objection',text:'The hardest truth about [objection]: it\'s keeping you comfortable, not safe.'},
+  {id:'o52',cat:'objection',text:'[Outcome] is not reserved for people who have [X]. It\'s available to anyone who does [simple thing].'},
+  {id:'o53',cat:'objection',text:'"But my [niche / situation / audience] is different." Is it? Or is [objection] just the way it feels right now?'},
+  {id:'o54',cat:'objection',text:'What\'s actually stopping you from [outcome] has nothing to do with [objection they think it is].'},
+  {id:'o55',cat:'objection',text:'The [objection] you keep coming back to? It\'s a symptom, not the cause. Here\'s the real issue.'},
+  {id:'o56',cat:'objection',text:'If [X] were required for [outcome], I\'d tell you. It\'s not. Here\'s what is.'},
+  {id:'o57',cat:'objection',text:'"I\'ve tried [thing] before and it didn\'t work." That\'s because you were missing [key element]. This is it.'},
+  {id:'o58',cat:'objection',text:'[Outcome] with [constraint] is possible. I\'m going to show you exactly how.'},
+  {id:'o59',cat:'objection',text:'The moment I stopped waiting for [X] and started [Y], everything changed. Let me break it down.'},
+  {id:'o60',cat:'objection',text:'"It\'s too late for me to [action]." It\'s not. And the people who started late will tell you the same thing.'},
+  {id:'o61',cat:'objection',text:'You don\'t need [X amount of money / time / experience] to start [Y]. Here\'s the actual starting point.'},
+  {id:'o62',cat:'objection',text:'You don\'t need a massive platform to get a massive result. Here\'s the proof.'},
+  {id:'o63',cat:'objection',text:'The [objection] conversation is one I have every day. Here\'s the answer I give every time.'},
+
+  // PROOF (p1–p62)
+  {id:'p1',cat:'proof',text:'I\'m just a [relatable identity] and last [time period] I [result]. Here\'s the breakdown.'},
+  {id:'p2',cat:'proof',text:'My first [your product] sold for $[price] and has [result] since. I had [humble starting point].'},
+  {id:'p3',cat:'proof',text:'How I went from [before state] to [after state] as a [relatable identity] in [time period].'},
+  {id:'p4',cat:'proof',text:'I got [result] last [time period] with [relatable constraint]. Here\'s exactly what I did.'},
+  {id:'p5',cat:'proof',text:'[Number] people have used this to [outcome]. I\'m one of them.'},
+  {id:'p6',cat:'proof',text:'This [product / system / strategy] has [result] and it took [short time] to set up.'},
+  {id:'p7',cat:'proof',text:'Real talk: here\'s what [outcome] actually looks like for a [relatable identity] like me.'},
+  {id:'p8',cat:'proof',text:'I\'m not a [impressive-sounding title]. I\'m a [relatable identity] who [result] doing [thing].'},
+  {id:'p9',cat:'proof',text:'Last [time period], I [achieved result] without [common thing people think is required].'},
+  {id:'p10',cat:'proof',text:'Before [turning point], I was [relatable humble position]. Then [specific thing happened]. Here\'s the result.'},
+  {id:'p11',cat:'proof',text:'My [number]th [sale / download / customer / message] came in while I was [relatable everyday activity]. This is what [outcome] actually looks like.'},
+  {id:'p12',cat:'proof',text:'A [relatable identity] I know got [result] in [time period] starting from [humble starting point]. Here\'s their story.'},
+  {id:'p13',cat:'proof',text:'I got [result] from a $[price] [your product] while [relatable mundane activity]. Let that sink in.'},
+  {id:'p14',cat:'proof',text:'This is what [result] looks like for a [relatable identity] with [real constraints].'},
+  {id:'p15',cat:'proof',text:'[Number] people have gotten [outcome] using [system / method]. Here\'s what they all had in common.'},
+  {id:'p16',cat:'proof',text:'How a [relatable person] got [outcome] without [common barrier].'},
+  {id:'p17',cat:'proof',text:'The smallest [result] I ever had was [humble number]. It still [meant something — covered a bill / helped X people / changed someone\'s week].'},
+  {id:'p18',cat:'proof',text:'One [your product] has gotten me [result] and I made it in [short time]. Here\'s what it was.'},
+  {id:'p19',cat:'proof',text:'[Someone] went from [before state] to [after state] in [time period]. Here\'s what changed.'},
+  {id:'p20',cat:'proof',text:'I want to show you what [outcome] actually looks like — not the highlight reel version. The real story.'},
+  {id:'p21',cat:'proof',text:'My [product / system] got [result] last month and I didn\'t [do the thing people assume you have to do]. Here\'s the system behind it.'},
+  {id:'p22',cat:'proof',text:'[Number] months ago I had [humble starting point]. Here\'s what\'s different now.'},
+  {id:'p23',cat:'proof',text:'This is the part people don\'t show you: [honest breakdown of what achieving outcome actually looked like].'},
+  {id:'p24',cat:'proof',text:'I was a [relatable identity] with [humble starting point] when I decided to [action]. Here\'s what happened.'},
+  {id:'p25',cat:'proof',text:'[Outcome] happened for me at [specific moment] and I want you to see exactly how.'},
+  {id:'p26',cat:'proof',text:'A [relatable identity] I worked with went from [before] to [after] in [time]. Here\'s what they did.'},
+  {id:'p27',cat:'proof',text:'The [product] that got me [result] looked like [humble description]. Here\'s why it worked.'},
+  {id:'p28',cat:'proof',text:'Before [system / strategy], I was [before state]. Now [after state]. Same amount of hours in my week.'},
+  {id:'p29',cat:'proof',text:'My [recent period] results: [result]. My [earlier period] results: [smaller result]. Here\'s what changed.'},
+  {id:'p30',cat:'proof',text:'I replaced my [expense] with [result] in [time period]. Here\'s how.'},
+  {id:'p31',cat:'proof',text:'Not my biggest [win]. Not my smallest. But [result] — and here\'s why that matters.'},
+  {id:'p32',cat:'proof',text:'The [thing] I almost didn\'t [post / publish / share] got me [result]. Here\'s what I almost kept to myself.'},
+  {id:'p33',cat:'proof',text:'Someone [in my community / who found my product] had [objection] and still got [outcome] in [time period]. I want you to hear their story.'},
+  {id:'p34',cat:'proof',text:'I\'ve gotten [result] from [type of product] and I want to show you exactly what that looks like behind the scenes.'},
+  {id:'p35',cat:'proof',text:'What [result] actually required from me as a [relatable identity].'},
+  {id:'p36',cat:'proof',text:'My [simplest / most basic] offer has [outperformed / outsold / helped more people than] everything else I\'ve made. Here\'s why.'},
+  {id:'p37',cat:'proof',text:'[Number] [customers / downloads / sign-ups] in [time period] with [smaller than expected starting point]. Here\'s the proof.'},
+  {id:'p38',cat:'proof',text:'I set this up [time period] ago and it\'s still [getting result] every [time period]. Here\'s what it is.'},
+  {id:'p39',cat:'proof',text:'The [product] I created in [short time] has [result]. Here\'s what I\'d do differently.'},
+  {id:'p40',cat:'proof',text:'[Outcome] doesn\'t always look like [impressive version]. Sometimes it looks like [real, humble version]. Here\'s mine.'},
+  {id:'p41',cat:'proof',text:'How I made [outcome] happen around [real constraint] — because perfect conditions don\'t exist.'},
+  {id:'p42',cat:'proof',text:'A [student / customer / community member] went from [before] to [outcome] and they want me to share their exact path.'},
+  {id:'p43',cat:'proof',text:'Here\'s what [outcome] has actually looked like for me over [time period]. The full honest picture.'},
+  {id:'p44',cat:'proof',text:'I got [result] while [everyday relatable activity]. Not because I\'m lucky — because of [specific thing].'},
+  {id:'p45',cat:'proof',text:'My [product] is $[price]. It has [reached / helped / sold to] [number] people. I made it once.'},
+  {id:'p46',cat:'proof',text:'[Number] people have gotten [outcome] with [your method / product]. Here\'s what\'s possible for you.'},
+  {id:'p47',cat:'proof',text:'Before and after: What my [results / life / situation] looked like before and after [strategy / product / system].'},
+  {id:'p48',cat:'proof',text:'I\'m going to show you exactly what [outcome] looked like in my first [time period]. Real numbers, no filters.'},
+  {id:'p49',cat:'proof',text:'[Humble starting point] + [specific action] = [result]. Here\'s the formula that worked for me.'},
+  {id:'p50',cat:'proof',text:'A [relatable person] thought [outcome] wasn\'t possible for them. Here\'s what happened instead.'},
+  {id:'p51',cat:'proof',text:'What [achievement] looks like when you\'re a [relatable identity] with [real constraints].'},
+  {id:'p52',cat:'proof',text:'My [product / system] got [result] and the only thing special about it was [simple, replicable thing].'},
+  {id:'p53',cat:'proof',text:'I was [honest, relatable before state] when I [action]. Here\'s what it looked like [time period] later.'},
+  {id:'p54',cat:'proof',text:'The result that made me believe [outcome] was actually possible for someone like me.'},
+  {id:'p55',cat:'proof',text:'[Number] people have [outcome] because of this. I don\'t say that to brag — I say it so you believe you can too.'},
+  {id:'p56',cat:'proof',text:'Here\'s what the [first / most recent] [month / year] of [journey] looked like. No highlight reel. Just the real thing.'},
+  {id:'p57',cat:'proof',text:'My most [simple / unexpected] [product / offer / method] has [outperformed everything else]. Here\'s why that\'s a good thing for you.'},
+  {id:'p58',cat:'proof',text:'I got [result] by doing one thing differently than everyone else in [niche]. Here\'s what it was.'},
+  {id:'p59',cat:'proof',text:'This is what [outcome] looks like on a [random Tuesday / regular Wednesday / ordinary afternoon] — because that\'s the whole point.'},
+  {id:'p60',cat:'proof',text:'[Number] [people] said "[objection]" before they got [outcome]. Here\'s what they all did next.'},
+  {id:'p61',cat:'proof',text:'I didn\'t have [common thing]. I didn\'t have [other common thing]. I had [simple thing] and got [result].'},
+  {id:'p62',cat:'proof',text:'The [sale / message / result] that came in at [relatable time] made me realize [insight]. Here\'s why I\'m sharing it with you.'},
+
+  // CURIOSITY GAP (c1–c62)
+  {id:'c1',cat:'curiosity',text:'The reason [desired outcome] isn\'t happening for you — and it\'s not what you think.'},
+  {id:'c2',cat:'curiosity',text:'Nobody is talking about [specific thing] and it\'s costing people like you a lot of [time / money / energy / opportunity].'},
+  {id:'c3',cat:'curiosity',text:'The [thing] I stopped doing that changed everything about my [results].'},
+  {id:'c4',cat:'curiosity',text:'I almost [missed outcome / didn\'t do thing]. Here\'s what would have happened if I hadn\'t.'},
+  {id:'c5',cat:'curiosity',text:'The [strategy / tool / method] nobody in [niche] is talking about — and why that\'s your advantage.'},
+  {id:'c6',cat:'curiosity',text:'What [common thing everyone does] is actually doing to your [result] — and nobody will say it out loud.'},
+  {id:'c7',cat:'curiosity',text:'I need to talk about the problem with [popular strategy in your niche].'},
+  {id:'c8',cat:'curiosity',text:'The [thing] they don\'t tell you about [common goal / topic].'},
+  {id:'c9',cat:'curiosity',text:'Why [common advice] is keeping most [identity] exactly where they don\'t want to be.'},
+  {id:'c10',cat:'curiosity',text:'Something is happening in [niche] and most people haven\'t noticed it yet.'},
+  {id:'c11',cat:'curiosity',text:'The [outcome] isn\'t coming from where you think it is. Here\'s where it\'s actually coming from.'},
+  {id:'c12',cat:'curiosity',text:'I\'ve been sitting on this for a while and I finally have to say it: [teased insight].'},
+  {id:'c13',cat:'curiosity',text:'What I found out about [topic] after [experience] that nobody prepared me for.'},
+  {id:'c14',cat:'curiosity',text:'The reason [desired outcome] feels so hard — and why it\'s actually simpler than it looks.'},
+  {id:'c15',cat:'curiosity',text:'Stop doing [common thing]. Here\'s what to do instead.'},
+  {id:'c16',cat:'curiosity',text:'The [topic] conversation nobody in [niche] is having — and why it\'s the one that matters most.'},
+  {id:'c17',cat:'curiosity',text:'I switched from [X approach] to [Y approach] and my [result] changed dramatically. Here\'s what I did.'},
+  {id:'c18',cat:'curiosity',text:'Three things I wish I\'d known before I [started / tried / launched].'},
+  {id:'c19',cat:'curiosity',text:'The [mistake / habit / thing] that\'s silently killing your [result] — and it has nothing to do with [what they think].'},
+  {id:'c20',cat:'curiosity',text:'What [desired outcome] actually requires vs. what everyone tells you it requires.'},
+  {id:'c21',cat:'curiosity',text:'The [advice] everyone gives about [topic] is wrong. Here\'s what actually works.'},
+  {id:'c22',cat:'curiosity',text:'I found out why most [identity] never [achieve outcome] — and it\'s not [common scapegoat].'},
+  {id:'c23',cat:'curiosity',text:'Something changed in [niche] and the people who catch it early are going to [outcome]. Let me explain.'},
+  {id:'c24',cat:'curiosity',text:'The [strategy] that works in [niche] right now looks nothing like it did [time period] ago.'},
+  {id:'c25',cat:'curiosity',text:'Why I stopped [popular approach] and what happened when I did.'},
+  {id:'c26',cat:'curiosity',text:'The [result] you keep chasing is on the other side of [unexpected thing]. Here\'s what I mean.'},
+  {id:'c27',cat:'curiosity',text:'What if the [thing] you\'re working hardest on is the thing slowing you down the most?'},
+  {id:'c28',cat:'curiosity',text:'The difference between [people who get outcome] and [people who don\'t] is not what you think.'},
+  {id:'c29',cat:'curiosity',text:'Something nobody tells [identity] before they start [common journey]: [teased revelation].'},
+  {id:'c30',cat:'curiosity',text:'[Common belief in niche] is a myth. Here\'s what\'s actually true — and what to do about it.'},
+  {id:'c31',cat:'curiosity',text:'Why [popular platform / method / tool] is not the answer most [identity] think it is.'},
+  {id:'c32',cat:'curiosity',text:'The moment I realized [insight] — everything I was doing changed.'},
+  {id:'c33',cat:'curiosity',text:'There\'s a [thing] happening right now in [niche] and most people are completely missing it.'},
+  {id:'c34',cat:'curiosity',text:'I\'ve watched [number] people try [common approach] and fail. Here\'s the pattern I keep seeing.'},
+  {id:'c35',cat:'curiosity',text:'The [strategy] I almost didn\'t try — and the one that [result] actually came from.'},
+  {id:'c36',cat:'curiosity',text:'What [metric / number / sign] actually tells you about [topic] — and what to do about it.'},
+  {id:'c37',cat:'curiosity',text:'Most [identity] are focused on [X]. The ones getting [outcome] are focused on [Y].'},
+  {id:'c38',cat:'curiosity',text:'The [tool / method / habit] I added that changed my [result] faster than anything else.'},
+  {id:'c39',cat:'curiosity',text:'There\'s a reason [common problem] keeps happening to [identity] who are doing everything right. Here it is.'},
+  {id:'c40',cat:'curiosity',text:'I tested [thing] for [time period] and the results were not what I expected. Here\'s what actually happened.'},
+  {id:'c41',cat:'curiosity',text:'The [topic] advice that sounds right but is actually backwards — and what to replace it with.'},
+  {id:'c42',cat:'curiosity',text:'Why [outcome] gets harder the more [things] you try to add to it.'},
+  {id:'c43',cat:'curiosity',text:'What [your method / your product / this system] actually is — and why it works when everything else hasn\'t.'},
+  {id:'c44',cat:'curiosity',text:'I\'m going to show you something in this video that most [identity] never figure out on their own.'},
+  {id:'c45',cat:'curiosity',text:'The thing that makes [outcome] finally click — and why it\'s not the thing you\'re spending the most time on.'},
+  {id:'c46',cat:'curiosity',text:'[Common thing] is not your problem. [Real underlying issue] is. And here\'s how to fix it.'},
+  {id:'c47',cat:'curiosity',text:'What happened when I [did unexpected thing] instead of [common approach everyone uses].'},
+  {id:'c48',cat:'curiosity',text:'The [insight] that took me [time period] to learn — that you can get from this video right now.'},
+  {id:'c49',cat:'curiosity',text:'I know why [common struggle] keeps happening to you. And it\'s a [surprisingly simple] fix.'},
+  {id:'c50',cat:'curiosity',text:'The [thing] nobody tells you about [stage of journey] — until it\'s already too late.'},
+  {id:'c51',cat:'curiosity',text:'Why your [content / product / approach] isn\'t working — and no, it\'s not because of [common scapegoat].'},
+  {id:'c52',cat:'curiosity',text:'[Number] things I\'d do differently if I were starting [this journey] today. And one of them will surprise you.'},
+  {id:'c53',cat:'curiosity',text:'What [outcome] actually requires that nobody talks about because it doesn\'t make for a pretty post.'},
+  {id:'c54',cat:'curiosity',text:'The [strategy / method] I\'ve been quietly using that\'s behind most of my [results]. I\'m finally sharing it.'},
+  {id:'c55',cat:'curiosity',text:'If you\'re [doing common thing] and still not [getting result], you\'re missing [specific thing]. Here\'s what it is.'},
+  {id:'c56',cat:'curiosity',text:'The [thing] that separates [people who get outcome] from [people who don\'t] — it\'s not talent, timing, or luck.'},
+  {id:'c57',cat:'curiosity',text:'What I found when I looked at every [identity] who [achieved outcome]. There was one thing they all had.'},
+  {id:'c58',cat:'curiosity',text:'[Desired outcome] is easier than [niche] makes it look. The complication is [real reason]. Here\'s the fix.'},
+  {id:'c59',cat:'curiosity',text:'I\'m going to break down why [this approach] works — because once you understand it, you can\'t unsee it.'},
+  {id:'c60',cat:'curiosity',text:'The [result] I got from [simple action] that I almost didn\'t take. This is why I\'m sharing it.'},
+  {id:'c61',cat:'curiosity',text:'What [the most popular advice in your niche] is actually doing to your [outcome] — the part nobody wants to admit.'},
+  {id:'c62',cat:'curiosity',text:'Comment "[word]" if you want the [specific thing] that makes [desired outcome] actually happen.'},
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let currentTab = 'all';
+let favorites = JSON.parse(localStorage.getItem('scc_favorites') || '[]');
+let usedHooks = JSON.parse(localStorage.getItem('scc_used') || '[]');
+let customTexts = JSON.parse(localStorage.getItem('scc_custom') || '{}');
+const bracketFills = JSON.parse(localStorage.getItem('scc_fills') || '{}');
+let currentModalId = null;
+
+// ── PERSISTENCE ──────────────────────────────────────────────────────────────
+function save() {
+  localStorage.setItem('scc_favorites', JSON.stringify(favorites));
+  localStorage.setItem('scc_used', JSON.stringify(usedHooks));
+  localStorage.setItem('scc_custom', JSON.stringify(customTexts));
+}
+
+function saveFills() {
+  localStorage.setItem('scc_fills', JSON.stringify(bracketFills));
+}
+
+// ── FILTER ───────────────────────────────────────────────────────────────────
+function getFilteredHooks() {
+  return currentTab === 'all' ? HOOKS : HOOKS.filter(h => h.cat === currentTab);
+}
+
+// ── TABS ─────────────────────────────────────────────────────────────────────
+function setTab(cat) {
+  currentTab = cat;
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.cat === cat);
+  });
+  if (cat === 'favorites') {
+    document.getElementById('hookGrid').style.display = 'none';
+    document.getElementById('favoritesSection').style.display = 'block';
+    document.getElementById('countBar').style.display = 'none';
+    renderFavorites();
+  } else {
+    document.getElementById('hookGrid').style.display = '';
+    document.getElementById('favoritesSection').style.display = 'none';
+    document.getElementById('countBar').style.display = '';
+    renderHooks();
+  }
+}
+
+// ── TEXT HELPERS ─────────────────────────────────────────────────────────────
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── CATEGORY LABEL ───────────────────────────────────────────────────────────
+const CAT_LABELS = {
+  qualifier: 'Qualifier',
+  objection: 'Objection Crusher',
+  proof: 'Proof',
+  curiosity: 'Curiosity Gap'
+};
+
+// ── RENDER HOOK CARD (MAD LIBS) ───────────────────────────────────────────────
+function buildMadLibsHtml(hook, inFavorites) {
+  const suffix = inFavorites ? '-fav' : '';
+  const fills = bracketFills[hook.id] || {};
+  // Split text on brackets, render each bracket as an inline input
+  const parts = hook.text.split(/(\[[^\]]+\])/g);
+  return parts.map(part => {
+    const m = part.match(/^\[([^\]]+)\]$/);
+    if (!m) return `<span>${escapeHtml(part)}</span>`;
+    const label = m[1];
+    const val = fills[label] || '';
+    const inputId = `inp-${hook.id}-${label.replace(/[^a-z0-9]/gi,'_')}${suffix}`;
+    // Width trick: hidden span mirrors content for auto-sizing
+    return `<span class="ml-field-wrap"><input class="ml-input" id="${inputId}"
+      type="text" value="${escapeHtml(val)}"
+      placeholder="${escapeHtml(label)}"
+      size="${Math.max(label.length, val.length || label.length)}"
+      oninput="onFillInput('${hook.id}','${label.replace(/'/g,"\\'")}',this,'${suffix}')"
+    ></span>`;
+  }).join('');
+}
+
+function buildCard(hook, inFavorites = false) {
+  const isFav = favorites.includes(hook.id);
+  const isUsed = usedHooks.includes(hook.id);
+  const num = hook.id.replace(/[a-z]/g,'');
+  const inFavStr = String(inFavorites);
+  const suffix = inFavorites ? '-fav' : '';
+
+  const card = document.createElement('div');
+  card.className = 'hook-card' + (isUsed ? ' is-used' : '');
+  card.id = 'card-' + hook.id + (inFavorites ? '-fav' : '');
+
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="card-badges">
+        <span class="cat-badge ${hook.cat}">${CAT_LABELS[hook.cat]}</span>
+      </div>
+      <span class="hook-num">#${num}</span>
+    </div>
+    <div class="hook-text madlibs" id="text-${hook.id}${suffix}">${buildMadLibsHtml(hook, inFavorites)}</div>
+    <div class="card-actions">
+      <button class="action-btn" id="copy-${hook.id}${suffix}" onclick="copyHook('${hook.id}','${inFavStr}')">📋 Copy</button>
+      <button class="action-btn${isUsed?' active-used':''}" id="used-${hook.id}${suffix}" onclick="toggleUsed('${hook.id}')">✓ Used</button>
+      ${inFavorites
+        ? `<button class="action-btn" style="margin-left:auto;" onclick="removeFav('${hook.id}')">× Remove</button>`
+        : `<button class="action-btn${isFav?' active-fav':''}" id="fav-${hook.id}" onclick="toggleFav('${hook.id}')">♥ ${isFav?'Saved':'Save'}</button>`
+      }
+    </div>
+  `;
+  return card;
+}
+
+function onFillInput(id, label, inputEl, suffix) {
+  if (!bracketFills[id]) bracketFills[id] = {};
+  bracketFills[id][label] = inputEl.value;
+  saveFills();
+  // Auto-resize input to content
+  resizeInput(inputEl, label);
+}
+
+function resizeInput(el, placeholder) {
+  const len = Math.max((el.value || '').length, placeholder.length, 4);
+  el.setAttribute('size', len);
+}
+
+// ── RENDER MAIN GRID ─────────────────────────────────────────────────────────
+function renderHooks() {
+  const grid = document.getElementById('hookGrid');
+  const hooks = getFilteredHooks();
+  grid.innerHTML = '';
+
+  document.getElementById('countBar').textContent =
+    `Showing ${hooks.length} of ${HOOKS.length} hooks`;
+
+  hooks.forEach(h => grid.appendChild(buildCard(h, false)));
+}
+
+// ── RENDER FAVORITES ─────────────────────────────────────────────────────────
+function renderFavorites() {
+  const content = document.getElementById('favContent');
+  content.innerHTML = '';
+
+  // Update tab label with count
+  const favTab = document.querySelector('.tab-fav');
+  if (favTab) {
+    favTab.textContent = favorites.length ? `♥ Favorites (${favorites.length})` : '♥ Favorites';
+  }
+
+  if (!favorites.length) {
+    content.innerHTML = '<div class="fav-empty">Tap the ♥ on any hook to save it here.</div>';
+    return;
+  }
+
+  const cats = ['qualifier','objection','proof','curiosity'];
+  cats.forEach(cat => {
+    const catFavs = favorites
+      .map(id => HOOKS.find(h => h.id === id))
+      .filter(h => h && h.cat === cat);
+
+    if (!catFavs.length) return;
+
+    const group = document.createElement('div');
+    group.className = 'fav-cat-group';
+    group.innerHTML = `<div class="fav-cat-label">${CAT_LABELS[cat]}</div>`;
+
+    const grid = document.createElement('div');
+    grid.className = 'fav-grid';
+    catFavs.forEach(h => grid.appendChild(buildCard(h, true)));
+
+    group.appendChild(grid);
+    content.appendChild(group);
+  });
+}
+
+// ── COPY ─────────────────────────────────────────────────────────────────────
+function copyHook(id, inFavStr) {
+  const suffix = inFavStr === 'true' ? '-fav' : '';
+  const hook = HOOKS.find(h => h.id === id);
+  // Build plain text from current fills
+  const fills = bracketFills[id] || {};
+  const text = hook.text.replace(/\[([^\]]+)\]/g, (match, label) => {
+    const v = (fills[label] || '').trim();
+    return v || match;
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(`copy-${id}${suffix}`);
+    if (!btn) return;
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+// ── TOGGLE USED ──────────────────────────────────────────────────────────────
+function toggleUsed(id) {
+  if (usedHooks.includes(id)) {
+    usedHooks = usedHooks.filter(x => x !== id);
+  } else {
+    usedHooks.push(id);
+  }
+  save();
+  renderHooks();
+  renderFavorites();
+}
+
+// ── TOGGLE FAV ───────────────────────────────────────────────────────────────
+function toggleFav(id) {
+  if (favorites.includes(id)) {
+    favorites = favorites.filter(x => x !== id);
+  } else {
+    favorites.push(id);
+  }
+  save();
+  renderHooks();
+  renderFavorites();
+}
+
+function removeFav(id) {
+  favorites = favorites.filter(x => x !== id);
+  save();
+  renderHooks();
+  renderFavorites();
+}
+
+// ── HOW TO USE TOGGLE ────────────────────────────────────────────────────────
+function toggleHowTo() {
+  const body = document.getElementById('htu-body');
+  const arrow = document.getElementById('htu-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+// ── SHUFFLE MODAL ────────────────────────────────────────────────────────────
+function getShufflePool() {
+  const pool = currentTab === 'all' ? HOOKS : HOOKS.filter(h => h.cat === currentTab);
+  return pool.length ? pool : HOOKS;
+}
+
+function openShuffle() {
+  shuffleAgain();
+  document.getElementById('shuffleModal').classList.add('open');
+}
+
+function shuffleAgain() {
+  const pool = getShufflePool();
+  const hook = pool[Math.floor(Math.random() * pool.length)];
+  currentModalId = hook.id;
+  document.getElementById('modalBadge').innerHTML =
+    `<span class="cat-badge ${hook.cat}">${CAT_LABELS[hook.cat]}</span>`;
+  const fills = bracketFills[hook.id] || {};
+  const plain = hook.text.replace(/\[([^\]]+)\]/g, (match, label) => {
+    const v = (fills[label] || '').trim();
+    return v || match;
+  });
+  document.getElementById('modalHookText').textContent = plain;
+  updateModalBtns();
+}
+
+function updateModalBtns() {
+  const id = currentModalId;
+  const favBtn = document.getElementById('modalFavBtn');
+  const usedBtn = document.getElementById('modalUsedBtn');
+  const copyBtn = document.getElementById('modalCopyBtn');
+  favBtn.classList.toggle('active-fav', favorites.includes(id));
+  favBtn.textContent = favorites.includes(id) ? '♥ Saved' : '♥ Favorite';
+  usedBtn.classList.toggle('active-used', usedHooks.includes(id));
+  copyBtn.classList.remove('copied');
+  copyBtn.textContent = '📋 Copy';
+}
+
+function closeModal() {
+  document.getElementById('shuffleModal').classList.remove('open');
+}
+
+function modalCopy() {
+  const hook = HOOKS.find(h => h.id === currentModalId);
+  const fills = bracketFills[currentModalId] || {};
+  const text = hook.text.replace(/\[([^\]]+)\]/g, (match, label) => {
+    const v = (fills[label] || '').trim();
+    return v || match;
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('modalCopyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+function modalToggleFav() {
+  toggleFav(currentModalId);
+  updateModalBtns();
+}
+
+function modalToggleUsed() {
+  toggleUsed(currentModalId);
+  updateModalBtns();
+}
+
+// Close modal on overlay click
+document.getElementById('shuffleModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+renderHooks();
+renderFavorites();
+</script>
+</body>
+</html>
