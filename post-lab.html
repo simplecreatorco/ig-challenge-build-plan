@@ -316,14 +316,14 @@ body { background: var(--color-bg); font-family: 'Nunito', sans-serif; color: va
             </div>
           </div>
           <div class="purpose-card" data-value="proof" onclick="selectPurpose(this)">
-            <span class="purpose-card-emoji">💰</span>
+            <span class="purpose-card-emoji">🙌🏼</span>
             <div class="purpose-card-content">
               <span class="purpose-card-name">Proof Post</span>
               <span class="purpose-card-desc">Make the outcome feel real and achievable.</span>
             </div>
           </div>
           <div class="purpose-card" data-value="curiosity" onclick="selectPurpose(this)">
-            <span class="purpose-card-emoji">🪝</span>
+            <span class="purpose-card-emoji">✨</span>
             <div class="purpose-card-content">
               <span class="purpose-card-name">Curiosity Gap</span>
               <span class="purpose-card-desc">Create an information gap. Trigger the DM.</span>
@@ -412,8 +412,8 @@ body { background: var(--color-bg); font-family: 'Nunito', sans-serif; color: va
       <div class="inspiration-panel" id="inspirationPanel">
         <div class="inspiration-row"><div class="inspiration-type">🎯 Qualifier</div><div class="inspiration-formula">Name a specific person in a specific situation. "This is for the [identity] who [specific scenario]."</div></div>
         <div class="inspiration-row"><div class="inspiration-type">🔨 Objection Crusher</div><div class="inspiration-formula">Lead with the objection as your hook. "Think you need [X] to [outcome]? You don't."</div></div>
-        <div class="inspiration-row"><div class="inspiration-type">💰 Proof Post</div><div class="inspiration-formula">Specific result + relatable identity. "I'm just a [identity] and last [time] I [specific result]."</div></div>
-        <div class="inspiration-row"><div class="inspiration-type">🪝 Curiosity Gap</div><div class="inspiration-formula">Tease the insight, withhold the resolution. "The reason [outcome] isn't happening for you — and it's not what you think."</div></div>
+        <div class="inspiration-row"><div class="inspiration-type">🙌🏼 Proof Post</div><div class="inspiration-formula">Specific result + relatable identity. "I'm just a [identity] and last [time] I [specific result]."</div></div>
+        <div class="inspiration-row"><div class="inspiration-type">✨ Curiosity Gap</div><div class="inspiration-formula">Tease the insight, withhold the resolution. "The reason [outcome] isn't happening for you — and it's not what you think."</div></div>
         <div style="margin-top:14px; padding-top:14px; border-top:1px solid #e0e0e0;">
           <div class="inspiration-type" style="margin-bottom:5px;">Three Hook Rules</div>
           <div class="inspiration-formula">1. Name a specific person, problem, or number<br>2. Create a gap between what they know and what they want to know<br>3. Never be clever when you can be clear</div>
@@ -525,6 +525,26 @@ body { background: var(--color-bg); font-family: 'Nunito', sans-serif; color: va
             <label class="form-label">Generated Caption — Edit Freely</label>
             <textarea class="form-textarea" id="captionGenerated" rows="10" oninput="checkCaptionReady()"></textarea>
             <div class="form-hint">This is a draft — make it yours. Edit anything before moving on.</div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div class="voice-grid" id="voiceGridResult">
+              <div class="voice-card selected" data-value="warm" onclick="selectVoice(this)">
+                <span class="voice-emoji">🤍</span>
+                <span class="voice-name">Warm & Encouraging</span>
+              </div>
+              <div class="voice-card" data-value="direct" onclick="selectVoice(this)">
+                <span class="voice-emoji">⚡</span>
+                <span class="voice-name">Direct & No-Nonsense</span>
+              </div>
+              <div class="voice-card" data-value="casual" onclick="selectVoice(this)">
+                <span class="voice-emoji">😄</span>
+                <span class="voice-name">Casual & Conversational</span>
+              </div>
+              <div class="voice-card" data-value="inspirational" onclick="selectVoice(this)">
+                <span class="voice-emoji">✨</span>
+                <span class="voice-name">Inspirational & Storytelling</span>
+              </div>
+            </div>
           </div>
           <button class="scc-btn scc-btn-ghost scc-btn-sm" onclick="regenerateCaption()" style="margin-bottom:8px;">Regenerate</button>
         </div>
@@ -758,11 +778,11 @@ function updatePurposeGrid() {
         <div class="purpose-card-content"><span class="purpose-card-name">Objection Crusher</span><span class="purpose-card-desc">Lead with the objection. Remove the barrier.</span></div>
       </div>
       <div class="purpose-card" data-value="proof" onclick="selectPurpose(this)">
-        <span class="purpose-card-emoji">💰</span>
+        <span class="purpose-card-emoji">🙌🏼</span>
         <div class="purpose-card-content"><span class="purpose-card-name">Proof Post</span><span class="purpose-card-desc">Make the outcome feel real and achievable.</span></div>
       </div>
       <div class="purpose-card" data-value="curiosity" onclick="selectPurpose(this)">
-        <span class="purpose-card-emoji">🪝</span>
+        <span class="purpose-card-emoji">✨</span>
         <div class="purpose-card-content"><span class="purpose-card-name">Curiosity Gap</span><span class="purpose-card-desc">Create an information gap. Trigger the DM.</span></div>
       </div>`;
     S.purpose='qualifier';
@@ -856,8 +876,10 @@ function checkCaptionReady() {
 }
 
 function selectVoice(el) {
-  document.querySelectorAll('.voice-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
+  // Sync both voice grids
+  document.querySelectorAll('.voice-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.value === el.dataset.value);
+  });
   S.voice = el.dataset.value;
 }
 
