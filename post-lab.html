@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Post Lab — Simple Creator Co.</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/quick');
+
+:root {
+  --color-primary: #889CA2;
+  --color-coral:   #F49C8E;
+  --color-yellow:  #F3B548;
+  --color-sage:    #BFD9CC;
+  --color-blush:   #F6D5CD;
+  --color-mist:    #B3DCDA;
+  --color-bg:      #F2F2F2;
+  --color-surface: #FFFFFF;
+  --color-text:    #555555;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--color-bg); font-family: 'Nunito', sans-serif; color: var(--color-text); line-height: 1.75; min-height: 100vh; }
+
+.app-wrapper { display: flex; min-height: 100vh; }
+.main-content { flex: 1; padding: 40px 24px 80px; max-width: 860px; margin: 0 auto; transition: margin-right 0.3s ease; width: 100%; }
+.main-content.sidebar-open { margin-right: 320px; }
+
+/* HEADER */
+.page-header { text-align: center; margin-bottom: 40px; }
+.page-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: 52px; text-transform: uppercase; color: var(--color-primary); letter-spacing: -1px; line-height: 1; margin-bottom: 8px; }
+.page-tagline { font-family: 'Quick', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 16px; }
+.page-desc { font-size: 15px; color: var(--color-text); max-width: 560px; margin: 0 auto; line-height: 1.75; }
+
+/* PROGRESS */
+.progress-bar { display: flex; align-items: center; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; gap: 6px; }
+.progress-step { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.step-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 13px; color: var(--color-primary); transition: all 0.2s; flex-shrink: 0; }
+.step-dot.active { background: var(--color-primary); color: #fff; }
+.step-dot.complete { background: var(--color-sage); border-color: var(--color-sage); color: var(--color-primary); }
+.step-label { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-text); white-space: nowrap; }
+.step-label.active { color: var(--color-primary); }
+.step-connector { width: 20px; height: 2px; background: var(--color-primary); opacity: 0.2; flex-shrink: 0; }
+
+/* CARDS */
+.scc-card { background: var(--color-surface); border-radius: 16px; padding: 40px; margin-bottom: 24px; }
+.card-label { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 8px; display: block; }
+.card-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; color: var(--color-primary); margin-bottom: 16px; line-height: 1.3; }
+.card-body { font-size: 15px; color: var(--color-text); line-height: 1.75; margin-bottom: 24px; }
+
+/* FORMS */
+.form-group { margin-bottom: 24px; }
+.form-label { display: block; font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 10px; }
+.form-select, .form-textarea, .form-input {
+  width: 100%; font-family: 'Nunito', sans-serif; font-size: 15px; color: var(--color-text);
+  background: var(--color-bg); border: 1px solid #ddd; border-radius: 12px; padding: 14px 18px;
+  outline: none; transition: border-color 0.2s; appearance: none;
+}
+.form-select:focus, .form-textarea:focus, .form-input:focus { border-color: var(--color-primary); }
+.form-textarea { min-height: 100px; resize: vertical; line-height: 1.75; }
+.select-wrapper { position: relative; }
+.select-wrapper::after { content: '▾'; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--color-primary); pointer-events: none; }
+.form-hint { font-size: 13px; color: #999; margin-top: 6px; line-height: 1.5; }
+
+/* SELECTION GRIDS */
+/* Full-width 2-col for post type */
+.type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 0; }
+/* Half-height 2-col for purpose/pin */
+.purpose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0; }
+.purpose-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+.type-card { background: var(--color-bg); border: 2px solid transparent; border-radius: 12px; padding: 18px 20px; cursor: pointer; transition: all 0.2s; }
+.type-card:hover { border-color: var(--color-primary); }
+.type-card.selected { border-color: var(--color-primary); background: #fff; }
+.type-card-emoji { font-size: 20px; margin-bottom: 6px; display: block; }
+.type-card-name { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-primary); display: block; margin-bottom: 4px; }
+.type-card-desc { font-size: 13px; color: var(--color-text); line-height: 1.5; }
+
+/* Purpose cards — smaller, half-height feel */
+.purpose-card { background: var(--color-bg); border: 2px solid transparent; border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all 0.2s; display: flex; align-items: flex-start; gap: 10px; }
+.purpose-card:hover { border-color: var(--color-primary); }
+.purpose-card.selected { border-color: var(--color-primary); background: #fff; }
+.purpose-card-emoji { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.purpose-card-content { flex: 1; }
+.purpose-card-name { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-primary); display: block; margin-bottom: 3px; }
+.purpose-card-desc { font-size: 12px; color: var(--color-text); line-height: 1.4; }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.scc-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--color-yellow); color: #fff; font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer; transition: opacity 0.2s; white-space: nowrap; }
+.scc-btn:hover { opacity: 0.88; }
+.scc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.scc-btn-ghost { background: transparent; color: var(--color-primary); border: 2px solid var(--color-primary); }
+.scc-btn-ghost:hover { background: var(--color-bg); }
+.scc-btn-sm { padding: 10px 20px; font-size: 10px; }
+.scc-btn-sage { background: var(--color-sage); color: var(--color-primary); border: none; }
+
+/* PROOF TOGGLE */
+.proof-toggle { display: flex; gap: 8px; margin-bottom: 16px; }
+.proof-btn { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; padding: 8px 18px; border-radius: 50px; border: 2px solid var(--color-primary); background: transparent; color: var(--color-primary); cursor: pointer; transition: all 0.2s; }
+.proof-btn.active { background: var(--color-primary); color: #fff; }
+
+/* CAPTION MODE */
+.mode-toggle { display: flex; gap: 8px; margin-bottom: 20px; }
+.mode-btn { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; padding: 10px 20px; border-radius: 50px; border: 2px solid var(--color-primary); background: transparent; color: var(--color-primary); cursor: pointer; transition: all 0.2s; }
+.mode-btn.active { background: var(--color-primary); color: #fff; }
+.mode-btn:hover:not(.active) { background: var(--color-bg); }
+
+/* INSPIRATION */
+.inspiration-toggle { display: inline-flex; align-items: center; gap: 8px; font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-primary); cursor: pointer; background: none; border: none; padding: 0; margin-bottom: 16px; }
+.inspiration-toggle svg { transition: transform 0.2s; }
+.inspiration-toggle.open svg { transform: rotate(180deg); }
+.inspiration-panel { background: var(--color-bg); border-radius: 12px; padding: 24px; margin-bottom: 20px; display: none; }
+.inspiration-panel.visible { display: block; }
+.inspiration-row { margin-bottom: 14px; }
+.inspiration-row:last-child { margin-bottom: 0; }
+.inspiration-type { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 5px; }
+.inspiration-formula { font-size: 14px; color: var(--color-text); line-height: 1.6; background: #fff; border-radius: 8px; padding: 12px 16px; }
+
+/* LOADING */
+.loading-state { display: flex; flex-direction: column; align-items: center; padding: 40px; gap: 16px; }
+.loading-dots { display: flex; gap: 8px; }
+.loading-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--color-primary); animation: pulse 1.2s ease-in-out infinite; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,100% { opacity:0.3; transform:scale(0.8); } 50% { opacity:1; transform:scale(1); } }
+.loading-text { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-primary); }
+
+/* SCORE */
+.confidence-section { text-align: center; padding: 32px; background: var(--color-bg); border-radius: 16px; margin-bottom: 28px; }
+.confidence-label { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 8px; }
+.confidence-score { font-family: 'Fraunces', serif; font-weight: 900; font-size: 72px; color: var(--color-primary); letter-spacing: -2px; line-height: 1; margin-bottom: 4px; }
+.confidence-score.high { color: #4A8C63; }
+.confidence-score.mid { color: #D4A017; }
+.confidence-score.low { color: var(--color-coral); }
+.confidence-goal { font-size: 14px; color: var(--color-text); margin-bottom: 16px; }
+.confidence-bar-wrap { height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; max-width: 320px; margin: 0 auto 20px; }
+.confidence-bar-fill { height: 100%; border-radius: 4px; background: var(--color-primary); transition: width 1s ease; }
+.confidence-bar-fill.high { background: #4A8C63; }
+.confidence-bar-fill.mid { background: #D4A017; }
+.confidence-bar-fill.low { background: var(--color-coral); }
+.score-breakdown { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.score-item { background: #fff; border-radius: 10px; padding: 12px 20px; text-align: center; min-width: 90px; }
+.score-item-label { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-coral); margin-bottom: 4px; }
+.score-item-value { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; color: var(--color-primary); }
+
+/* FEEDBACK */
+.assessment-section { margin-bottom: 24px; }
+.assessment-section-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 18px; color: var(--color-primary); margin-bottom: 12px; }
+.feedback-card { border-radius: 12px; padding: 20px 24px; margin-bottom: 12px; }
+.feedback-positive { background: #EEF7F2; }
+.feedback-warning { background: #FFF8ED; }
+.feedback-label { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.feedback-positive .feedback-label { color: #4A8C63; }
+.feedback-warning .feedback-label { color: #B8860B; }
+.feedback-text { font-size: 15px; color: var(--color-text); line-height: 1.7; }
+
+/* INLINE EDIT */
+.inline-edit-section { margin-top: 32px; padding-top: 28px; border-top: 2px solid var(--color-bg); }
+.inline-edit-title { font-family: 'Fraunces', serif; font-weight: 400; font-size: 20px; color: var(--color-primary); margin-bottom: 6px; }
+.inline-edit-subtitle { font-size: 14px; color: #999; margin-bottom: 24px; }
+.inline-field { margin-bottom: 20px; }
+.inline-field-label { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-bottom: 8px; display: block; }
+.inline-textarea { width: 100%; font-family: 'Nunito', sans-serif; font-size: 15px; color: var(--color-text); background: var(--color-bg); border: 1px solid #ddd; border-radius: 12px; padding: 14px 18px; outline: none; transition: border-color 0.2s; resize: vertical; line-height: 1.75; min-height: 80px; }
+.inline-textarea:focus { border-color: var(--color-primary); }
+
+/* VOICE CARDS */
+.voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.voice-card { background: var(--color-bg); border: 2px solid transparent; border-radius: 12px; padding: 12px 14px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; }
+.voice-card:hover { border-color: var(--color-primary); }
+.voice-card.selected { border-color: var(--color-primary); background: #fff; }
+.voice-emoji { font-size: 18px; flex-shrink: 0; }
+.voice-name { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-primary); line-height: 1.4; }
+
+/* POST DOCUMENT */
+.post-doc { background: var(--color-bg); border-radius: 16px; padding: 28px; margin-top: 28px; }
+.post-doc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.post-doc-title { font-family: 'Quick', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); }
+.post-doc-field { background: var(--color-surface); border-radius: 12px; padding: 20px 20px 16px; margin-bottom: 12px; }
+.post-doc-field-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.post-doc-label { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); }
+.pencil-btn { background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px; transition: background 0.2s; display: flex; align-items: center; }
+.pencil-btn:hover { background: var(--color-bg); }
+.pencil-btn:hover svg path { stroke: var(--color-primary); }
+.post-doc-text { font-size: 15px; color: var(--color-text); line-height: 1.75; white-space: pre-wrap; }
+.post-doc-edit { margin-top: 8px; }
+.edit-actions { display: flex; gap: 8px; margin-top: 8px; }
+.edit-save-btn { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; padding: 7px 16px; border-radius: 20px; border: none; background: var(--color-primary); color: #fff; cursor: pointer; }
+.edit-cancel-btn { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; padding: 7px 16px; border-radius: 20px; border: 1px solid #ddd; background: transparent; color: var(--color-text); cursor: pointer; }
+.post-doc-actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+.scc-btn-coral { background: var(--color-coral); color: #fff; border: none; }
+.sidebar { position: fixed; top: 0; right: -320px; width: 320px; height: 100vh; background: var(--color-surface); z-index: 100; transition: right 0.3s ease; display: flex; flex-direction: column; border-left: 1px solid #e8e8e8; }
+.sidebar.open { right: 0; }
+.sidebar-header { padding: 24px 24px 16px; border-bottom: 1px solid var(--color-bg); flex-shrink: 0; }
+.sidebar-title { font-family: 'Fraunces', serif; font-weight: 900; font-size: 20px; text-transform: uppercase; color: var(--color-primary); letter-spacing: -1px; }
+.sidebar-subtitle { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-coral); margin-top: 4px; }
+.sidebar-body { flex: 1; overflow-y: auto; padding: 16px; }
+.saved-post-card { background: var(--color-bg); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+.saved-post-meta { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.saved-post-type { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-coral); }
+.saved-post-score { font-family: 'Fraunces', serif; font-weight: 900; font-size: 18px; color: var(--color-primary); letter-spacing: -1px; }
+.saved-post-score.high { color: #4A8C63; }
+.saved-post-score.mid { color: #D4A017; }
+.saved-post-hook { font-size: 13px; color: var(--color-text); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.saved-post-date { font-size: 12px; color: #aaa; margin-top: 8px; }
+.saved-post-actions { display: flex; gap: 8px; margin-top: 10px; }
+.saved-action-btn { font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; padding: 6px 12px; border-radius: 20px; border: none; cursor: pointer; }
+.btn-load { background: var(--color-primary); color: #fff; }
+.btn-delete { background: #e8e8e8; color: var(--color-text); }
+.sidebar-empty { text-align: center; padding: 40px 20px; color: #aaa; font-size: 14px; line-height: 1.7; }
+
+.sidebar-toggle-btn { position: fixed; top: 24px; right: 24px; z-index: 101; background: var(--color-surface); border: 1px solid var(--color-primary); border-radius: 50px; padding: 10px 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-primary); transition: all 0.2s; white-space: nowrap; }
+.sidebar-toggle-btn:hover { background: var(--color-primary); color: #fff; }
+.saved-count-badge { background: var(--color-coral); color: #fff; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-family: 'Nunito', sans-serif; font-weight: 700; }
+
+.copy-success { display: inline-flex; align-items: center; gap: 6px; font-family: 'Quick', sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #4A8C63; padding: 6px 0; opacity: 0; transition: opacity 0.3s; }
+.copy-success.visible { opacity: 1; }
+
+.step-content { display: none; }
+.step-content.active { display: block; }
+
+@media (max-width: 700px) {
+  .page-title { font-size: 36px; }
+  .scc-card { padding: 24px; }
+  .type-grid, .purpose-grid, .purpose-grid.three-col { grid-template-columns: 1fr; }
+  .main-content.sidebar-open { margin-right: 0; }
+  .sidebar { width: 100%; right: -100%; }
+  .step-connector { width: 12px; }
+  .sidebar-toggle-btn { top: 12px; right: 12px; }
+}
+</style>
+</head>
+<body>
+
+<button class="sidebar-toggle-btn" onclick="toggleSidebar()">
+  <span>Saved Posts</span>
+  <span class="saved-count-badge" id="savedBadge">0</span>
+</button>
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-title">Saved Posts</div>
+    <div class="sidebar-subtitle">Your Post History</div>
+  </div>
+  <div class="sidebar-body" id="sidebarBody">
+    <div class="sidebar-empty" id="sidebarEmpty">Save a completed post to see it here.</div>
+  </div>
+</div>
+
+<div class="app-wrapper">
+<div class="main-content" id="mainContent">
+
+  <div class="page-header">
+    <div id="demoBanner" style="display:none; background:#FFF8ED; border-radius:10px; padding:10px 20px; margin-bottom:20px; font-family:'Quick',sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:2px; color:#B8860B;">
+      ⚡ Demo Mode — Using sample responses. Live AI feedback active when embedded in Kajabi.
+    </div>
+    <div class="page-tagline">Simple Creator Co.</div>
+    <h1 class="page-title">The Post Lab</h1>
+    <p class="page-desc">Build it right. Know it works. Walk through Rebecca's framework and get a full assessment before you hit record.</p>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar">
+    <div class="progress-step" onclick="goToStep(1)"><div class="step-dot active" id="dot1">1</div><span class="step-label active" id="label1">Setup</span></div>
+    <div class="step-connector"></div>
+    <div class="progress-step" onclick="goToStep(2)"><div class="step-dot" id="dot2">2</div><span class="step-label" id="label2">Your Offer</span></div>
+    <div class="step-connector"></div>
+    <div class="progress-step" onclick="goToStep(3)"><div class="step-dot" id="dot3">3</div><span class="step-label" id="label3">Hook</span></div>
+    <div class="step-connector"></div>
+    <div class="progress-step" onclick="goToStep(4)"><div class="step-dot" id="dot4">4</div><span class="step-label" id="label4">CTA</span></div>
+    <div class="step-connector"></div>
+    <div class="progress-step" onclick="goToStep(5)"><div class="step-dot" id="dot5">5</div><span class="step-label" id="label5">Caption</span></div>
+    <div class="step-connector"></div>
+    <div class="progress-step" onclick="goToStep(6)"><div class="step-dot" id="dot6">6</div><span class="step-label" id="label6">Assessment</span></div>
+  </div>
+
+  <!-- ══ STEP 1: SETUP ══ -->
+  <div class="step-content active" id="step1">
+    <div class="scc-card">
+      <span class="card-label">Step 1 of 6</span>
+      <h2 class="card-title">Post Setup</h2>
+      <p class="card-body">Tell the Post Lab what you're building so it can evaluate your work against the right framework criteria.</p>
+
+      <div class="form-group">
+        <label class="form-label">Post Type</label>
+        <div class="type-grid" id="postTypeGrid">
+          <div class="type-card selected" data-value="feed" onclick="selectPostType(this)">
+            <span class="type-card-emoji">📱</span>
+            <span class="type-card-name">Feed Post</span>
+            <span class="type-card-desc">Regular post that lives in your scrollable feed</span>
+          </div>
+          <div class="type-card" data-value="pinned" onclick="selectPostType(this)">
+            <span class="type-card-emoji">📌</span>
+            <span class="type-card-name">Pinned Post</span>
+            <span class="type-card-desc">One of your 3 pinned posts at the top of your profile</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="purposeLabel">Purpose</label>
+        <div class="purpose-grid" id="purposeGrid">
+          <div class="purpose-card selected" data-value="qualifier" onclick="selectPurpose(this)">
+            <span class="purpose-card-emoji">🎯</span>
+            <div class="purpose-card-content">
+              <span class="purpose-card-name">Qualifier</span>
+              <span class="purpose-card-desc">Call in your exact buyer. Make them feel seen.</span>
+            </div>
+          </div>
+          <div class="purpose-card" data-value="objection" onclick="selectPurpose(this)">
+            <span class="purpose-card-emoji">🔨</span>
+            <div class="purpose-card-content">
+              <span class="purpose-card-name">Objection Crusher</span>
+              <span class="purpose-card-desc">Lead with the objection. Remove the barrier.</span>
+            </div>
+          </div>
+          <div class="purpose-card" data-value="proof" onclick="selectPurpose(this)">
+            <span class="purpose-card-emoji">💰</span>
+            <div class="purpose-card-content">
+              <span class="purpose-card-name">Proof Post</span>
+              <span class="purpose-card-desc">Make the outcome feel real and achievable.</span>
+            </div>
+          </div>
+          <div class="purpose-card" data-value="curiosity" onclick="selectPurpose(this)">
+            <span class="purpose-card-emoji">🪝</span>
+            <div class="purpose-card-content">
+              <span class="purpose-card-name">Curiosity Gap</span>
+              <span class="purpose-card-desc">Create an information gap. Trigger the DM.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" id="formatGroup">
+        <label class="form-label" id="formatLabel">Format</label>
+        <div class="select-wrapper">
+          <select class="form-select" id="formatSelect" onchange="state.format=this.value">
+            <option value="broll">B-Roll — footage with voiceover text overlay</option>
+            <option value="talking_head">Talking Head — you on camera, speaking directly</option>
+            <option value="voiceover">Voiceover — screen/footage, your voice over it</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="scc-btn" onclick="goToStep(2)">Next: Your Offer →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2: YOUR OFFER ══ -->
+  <div class="step-content" id="step2">
+    <div class="scc-card">
+      <span class="card-label">Step 2 of 6</span>
+      <h2 class="card-title">Your Offer</h2>
+      <p class="card-body">The AI uses these details to write a caption in your voice — about your story, your offer, and your audience. Fill in what you have. Everything here is used to make the generated caption actually yours.</p>
+
+      <div class="form-group">
+        <label class="form-label">Who You Are</label>
+        <input class="form-input" id="offerIdentity" placeholder="e.g. Mom of 3, former teacher, graphic designer, nurse..." />
+        <div class="form-hint">The relatable identity you lead with — how you'd describe yourself to your audience.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Who You Help</label>
+        <input class="form-input" id="offerAudience" placeholder="e.g. Moms who want to make money from home, small business owners who hate marketing..." />
+        <div class="form-hint">Be specific. The more precise, the better the caption will call in your exact buyer.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">What You Sell</label>
+        <input class="form-input" id="offerProduct" placeholder="e.g. A $27 Canva template bundle, a $47 meal planning guide, a $197 course on dog training..." />
+        <div class="form-hint">Include what it is and the price point.</div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Your Story / Results</label>
+        <div class="proof-toggle">
+          <button class="proof-btn active" id="proofYesBtn" onclick="setProofMode('yes')">I have something to share</button>
+          <button class="proof-btn" id="proofNoBtn" onclick="setProofMode('no')">I'm just getting started</button>
+        </div>
+        <div id="proofField">
+          <div class="form-hint" style="margin-bottom:10px; margin-top:0;">Your story, a result you've seen, a before and after — anything real and specific. It doesn't have to be a big number. It just has to be true.</div>
+          <textarea class="form-textarea" id="offerProof" rows="3"></textarea>
+        </div>
+        <div id="noProofNote" style="display:none; background:var(--color-bg); border-radius:10px; padding:16px; font-size:14px; color:var(--color-text); line-height:1.6;">
+          No problem — the AI will write around your offer and audience instead, using the mechanism and the outcome rather than personal proof. You can always add proof later as you get results.
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="scc-btn" onclick="goToStep(3)">Next: Write Your Hook →</button>
+        <button class="scc-btn scc-btn-ghost" onclick="goToStep(1)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: HOOK ══ -->
+  <div class="step-content" id="step3">
+    <div class="scc-card">
+      <span class="card-label">Step 3 of 6</span>
+      <h2 class="card-title" id="hookStepTitle">Your Hook</h2>
+      <p class="card-body" id="hookStepDesc">Your hook is the first frame — the text overlay that stops the scroll. It has one job: make the right person feel like this was made for them.</p>
+
+      <button class="inspiration-toggle" id="inspirationToggle" onclick="toggleInspiration()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 4L7 9L12 4" stroke="#889CA2" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Hook Formulas by Post Type
+      </button>
+      <div class="inspiration-panel" id="inspirationPanel">
+        <div class="inspiration-row"><div class="inspiration-type">🎯 Qualifier</div><div class="inspiration-formula">Name a specific person in a specific situation. "This is for the [identity] who [specific scenario]."</div></div>
+        <div class="inspiration-row"><div class="inspiration-type">🔨 Objection Crusher</div><div class="inspiration-formula">Lead with the objection as your hook. "Think you need [X] to [outcome]? You don't."</div></div>
+        <div class="inspiration-row"><div class="inspiration-type">💰 Proof Post</div><div class="inspiration-formula">Specific result + relatable identity. "I'm just a [identity] and last [time] I [specific result]."</div></div>
+        <div class="inspiration-row"><div class="inspiration-type">🪝 Curiosity Gap</div><div class="inspiration-formula">Tease the insight, withhold the resolution. "The reason [outcome] isn't happening for you — and it's not what you think."</div></div>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid #e0e0e0;">
+          <div class="inspiration-type" style="margin-bottom:5px;">Three Hook Rules</div>
+          <div class="inspiration-formula">1. Name a specific person, problem, or number<br>2. Create a gap between what they know and what they want to know<br>3. Never be clever when you can be clear</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="hookInputLabel">Write Your Hook</label>
+        <textarea class="form-textarea" id="hookInput" placeholder="Type the text overlay that opens your video..." rows="3"></textarea>
+        <div class="form-hint" id="hookHint">This is the text on screen in the first 1–2 seconds. Keep it punchy — under 15 words is ideal.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="scc-btn" onclick="goToStep(4)">Next: Write Your CTA →</button>
+        <button class="scc-btn scc-btn-ghost" onclick="goToStep(2)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4: CTA ══ -->
+  <div class="step-content" id="step4">
+    <div class="scc-card">
+      <span class="card-label">Step 4 of 6</span>
+      <h2 class="card-title" id="ctaStepTitle">Your CTA</h2>
+      <p class="card-body" id="ctaStepDesc">Every post needs one specific trigger — the action you want the viewer to take. This is how your post connects to your funnel.</p>
+
+      <div class="inspiration-panel visible" style="margin-bottom:20px;">
+        <div class="inspiration-type" style="margin-bottom:5px;">Three CTA Formats That Work</div>
+        <div class="inspiration-formula">
+          <strong style="color:var(--color-primary)">Comment trigger:</strong> "Comment [KEYWORD] and I'll send you [thing]" — activates ManyChat<br><br>
+          <strong style="color:var(--color-primary)">DM trigger:</strong> "DM me [word] and I'll send you [thing]"<br><br>
+          <strong style="color:var(--color-primary)">Link trigger:</strong> "Link in bio to [specific thing]"
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" id="ctaInputLabel">Your CTA</label>
+        <textarea class="form-textarea" id="ctaInput" placeholder="Write your call to action..." rows="3"></textarea>
+        <div class="form-hint" id="ctaHint">Keep it to one action. The more specific the CTA, the higher the conversion.</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="scc-btn" onclick="goToStep(5)">Next: Write Your Caption →</button>
+        <button class="scc-btn scc-btn-ghost" onclick="goToStep(3)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5: CAPTION ══ -->
+  <div class="step-content" id="step5">
+    <div class="scc-card">
+      <span class="card-label">Step 5 of 6</span>
+      <h2 class="card-title" id="captionStepTitle">Your Caption</h2>
+      <p class="card-body" id="captionStepDesc">Build the middle section of your post. This is where you deliver on what your hook promised.</p>
+
+      <div class="inspiration-panel visible" id="captionGuide" style="margin-bottom:20px;"></div>
+
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="modeWrite" onclick="setCaptionMode('write')">✏️ Write My Own</button>
+        <button class="mode-btn" id="modeGenerate" onclick="setCaptionMode('generate')">✨ Generate Caption</button>
+      </div>
+
+      <!-- Write -->
+      <div id="captionWriteMode">
+        <div class="form-group">
+          <label class="form-label" id="captionWriteLabel">Your Caption</label>
+          <textarea class="form-textarea" id="captionInput" placeholder="Write your caption here..." rows="6" oninput="checkCaptionReady()"></textarea>
+          <div class="form-hint" id="captionHint">What you say or show after the hook and before the CTA.</div>
+        </div>
+      </div>
+
+      <!-- Generate -->
+      <div id="captionGenerateMode" style="display:none;">
+        <div id="generateIdle">
+          <p style="font-size:15px; color:var(--color-text); margin-bottom:20px; line-height:1.7;">The AI will write a complete caption draft using your hook, CTA, offer details, and post type. Edit it freely after it generates.</p>
+
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Your Brand Voice</label>
+            <div class="voice-grid">
+              <div class="voice-card selected" data-value="warm" onclick="selectVoice(this)">
+                <span class="voice-emoji">🤍</span>
+                <span class="voice-name">Warm &amp; Encouraging</span>
+              </div>
+              <div class="voice-card" data-value="direct" onclick="selectVoice(this)">
+                <span class="voice-emoji">⚡</span>
+                <span class="voice-name">Direct &amp; No-Nonsense</span>
+              </div>
+              <div class="voice-card" data-value="casual" onclick="selectVoice(this)">
+                <span class="voice-emoji">😄</span>
+                <span class="voice-name">Casual &amp; Conversational</span>
+              </div>
+              <div class="voice-card" data-value="inspirational" onclick="selectVoice(this)">
+                <span class="voice-emoji">✨</span>
+                <span class="voice-name">Inspirational &amp; Storytelling</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="scc-btn" onclick="generateCaption()">✨ Generate My Caption</button>
+        </div>
+        <div id="generateLoading" style="display:none;">
+          <div class="loading-state">
+            <div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>
+            <div class="loading-text">Writing your caption...</div>
+          </div>
+        </div>
+        <div id="generateResult" style="display:none;">
+          <div class="form-group">
+            <label class="form-label">Generated Caption — Edit Freely</label>
+            <textarea class="form-textarea" id="captionGenerated" rows="10" oninput="checkCaptionReady()"></textarea>
+            <div class="form-hint">This is a draft — make it yours. Edit anything before moving on.</div>
+          </div>
+          <button class="scc-btn scc-btn-ghost scc-btn-sm" onclick="regenerateCaption()" style="margin-bottom:8px;">Regenerate</button>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="scc-btn" id="analyzeBtn" onclick="proceedToAssessment()" style="display:none;">Analyze My Post →</button>
+        <button class="scc-btn scc-btn-ghost" onclick="goToStep(4)">← Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 6: ASSESSMENT ══ -->
+  <div class="step-content" id="step6">
+    <div class="scc-card">
+      <span class="card-label">Step 6 of 6</span>
+      <h2 class="card-title">Full Post Assessment</h2>
+
+      <div id="assessmentLoading" style="display:none;">
+        <div class="loading-state" style="padding:60px 40px;">
+          <div class="loading-dots"><div class="loading-dot"></div><div class="loading-dot"></div><div class="loading-dot"></div></div>
+          <div class="loading-text">Running full framework assessment...</div>
+        </div>
+      </div>
+
+      <div id="assessmentContent" style="display:none;">
+        <div class="confidence-section">
+          <div class="confidence-label">Confidence Score</div>
+          <div class="confidence-score" id="overallScore">—</div>
+          <div class="confidence-goal" id="scoreGoalText"></div>
+          <div class="confidence-bar-wrap"><div class="confidence-bar-fill" id="scoreBar" style="width:0%"></div></div>
+          <div class="score-breakdown">
+            <div class="score-item"><div class="score-item-label">Hook</div><div class="score-item-value" id="hookScore">—</div></div>
+            <div class="score-item"><div class="score-item-label">CTA</div><div class="score-item-value" id="ctaScore">—</div></div>
+            <div class="score-item"><div class="score-item-label">Caption</div><div class="score-item-value" id="captionScore">—</div></div>
+          </div>
+        </div>
+
+        <div class="assessment-section">
+          <div class="assessment-section-title">What's Working</div>
+          <div id="whatsWorking"></div>
+        </div>
+        <div class="assessment-section">
+          <div class="assessment-section-title">What to Tighten</div>
+          <div id="whatToTighten"></div>
+        </div>
+
+        <!-- Post Document -->
+        <div class="post-doc">
+          <div class="post-doc-header">
+            <span class="post-doc-title" id="postDocTitle"></span>
+            <button class="scc-btn scc-btn-ghost scc-btn-sm" onclick="copyPost()">Copy Brief</button>
+          </div>
+
+          <!-- Hook field -->
+          <div class="post-doc-field" id="docHookField">
+            <div class="post-doc-field-header">
+              <span class="post-doc-label" id="docHookLabel">Hook</span>
+              <button class="pencil-btn" onclick="startEditField('hook')" title="Edit">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2L12 4.5L4.5 12H2V9.5L9.5 2Z" stroke="#889CA2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="post-doc-text" id="docHookText"></div>
+            <div class="post-doc-edit" id="docHookEdit" style="display:none;">
+              <textarea class="inline-textarea" id="editHook" rows="2" oninput="onFieldEdit()"></textarea>
+              <div class="edit-actions">
+                <button class="edit-save-btn" onclick="saveFieldEdit('hook')">Done</button>
+                <button class="edit-cancel-btn" onclick="cancelFieldEdit('hook')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA field -->
+          <div class="post-doc-field" id="docCtaField">
+            <div class="post-doc-field-header">
+              <span class="post-doc-label" id="docCtaLabel">CTA</span>
+              <button class="pencil-btn" onclick="startEditField('cta')" title="Edit">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2L12 4.5L4.5 12H2V9.5L9.5 2Z" stroke="#889CA2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="post-doc-text" id="docCtaText"></div>
+            <div class="post-doc-edit" id="docCtaEdit" style="display:none;">
+              <textarea class="inline-textarea" id="editCta" rows="2" oninput="onFieldEdit()"></textarea>
+              <div class="edit-actions">
+                <button class="edit-save-btn" onclick="saveFieldEdit('cta')">Done</button>
+                <button class="edit-cancel-btn" onclick="cancelFieldEdit('cta')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Caption field -->
+          <div class="post-doc-field" id="docCaptionField">
+            <div class="post-doc-field-header">
+              <span class="post-doc-label" id="docCaptionLabel">Caption</span>
+              <button class="pencil-btn" onclick="startEditField('caption')" title="Edit">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2L12 4.5L4.5 12H2V9.5L9.5 2Z" stroke="#889CA2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+            <div class="post-doc-text" id="docCaptionText"></div>
+            <div class="post-doc-edit" id="docCaptionEdit" style="display:none;">
+              <textarea class="inline-textarea" id="editCaption" rows="6" oninput="onFieldEdit()"></textarea>
+              <div class="edit-actions">
+                <button class="edit-save-btn" onclick="saveFieldEdit('caption')">Done</button>
+                <button class="edit-cancel-btn" onclick="cancelFieldEdit('caption')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save + Re-analyze -->
+          <div class="post-doc-actions">
+            <button class="scc-btn" onclick="savePost()">Save Post</button>
+            <button class="scc-btn scc-btn-coral" id="reanalyzeBtn" onclick="reanalyzeFromEdit()" style="display:none;">Re-analyze →</button>
+          </div>
+          <div style="margin-top:8px;">
+            <span class="copy-success" id="copySuccess">✓ Copied to clipboard</span>
+            <span class="copy-success" id="saveSuccess">✓ Saved</span>
+          </div>
+        </div>
+
+        <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--color-bg); text-align:center;">
+          <button class="scc-btn scc-btn-ghost scc-btn-sm" onclick="startOver()">Start a New Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+// ══ STATE ══
+const S = {
+  currentStep: 1, postType: 'feed', format: 'broll', purpose: 'qualifier',
+  identity: '', audience: '', product: '', proof: '', hasProof: true,
+  hook: '', cta: '', caption: '', captionMode: 'write', voice: 'warm', assessment: null
+};
+const SAVED_KEY = 'scc_postlab_v3';
+
+// ══ DEMO ══
+const IS_DEMO = (() => { try { return window.location.protocol === 'blob:' || (window.parent !== window && window.location.hostname === ''); } catch{return true;} })();
+
+// ══ LABELS ══
+function purposeLabel(p) {
+  return {qualifier:'Qualifier',objection:'Objection Crusher',proof:'Proof Post',curiosity:'Curiosity Gap',pin1:'Pin 1 — Relatable Proof',pin2:'Pin 2 — Action Trigger',pin3:'Pin 3 — Emotional Proof'}[p]||p;
+}
+function formatLabel(f) {
+  return {talking_head:'Talking Head',broll:'B-Roll',voiceover:'Voiceover',reel:'Reel',carousel:'Carousel'}[f]||f;
+}
+function isCarousel() { return S.format==='carousel'; }
+function isPinned() { return S.postType==='pinned'; }
+
+function pinnedContext() {
+  if(!isPinned()) return '';
+  return {pin1:'Pin 1 sits at the top of the profile. Its job is to make cold traffic believe the outcome is real and achievable for someone like them.',pin2:'Pin 2 is the highest-converting funnel entry point — a carousel where Slide 1 is the hook, middle slides walk through the steps one per slide, and the last slide is the CTA with the ManyChat keyword trigger.',pin3:'Pin 3 sells the lifestyle and emotional transformation, not just numbers. It connects the outcome to something bigger and makes cold traffic feel the possibility.'}[S.purpose]||'';
+}
+
+function captionStructureText() {
+  if(isPinned()) {
+    const g={pin1:{label:'Pin 1 — Relatable Proof Caption',text:'<strong style="color:var(--color-primary)">Specific result →</strong> Real numbers or transformation — never vague, never braggy<br><br><strong style="color:var(--color-primary)">Relatable identity →</strong> Who you were / are — make cold traffic feel like you\'re one of them<br><br><strong style="color:var(--color-primary)">How it happened →</strong> The key action or system that made it possible'},pin2:{label:'Pin 2 — Action Trigger Middle Slides',text:'<strong style="color:var(--color-primary)">Middle slides = the steps →</strong> Walk through the exact process you promised in the hook, one step per slide<br><br><strong style="color:var(--color-primary)">Keep each slide tight →</strong> One idea per slide — no walls of text<br><br><strong style="color:var(--color-primary)">Build anticipation →</strong> Each slide should make them want to swipe to the next one'},pin3_reel:{label:'Pin 3 — Emotional Proof Caption',text:'<strong style="color:var(--color-primary)">Sell the lifestyle →</strong> Connect the outcome to something bigger than a number<br><br><strong style="color:var(--color-primary)">Before and after →</strong> What life looked like before and what changed<br><br><strong style="color:var(--color-primary)">Make it feel real →</strong> Specific details beat vague inspiration every time'},pin3_carousel:{label:'Pin 3 — Emotional Proof Middle Slides',text:'<strong style="color:var(--color-primary)">Middle slides = the story →</strong> Walk through the before and after — what life looked like and what changed<br><br><strong style="color:var(--color-primary)">Sell the lifestyle →</strong> Connect the outcome to something bigger than a number<br><br><strong style="color:var(--color-primary)">Make it feel real →</strong> Specific details beat vague inspiration every time'}};
+    if(S.purpose==='pin3') return isCarousel()?g.pin3_carousel:g.pin3_reel;
+    return g[S.purpose];
+  }
+  const f={qualifier:{label:'Qualifier Caption Structure',text:'<strong style="color:var(--color-primary)">Identity →</strong> Describe the specific person and their situation in detail<br><br><strong style="color:var(--color-primary)">Situation →</strong> Paint the specific problem or moment they\'re in<br><br><strong style="color:var(--color-primary)">Invitation →</strong> Make them feel seen and signal that relief is coming'},objection:{label:'Objection Crusher Caption Structure',text:'<strong style="color:var(--color-primary)">Lead with the objection →</strong> State it clearly — this is what they believe<br><br><strong style="color:var(--color-primary)">Dismantle it →</strong> Show the evidence or logic that breaks the belief<br><br><strong style="color:var(--color-primary)">Reframe →</strong> Give them the new belief to replace it with'},proof:{label:'Proof Caption Structure',text:'<strong style="color:var(--color-primary)">Specific result →</strong> Real numbers or transformation — never vague<br><br><strong style="color:var(--color-primary)">Relatable identity →</strong> Who you were / are — make it feel like them<br><br><strong style="color:var(--color-primary)">How it happened →</strong> The key action or insight that made it possible'},curiosity:{label:'Curiosity Gap Caption Structure',text:'<strong style="color:var(--color-primary)">Tease the insight →</strong> Hint at what they\'re missing — enough to create tension<br><br><strong style="color:var(--color-primary)">Withhold the resolution →</strong> Don\'t give it all away — the gap must stay open<br><br><strong style="color:var(--color-primary)">Trigger the DM →</strong> The resolution lives in the CTA, not the caption'}};
+  return f[S.purpose];
+}
+
+// ══ NAVIGATION ══
+function goToStep(n) {
+  if(n>S.currentStep+1||n<1) return;
+  S.currentStep=n;
+  document.querySelectorAll('.step-content').forEach(el=>el.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  updateProgress(n);
+  if(n===3) updateHookUI();
+  if(n===4) updateCtaUI();
+  if(n===5) updateCaptionUI();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(n) {
+  for(let i=1;i<=6;i++){
+    const dot=document.getElementById('dot'+i), lbl=document.getElementById('label'+i);
+    dot.classList.remove('active','complete'); lbl.classList.remove('active');
+    if(i<n){dot.classList.add('complete');dot.innerHTML='✓';}
+    else if(i===n){dot.classList.add('active');dot.innerHTML=i;lbl.classList.add('active');}
+    else{dot.innerHTML=i;}
+  }
+}
+
+// ══ STEP 1: SETUP ══
+function selectPostType(el) {
+  document.querySelectorAll('#postTypeGrid .type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected'); S.postType=el.dataset.value;
+  updatePurposeGrid();
+}
+
+function updatePurposeGrid() {
+  const grid=document.getElementById('purposeGrid');
+  const lbl=document.getElementById('purposeLabel');
+  const fmtSel=document.getElementById('formatSelect');
+  const fmtLbl=document.getElementById('formatLabel');
+
+  if(isPinned()) {
+    lbl.textContent='Which Pin?';
+    grid.className='purpose-grid three-col';
+    grid.innerHTML=`
+      <div class="purpose-card selected" data-value="pin1" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">📌</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Pin 1 — Relatable Proof</span><span class="purpose-card-desc">Specific numbers + relatable identity. Makes the outcome feel real.</span></div>
+      </div>
+      <div class="purpose-card" data-value="pin2" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">⚡</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Pin 2 — Action Trigger</span><span class="purpose-card-desc">Highest-converting funnel entry. This is where ManyChat lives.</span></div>
+      </div>
+      <div class="purpose-card" data-value="pin3" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">✨</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Pin 3 — Emotional Proof</span><span class="purpose-card-desc">Sells the lifestyle, not just numbers. Connects to something bigger.</span></div>
+      </div>`;
+    S.purpose='pin1';
+    updateFormatForPin('pin1');
+  } else {
+    lbl.textContent='Purpose';
+    grid.className='purpose-grid';
+    grid.innerHTML=`
+      <div class="purpose-card selected" data-value="qualifier" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">🎯</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Qualifier</span><span class="purpose-card-desc">Call in your exact buyer. Make them feel seen.</span></div>
+      </div>
+      <div class="purpose-card" data-value="objection" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">🔨</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Objection Crusher</span><span class="purpose-card-desc">Lead with the objection. Remove the barrier.</span></div>
+      </div>
+      <div class="purpose-card" data-value="proof" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">💰</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Proof Post</span><span class="purpose-card-desc">Make the outcome feel real and achievable.</span></div>
+      </div>
+      <div class="purpose-card" data-value="curiosity" onclick="selectPurpose(this)">
+        <span class="purpose-card-emoji">🪝</span>
+        <div class="purpose-card-content"><span class="purpose-card-name">Curiosity Gap</span><span class="purpose-card-desc">Create an information gap. Trigger the DM.</span></div>
+      </div>`;
+    S.purpose='qualifier';
+    fmtSel.innerHTML=`
+      <option value="broll">B-Roll — footage with voiceover text overlay</option>
+      <option value="talking_head">Talking Head — you on camera, speaking directly</option>
+      <option value="voiceover">Voiceover — screen/footage, your voice over it</option>`;
+    fmtSel.disabled=false; fmtLbl.textContent='Format'; S.format='broll';
+  }
+}
+
+function updateFormatForPin(pin) {
+  const sel=document.getElementById('formatSelect'), lbl=document.getElementById('formatLabel');
+  if(pin==='pin1'){sel.innerHTML=`<option value="reel">Reel — talking head or b-roll video</option>`;sel.disabled=true;S.format='reel';lbl.textContent='Format (locked — Pin 1 is always a Reel)';}
+  else if(pin==='pin2'){sel.innerHTML=`<option value="carousel">Carousel — swipeable slides</option>`;sel.disabled=true;S.format='carousel';lbl.textContent='Format (locked — Pin 2 is always a Carousel)';}
+  else if(pin==='pin3'){sel.innerHTML=`<option value="reel">Reel — talking head or b-roll video</option><option value="carousel">Carousel — swipeable slides</option>`;sel.disabled=false;S.format='reel';lbl.textContent='Format';}
+}
+
+function selectPurpose(el) {
+  document.querySelectorAll('#purposeGrid .purpose-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected'); S.purpose=el.dataset.value;
+  if(isPinned()) updateFormatForPin(S.purpose);
+}
+
+// ══ STEP 2: YOUR OFFER ══
+function setProofMode(mode) {
+  S.hasProof = mode==='yes';
+  document.getElementById('proofYesBtn').classList.toggle('active', mode==='yes');
+  document.getElementById('proofNoBtn').classList.toggle('active', mode==='no');
+  document.getElementById('proofField').style.display = mode==='yes'?'block':'none';
+  document.getElementById('noProofNote').style.display = mode==='no'?'block':'none';
+  saveOffer();
+}
+
+// ══ STEP 3: HOOK UI ══
+function updateHookUI() {
+  const carousel=isCarousel(), pinned=isPinned();
+  document.getElementById('hookStepTitle').textContent = carousel?'Your First Slide':'Your Hook';
+  document.getElementById('hookStepDesc').textContent = carousel
+    ?'Your first slide is your hook — it stops the scroll and makes the right person want to swipe. The middle slides walk through your concept step by step. Your last slide is your CTA.'
+    :'Your hook is the first frame — the text overlay that stops the scroll. It has one job: make the right person feel like this was made for them.';
+  document.getElementById('hookInputLabel').textContent = carousel?'Your First Slide Text':'Write Your Hook';
+  document.getElementById('hookInput').placeholder = carousel?'Type your first slide headline...':'Type the text overlay that opens your video...';
+  document.getElementById('hookHint').textContent = carousel?'This is the headline text on slide 1. Keep it punchy — under 15 words is ideal.':'This is the text on screen in the first 1–2 seconds. Keep it punchy — under 15 words is ideal.';
+  document.getElementById('inspirationToggle').style.display = pinned?'none':'inline-flex';
+}
+
+// ══ STEP 4: CTA UI ══
+function updateCtaUI() {
+  const carousel=isCarousel();
+  document.getElementById('ctaStepTitle').textContent = carousel?'Your Last Slide — CTA':'Your CTA';
+  document.getElementById('ctaStepDesc').textContent = carousel
+    ?'Your last slide is your call to action. After swiping through the steps, this is the one specific action you want them to take.'
+    :'Every post needs one specific trigger — the action you want the viewer to take. This is how your post connects to your funnel.';
+  document.getElementById('ctaInputLabel').textContent = carousel?'Last Slide Text':'Your CTA';
+  document.getElementById('ctaInput').placeholder = carousel?'Type your last slide CTA...':'Write your call to action...';
+  document.getElementById('ctaHint').textContent = carousel?'This is your last slide. One specific action — what do you want them to do after swiping through?':'Keep it to one action. The more specific the CTA, the higher the conversion.';
+}
+
+// ══ STEP 5: CAPTION UI ══
+function updateCaptionUI() {
+  const carousel=isCarousel(), g=captionStructureText();
+  document.getElementById('captionStepTitle').textContent = carousel?'Your Middle Slides':'Your Caption';
+  document.getElementById('captionStepDesc').textContent = carousel
+    ?'Your middle slides deliver the value you promised in the hook. Walk through the steps or story one slide at a time.'
+    :'Build the middle section of your post. This is where you deliver on what your hook promised.';
+  document.getElementById('captionWriteLabel').textContent = carousel?'Your Middle Slides':'Your Caption';
+  document.getElementById('captionInput').placeholder = carousel?'Describe what each middle slide covers...':'Write your caption here...';
+  document.getElementById('captionHint').textContent = carousel?'Outline your middle slides — one key point or step per slide.':'What you say or show after the hook and before the CTA.';
+  if(g) document.getElementById('captionGuide').innerHTML=`<div class="inspiration-type" style="margin-bottom:8px;">${g.label}</div><div class="inspiration-formula">${g.text}</div>`;
+}
+
+function toggleInspiration() {
+  document.getElementById('inspirationPanel').classList.toggle('visible');
+  document.getElementById('inspirationToggle').classList.toggle('open');
+}
+
+function setCaptionMode(mode) {
+  S.captionMode=mode;
+  document.getElementById('modeWrite').classList.toggle('active',mode==='write');
+  document.getElementById('modeGenerate').classList.toggle('active',mode==='generate');
+  document.getElementById('captionWriteMode').style.display=mode==='write'?'block':'none';
+  document.getElementById('captionGenerateMode').style.display=mode==='generate'?'block':'none';
+  checkCaptionReady();
+}
+
+function checkCaptionReady() {
+  const caption = getCaption();
+  const btn = document.getElementById('analyzeBtn');
+  if(btn) btn.style.display = caption.length > 0 ? 'inline-flex' : 'none';
+}
+
+function selectVoice(el) {
+  document.querySelectorAll('.voice-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  S.voice = el.dataset.value;
+}
+
+function getCaption() {
+  return S.captionMode==='generate'
+    ?document.getElementById('captionGenerated').value.trim()
+    :document.getElementById('captionInput').value.trim();
+}
+
+function proceedToAssessment() {
+  const hook=document.getElementById('hookInput').value.trim();
+  const cta=document.getElementById('ctaInput').value.trim();
+  let caption=getCaption();
+  if(!hook){alert('Please write your hook first.');goToStep(3);return;}
+  if(!cta){alert('Please write your CTA first.');goToStep(4);return;}
+  if(!caption){alert('Please write or generate your caption first.');return;}
+
+  // For write mode, append CTA if not already present
+  if(S.captionMode==='write' && !caption.includes(cta.trim())) {
+    caption = caption + '\n\n' + cta;
+    document.getElementById('captionInput').value = caption;
+  }
+
+  S.hook=hook; S.cta=cta; S.caption=caption;
+  S.format=document.getElementById('formatSelect').value;
+  S.purpose=document.getElementById('purposeGrid').querySelector('.purpose-card.selected')?.dataset.value||S.purpose;
+  S.identity=document.getElementById('offerIdentity').value.trim();
+  S.audience=document.getElementById('offerAudience').value.trim();
+  S.product=document.getElementById('offerProduct').value.trim();
+  S.proof=S.hasProof?document.getElementById('offerProof').value.trim():'';
+  runFullAssessment();
+}
+
+// ══ API ══
+async function callClaude(system, user, maxTokens) {
+  if(IS_DEMO){await new Promise(r=>setTimeout(r,1400));return '__DEMO__';}
+  const res=await fetch('https://post-lab.black-bread-143b.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||1000,system,messages:[{role:'user',content:user}]})});
+  const data=await res.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.content[0].text;
+}
+
+// ══ GENERATE CAPTION ══
+async function generateCaption() {
+  const hook=document.getElementById('hookInput').value.trim();
+  const cta=document.getElementById('ctaInput').value.trim();
+  if(!hook){alert('Please write your hook first — the AI uses it to write your caption.');goToStep(3);return;}
+  if(!cta){alert('Please write your CTA first — the AI uses it to write your caption.');goToStep(4);return;}
+
+  S.format=document.getElementById('formatSelect').value;
+  S.purpose=document.getElementById('purposeGrid').querySelector('.purpose-card.selected')?.dataset.value||S.purpose;
+  S.identity=document.getElementById('offerIdentity').value.trim();
+  S.audience=document.getElementById('offerAudience').value.trim();
+  S.product=document.getElementById('offerProduct').value.trim();
+  S.proof=S.hasProof?document.getElementById('offerProof').value.trim():'';
+
+  document.getElementById('generateIdle').style.display='none';
+  document.getElementById('generateLoading').style.display='block';
+  document.getElementById('generateResult').style.display='none';
+
+  const carousel=isCarousel();
+  const g=captionStructureText();
+
+  // Build offer context
+  const offerLines=[];
+  if(S.identity) offerLines.push(`Creator identity: ${S.identity}`);
+  if(S.audience) offerLines.push(`Target audience: ${S.audience}`);
+  if(S.product) offerLines.push(`Offer: ${S.product}`);
+  if(S.proof) offerLines.push(`Proof/result to use: ${S.proof}`);
+  else offerLines.push(`Proof status: Creator is brand new — do NOT invent proof. Write around mechanism and audience desire instead.`);
+  const offerContext=offerLines.join('\n');
+
+  const voiceInstructions = {
+    warm: 'Voice: Warm and encouraging. Like a supportive friend who believes in the reader. Gentle, never pushy. Closes with warmth.',
+    direct: 'Voice: Direct and no-nonsense. Short sentences. Cuts to the point fast. No fluff, no filler. Bold but not harsh.',
+    casual: 'Voice: Casual and conversational. Sounds like a text from a friend. Relaxed, a little humor is fine, very approachable.',
+    inspirational: 'Voice: Inspirational and story-driven. Paints a picture. Leads with narrative and emotion before getting to the mechanism.'
+  };
+
+  const system=`You are an Instagram caption writer who follows Rebecca's Instagram Sales Page System framework at Simple Creator Co.
+
+You write complete, ready-to-post Instagram captions. You write in the CREATOR'S voice — using their identity, their story, their offer, and their proof. You NEVER use Rebecca's story or numbers. Every caption must sound like it came from this specific creator.
+
+${voiceInstructions[S.voice] || voiceInstructions.warm}
+
+Framework rules you follow:
+- Caption does NOT restate the video/hook — it extends the argument with proof, story, or mechanism
+- Short paragraphs — max 2-3 sentences, generous line breaks
+- Always first person
+- Proof is always specific (exact numbers, not "a lot" or "significant")
+- Emotional close before the CTA — "I was you" / "you're not. you're just missing X" / warm encouragement
+- CTA always ends the caption — use the EXACT wording the creator provided, verbatim, as the final line. Do not paraphrase or rewrite it.
+- Never preachy — personal story, not lecture
+${S.hasProof?'':`- Creator has NO proof yet — build the caption around the mechanism, the audience's desire, and the creator's identity instead. Do NOT make up results.`}
+
+${isPinned()?`Pinned post context: ${pinnedContext()}`:''}
+${carousel?'Carousel format: Write the caption as labeled middle slides (Slide 2:, Slide 3:, etc). Do not include Slide 1 (hook) or last slide (CTA). Each slide = one tight idea.':''}
+${g?`Caption structure: ${g.label}`:''}
+
+Caption jobs by post type:
+- Qualifier: Make right person feel seen, validate why past attempts failed, introduce mechanism warmly
+- Objection Crusher: State objection as their own thought, show consequence of believing it, reframe clearly
+- Proof Post: Humble starting point FIRST, then the result — result lands harder after the relatable origin
+- Curiosity Gap: Signal something is backwards/missing, validate the popular thing before flipping it, keep the gap open
+- Pin 1: Specific result + relatable identity + how it happened — make cold traffic believe
+- Pin 2: Each slide = one actionable step toward the promised outcome
+- Pin 3: Lifestyle and transformation — before/after, connect to something bigger than money`;
+
+  const user=`${offerContext}
+
+Hook (${carousel?'Slide 1':'on-screen text'}): "${hook}"
+CTA to use VERBATIM as the final line: "${cta}"
+Post type: ${isPinned()?purposeLabel(S.purpose)+' (Pinned)':'Feed Post — '+purposeLabel(S.purpose)}
+Format: ${formatLabel(S.format)}
+
+Write the complete Instagram caption for this post. End the caption with the CTA above, word for word, as the final line. Write in this creator's voice using their details above.`;
+
+  try {
+    const raw=await callClaude(system,user,800);
+    let caption;
+    if(raw==='__DEMO__') {
+      caption = carousel
+        ? 'Slide 2: Start by writing down the one thing people in your life keep asking you about. That\'s your product idea.\n\nSlide 3: Package it into the simplest possible format — a PDF, a template, a short guide. One page is enough to start.\n\nSlide 4: Price it between $17–$47 and put it on a simple checkout page. No storefront, no marketplace.\n\nSlide 5: Post content that speaks directly to the person who needs it. That\'s the whole system.'
+        : 'Six months ago I was doing everything "right" and still not seeing results.\n\nI had the content. I had the ideas. I just didn\'t have a profile that was actually set up to convert.\n\nOnce I fixed that — and started sending the right traffic to it — everything changed.\n\nIf you\'ve been posting consistently and wondering why it\'s not translating into sales, it\'s probably not your content.\n\nIt\'s the system behind it.\n\nYou\'re not behind. You\'re just missing one piece.';
+    } else {
+      caption=raw.trim();
+    }
+    document.getElementById('captionGenerated').value=caption;
+    document.getElementById('generateResult').style.display='block';
+    checkCaptionReady();
+  } catch(e) {
+    alert('Something went wrong. Please try again.');
+    document.getElementById('generateIdle').style.display='block';
+  } finally {
+    document.getElementById('generateLoading').style.display='none';
+  }
+}
+
+async function regenerateCaption() {
+  document.getElementById('generateResult').style.display='none';
+  await generateCaption();
+}
+
+// ══ FULL ASSESSMENT ══
+function buildAssessmentPrompts() {
+  const carousel=isCarousel(), g=captionStructureText();
+  const offerCtx=[S.identity&&`Creator: ${S.identity}`,S.audience&&`Audience: ${S.audience}`,S.product&&`Offer: ${S.product}`,S.proof&&`Proof: ${S.proof}`].filter(Boolean).join('\n');
+
+  const system=`You are a framework evaluator for Rebecca's Instagram Sales Page System course at Simple Creator Co. Evaluate a completed Instagram post against Rebecca's framework. Be specific — reference the actual content, not just the framework.
+
+${isPinned()?`Pinned post context: ${pinnedContext()}`:''}
+${carousel?'Carousel: Slide 1 = hook, middle slides = caption, last slide = CTA.':''}
+${offerCtx?`Creator context:\n${offerCtx}`:''}
+
+Framework rules:
+- Hook (${carousel?'Slide 1':'first frame'}): name specific person/problem/number, create knowledge gap, clear over clever
+- Caption (${carousel?'middle slides':'main content'}): ${g?g.label+' — '+g.text.replace(/<[^>]+>/g,''):'deliver on hook\'s promise with correct structure'}
+- CTA (${carousel?'last slide':'end'}): one specific action — comment keyword, DM trigger, or link in bio
+- Proof specificity: vague numbers ("a lot", "significantly") are weak; exact numbers are strong
+- Goal: 85+ overall
+
+Respond in JSON only. No markdown:
+{"hookScore":0-100,"ctaScore":0-100,"captionScore":0-100,"overallScore":0-100,"whatsWorking":[{"point":"max 8 words","detail":"1-2 sentences"}],"whatToTighten":[{"point":"max 8 words","detail":"1-2 sentences actionable fix"}]}
+whatsWorking: 2-3 items. whatToTighten: 1-3 items (0 if score 90+).`;
+
+  const user=`Post: ${isPinned()?purposeLabel(S.purpose)+' (Pinned)':'Feed Post — '+purposeLabel(S.purpose)}. Format: ${formatLabel(S.format)}.
+
+${carousel?'Slide 1 (Hook)':'Hook'}: "${S.hook}"
+${carousel?'Last Slide (CTA)':'CTA'}: "${S.cta}"
+${carousel?'Middle Slides (Caption)':'Caption'}: "${S.caption}"`;
+
+  return {system, user};
+}
+
+async function runFullAssessment() {
+  goToStep(6);
+  document.getElementById('assessmentLoading').style.display='block';
+  document.getElementById('assessmentContent').style.display='none';
+  document.getElementById('scoreBar').style.width='0%';
+
+  const {system,user}=buildAssessmentPrompts();
+  try {
+    const raw=await callClaude(system,user,1000);
+    const result=raw==='__DEMO__'?demoAssessment():JSON.parse(raw.replace(/```json|```/g,'').trim());
+    S.assessment=result;
+    renderAssessment(result);
+  } catch(e) {
+    document.getElementById('assessmentLoading').style.display='none';
+    document.getElementById('assessmentContent').innerHTML='<p style="color:#C0544A;padding:20px;">Something went wrong. Please go back and try again.</p>';
+    document.getElementById('assessmentContent').style.display='block';
+  }
+}
+
+function demoAssessment() {
+  return {hookScore:88,ctaScore:90,captionScore:82,overallScore:87,
+    whatsWorking:[
+      {point:'Hook names a specific person and situation',detail:'The hook stops the right scroll by naming a specific identity in a specific moment — exactly what Rebecca\'s framework calls for.'},
+      {point:'CTA connects cleanly to the funnel',detail:'The trigger is specific and names a clear value exchange. This is the correct structure for activating ManyChat.'},
+      {point:'Caption delivers on the hook\'s promise',detail:'The caption follows the correct structure for this post type and adds a layer the video can\'t deliver alone.'}
+    ],
+    whatToTighten:[{point:'Caption needs one more specific detail',detail:'Specificity is the strategy. One more concrete detail — a number, a timeline, or a relatable moment — would push the caption score above 90.'}]};
+}
+
+function renderAssessment(result) {
+  document.getElementById('assessmentLoading').style.display='none';
+  document.getElementById('assessmentContent').style.display='block';
+  const score=result.overallScore, tier=score>=85?'high':score>=65?'mid':'low';
+  const scoreEl=document.getElementById('overallScore'), barEl=document.getElementById('scoreBar');
+  scoreEl.textContent=score; scoreEl.className='confidence-score '+tier;
+  barEl.className='confidence-bar-fill '+tier;
+  setTimeout(()=>{barEl.style.width=Math.min(score,100)+'%';},100);
+  document.getElementById('scoreGoalText').textContent=score>=85?'This post meets the 85+ framework threshold. Ready to record.':score>=65?'Getting closer — use the feedback below to reach 85+.':'This post needs work. Focus on the tighten notes below.';
+  document.getElementById('hookScore').textContent=result.hookScore;
+  document.getElementById('ctaScore').textContent=result.ctaScore;
+  document.getElementById('captionScore').textContent=result.captionScore;
+  document.getElementById('whatsWorking').innerHTML=result.whatsWorking.map(w=>`<div class="feedback-card feedback-positive"><div class="feedback-label">✓ ${esc(w.point)}</div><div class="feedback-text">${esc(w.detail)}</div></div>`).join('');
+  document.getElementById('whatToTighten').innerHTML=result.whatToTighten.length?result.whatToTighten.map(t=>`<div class="feedback-card feedback-warning"><div class="feedback-label">⚡ ${esc(t.point)}</div><div class="feedback-text">${esc(t.detail)}</div></div>`).join(''):'<div class="feedback-card feedback-positive"><div class="feedback-text">No major tighten notes — this post is framework-ready.</div></div>';
+
+  // Populate post document
+  const carousel=isCarousel();
+  document.getElementById('postDocTitle').textContent=isPinned()?purposeLabel(S.purpose)+' · Pinned':'Feed Post · '+purposeLabel(S.purpose)+' · '+formatLabel(S.format);
+  document.getElementById('docHookLabel').textContent=carousel?'Slide 1 — Hook':'Hook';
+  document.getElementById('docCtaLabel').textContent=carousel?'Last Slide — CTA':'CTA';
+  document.getElementById('docCaptionLabel').textContent=carousel?'Middle Slides — Caption':'Caption';
+  document.getElementById('docHookText').textContent=S.hook;
+  document.getElementById('docCtaText').textContent=S.cta;
+  document.getElementById('docCaptionText').textContent=S.caption;
+  document.getElementById('editHook').value=S.hook;
+  document.getElementById('editCta').value=S.cta;
+  document.getElementById('editCaption').value=S.caption;
+  document.getElementById('reanalyzeBtn').style.display='none';
+}
+
+// ══ PENCIL EDIT ══
+let _editedFields = new Set();
+
+function startEditField(field) {
+  const textEl=document.getElementById('doc'+cap(field)+'Text');
+  const editEl=document.getElementById('doc'+cap(field)+'Edit');
+  textEl.style.display='none';
+  editEl.style.display='block';
+  document.getElementById('edit'+cap(field)).focus();
+}
+
+function saveFieldEdit(field) {
+  const val=document.getElementById('edit'+cap(field)).value.trim();
+  if(!val) return;
+  document.getElementById('doc'+cap(field)+'Text').textContent=val;
+  document.getElementById('doc'+cap(field)+'Text').style.display='block';
+  document.getElementById('doc'+cap(field)+'Edit').style.display='none';
+  _editedFields.add(field);
+  document.getElementById('reanalyzeBtn').style.display='inline-flex';
+}
+
+function cancelFieldEdit(field) {
+  document.getElementById('edit'+cap(field)).value=document.getElementById('doc'+cap(field)+'Text').textContent;
+  document.getElementById('doc'+cap(field)+'Text').style.display='block';
+  document.getElementById('doc'+cap(field)+'Edit').style.display='none';
+}
+
+function onFieldEdit() {
+  // Re-analyze button shows as soon as any field is touched
+  document.getElementById('reanalyzeBtn').style.display='inline-flex';
+}
+
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+// ══ RE-ANALYZE ══
+async function reanalyzeFromEdit() {
+  const hook=document.getElementById('editHook').value.trim()||document.getElementById('docHookText').textContent.trim();
+  const cta=document.getElementById('editCta').value.trim()||document.getElementById('docCtaText').textContent.trim();
+  const caption=document.getElementById('editCaption').value.trim()||document.getElementById('docCaptionText').textContent.trim();
+  if(!hook||!cta||!caption){alert('All three fields must have content to re-analyze.');return;}
+  S.hook=hook; S.cta=cta; S.caption=caption;
+  _editedFields.clear();
+  // Close any open edit panels
+  ['hook','cta','caption'].forEach(f=>{
+    document.getElementById('doc'+cap(f)+'Text').style.display='block';
+    document.getElementById('doc'+cap(f)+'Edit').style.display='none';
+  });
+  document.getElementById('assessmentContent').style.display='none';
+  document.getElementById('assessmentLoading').style.display='block';
+  document.getElementById('scoreBar').style.width='0%';
+  window.scrollTo({top:0,behavior:'smooth'});
+  const {system,user}=buildAssessmentPrompts();
+  try {
+    const raw=await callClaude(system,user,1000);
+    let result;
+    if(raw==='__DEMO__'){
+      const prev=S.assessment?S.assessment.overallScore:80;
+      const ns=Math.min(99,prev+Math.floor(Math.random()*5)+2);
+      result={hookScore:ns-1,ctaScore:ns+1,captionScore:ns-2,overallScore:ns,whatsWorking:[{point:'Edits improved clarity and specificity',detail:'The revised version is tighter — the right person will feel this was written specifically for them.'},{point:'CTA remains clear and actionable',detail:'The trigger maps cleanly to ManyChat and names a specific value exchange.'}],whatToTighten:ns>=85?[]:[{point:'Keep refining hook specificity',detail:'One more concrete detail in the hook would push this above 85.'}]};
+    } else {
+      result=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    }
+    S.assessment=result; renderAssessment(result);
+  } catch(e) {
+    document.getElementById('assessmentLoading').style.display='none';
+    document.getElementById('assessmentContent').style.display='block';
+    alert('Something went wrong. Please try again.');
+  }
+}
+
+// ══ SAVE & COPY ══
+function savePost() {
+  if(!S.assessment) return;
+  const saved=getSaved();
+  saved.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),postType:S.postType,format:S.format,purpose:S.purpose,hook:S.hook,cta:S.cta,caption:S.caption,score:S.assessment.overallScore});
+  localStorage.setItem(SAVED_KEY,JSON.stringify(saved));
+  renderSidebar(); flash('saveSuccess');
+}
+
+function copyPost() {
+  const carousel=isCarousel();
+  const lines=[`POST LAB BRIEF`,'─'.repeat(40),`Type: ${isPinned()?purposeLabel(S.purpose)+' (Pinned)':'Feed Post — '+purposeLabel(S.purpose)} — ${formatLabel(S.format)}`,'',carousel?'SLIDE 1 — HOOK':'HOOK',S.hook,'',carousel?'LAST SLIDE — CTA':'CTA',S.cta,'',carousel?'MIDDLE SLIDES — CAPTION':'CAPTION',S.caption,'',`CONFIDENCE SCORE: ${S.assessment?S.assessment.overallScore+'/100':'—'}`,`(Hook: ${S.assessment?.hookScore??'—'} | CTA: ${S.assessment?.ctaScore??'—'} | Caption: ${S.assessment?.captionScore??'—'})`];
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>flash('copySuccess'));
+}
+
+function flash(id){const el=document.getElementById(id);el.classList.add('visible');setTimeout(()=>el.classList.remove('visible'),2500);}
+
+// ══ SAVED POSTS ══
+function getSaved(){try{return JSON.parse(localStorage.getItem(SAVED_KEY))||[];}catch{return[];}}
+
+function renderSidebar() {
+  const saved=getSaved();
+  document.getElementById('savedBadge').textContent=saved.length;
+  const body=document.getElementById('sidebarBody'), empty=document.getElementById('sidebarEmpty');
+  if(!saved.length){body.innerHTML='';body.appendChild(empty);empty.style.display='block';return;}
+  empty.style.display='none';
+  body.innerHTML=saved.map(p=>{
+    const tier=p.score>=85?'high':p.score>=65?'mid':'';
+    return `<div class="saved-post-card"><div class="saved-post-meta"><div class="saved-post-type">${purposeLabel(p.purpose)}</div><div class="saved-post-score ${tier}">${p.score}</div></div><div class="saved-post-hook">${esc(p.hook)}</div><div class="saved-post-date">${p.date}</div><div class="saved-post-actions"><button class="saved-action-btn btn-load" onclick="loadSaved(${p.id})">Load</button><button class="saved-action-btn btn-delete" onclick="deleteSaved(${p.id})">Delete</button></div></div>`;
+  }).join('');
+}
+
+function loadSaved(id) {
+  const post=getSaved().find(p=>p.id===id);
+  if(!post) return;
+  S.postType=post.postType;S.format=post.format;S.purpose=post.purpose;
+  S.hook=post.hook;S.cta=post.cta;S.caption=post.caption;
+  document.querySelectorAll('#postTypeGrid .type-card').forEach(c=>c.classList.toggle('selected',c.dataset.value===post.postType));
+  updatePurposeGrid();
+  const purposeCard=document.querySelector(`#purposeGrid [data-value="${post.purpose}"]`);
+  if(purposeCard){document.querySelectorAll('#purposeGrid .purpose-card').forEach(c=>c.classList.remove('selected'));purposeCard.classList.add('selected');}
+  if(isPinned())updateFormatForPin(post.purpose);
+  document.getElementById('formatSelect').value=post.format;S.format=post.format;
+  document.getElementById('hookInput').value=post.hook;
+  document.getElementById('ctaInput').value=post.cta;
+  document.getElementById('captionInput').value=post.caption;
+  setCaptionMode('write');
+  checkCaptionReady();
+  toggleSidebar();
+  S.currentStep = 5;
+  runFullAssessment();
+}
+
+function deleteSaved(id){localStorage.setItem(SAVED_KEY,JSON.stringify(getSaved().filter(p=>p.id!==id)));renderSidebar();}
+
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar'),main=document.getElementById('mainContent');
+  sb.classList.toggle('open');
+  if(window.innerWidth>700)main.classList.toggle('sidebar-open',sb.classList.contains('open'));
+}
+
+// ══ START OVER ══
+function startOver() {
+  Object.assign(S,{postType:'feed',format:'broll',purpose:'qualifier',identity:'',audience:'',product:'',proof:'',hasProof:true,hook:'',cta:'',caption:'',captionMode:'write',assessment:null});
+  document.querySelectorAll('#postTypeGrid .type-card').forEach(c=>c.classList.toggle('selected',c.dataset.value==='feed'));
+  updatePurposeGrid();
+  ['offerIdentity','offerAudience','offerProduct','offerProof','hookInput','ctaInput','captionInput','captionGenerated'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  setProofMode('yes');
+  document.getElementById('generateIdle').style.display='block';
+  document.getElementById('generateResult').style.display='none';
+  setCaptionMode('write');
+  document.getElementById('scoreBar').style.width='0%';
+  goToStep(1);
+}
+
+// ══ UTILS ══
+function esc(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// ══ OFFER PERSISTENCE ══
+const OFFER_KEY = 'scc_postlab_offer';
+
+function saveOffer() {
+  const offer = {
+    identity: document.getElementById('offerIdentity').value,
+    audience: document.getElementById('offerAudience').value,
+    product: document.getElementById('offerProduct').value,
+    proof: document.getElementById('offerProof').value,
+    hasProof: S.hasProof
+  };
+  localStorage.setItem(OFFER_KEY, JSON.stringify(offer));
+}
+
+function loadOffer() {
+  try {
+    const offer = JSON.parse(localStorage.getItem(OFFER_KEY));
+    if (!offer) return;
+    if (offer.identity) document.getElementById('offerIdentity').value = offer.identity;
+    if (offer.audience) document.getElementById('offerAudience').value = offer.audience;
+    if (offer.product) document.getElementById('offerProduct').value = offer.product;
+    if (offer.proof) document.getElementById('offerProof').value = offer.proof;
+    if (offer.hasProof === false) setProofMode('no');
+    S.hasProof = offer.hasProof !== false;
+  } catch(e) {}
+}
+
+// Auto-save offer fields on input
+['offerIdentity','offerAudience','offerProduct','offerProof'].forEach(id => {
+  document.getElementById(id).addEventListener('input', saveOffer);
+});
+
+// ══ INIT ══
+renderSidebar();
+loadOffer();
+if(IS_DEMO) document.getElementById('demoBanner').style.display='block';
+</script>
+</body>
+</html>
