@@ -1206,9 +1206,11 @@ function getSaved(){try{return JSON.parse(localStorage.getItem(SAVED_KEY))||[];}
 function renderSidebar() {
   const saved=getSaved();
   document.getElementById('savedBadge').textContent=saved.length;
-  const body=document.getElementById('sidebarBody'), empty=document.getElementById('sidebarEmpty');
-  if(!saved.length){body.innerHTML='';body.appendChild(empty);empty.style.display='block';return;}
-  empty.style.display='none';
+  const body=document.getElementById('sidebarBody');
+  if(!saved.length){
+    body.innerHTML='<div class="sidebar-empty">Save a completed post to see it here.</div>';
+    return;
+  }
   body.innerHTML=saved.map(p=>{
     const tier=p.score>=85?'high':p.score>=65?'mid':'';
     return `<div class="saved-post-card"><div class="saved-post-meta"><div class="saved-post-type">${purposeLabel(p.purpose)}</div><div class="saved-post-score ${tier}">${p.score}</div></div><div class="saved-post-hook">${esc(p.hook)}</div><div class="saved-post-date">${p.date}</div><div class="saved-post-actions"><button class="saved-action-btn btn-load" onclick="loadSaved(${p.id})">Load</button><button class="saved-action-btn btn-delete" onclick="deleteSaved(${p.id})">Delete</button></div></div>`;
