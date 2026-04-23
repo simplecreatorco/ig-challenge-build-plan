@@ -1047,7 +1047,13 @@ function buildSaleProducts(){
 
 function buildSaleCampSelect(){
   const sel=document.getElementById('sale-camp-sel');
-  sel.innerHTML=state.campaigns.map(c=>`<option>${c.name}</option>`).join('');
+  const opts=[];
+  const hasTraffic=state.campaigns.some(c=>c.type==='traffic'||c.type==='engage');
+  if(hasTraffic) opts.push('<option value="IG Traffic/Engagement">IG Traffic/Engagement</option>');
+  state.campaigns.filter(c=>c.type==='dtp').forEach(c=>{
+    opts.push(`<option value="${c.name}">${c.name}</option>`);
+  });
+  sel.innerHTML=opts.join('');
 }
 
 function buildCampaignPills(){
