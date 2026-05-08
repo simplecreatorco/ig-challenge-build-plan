@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 14-Day Build Plan — Simple Creator Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/quick" rel="stylesheet">
+<style>
+:root {
+  --primary:#889CA2; --coral:#F49C8E; --yellow:#F3B548;
+  --sage:#BFD9CC; --blush:#F6D5CD; --mist:#B3DCDA;
+  --bg:#F2F2F2; --surface:#FFFFFF; --body:#555555;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line-height:1.75;}
+.page{max-width:860px;margin:0 auto;padding:28px 18px 80px;}
+
+/* TYPOGRAPHY */
+.t-title{font-family:'Fraunces',serif;font-weight:900;text-transform:uppercase;color:var(--primary);letter-spacing:-1px;line-height:1.05;}
+.t-head{font-family:'Fraunces',serif;font-weight:400;color:var(--primary);line-height:1.3;}
+.t-sub{font-family:'Quick',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--coral);}
+.t-body{font-family:'Nunito',sans-serif;font-size:15px;color:var(--body);line-height:1.75;}
+
+/* BUTTONS */
+.btn{display:inline-block;background:var(--yellow);color:#fff;font-family:'Quick',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:3px;padding:13px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;transition:opacity .2s;}
+.btn:hover{opacity:.85;}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary);}
+.btn-outline:hover{background:var(--primary);color:#fff;}
+.btn-sm{padding:9px 18px;font-size:10px;}
+.btn-sage{background:var(--sage);color:#fff;}
+
+/* CARDS */
+.card{background:var(--surface);border-radius:20px;padding:36px 40px;margin-bottom:20px;}
+@media(max-width:600px){.card{padding:24px 20px;}}
+
+/* HERO */
+.hero{text-align:center;padding:52px 40px 44px;}
+.hero-badge{display:inline-block;background:var(--blush);color:var(--coral);font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;padding:6px 18px;border-radius:50px;margin-bottom:22px;}
+.hero-title{font-size:clamp(34px,7vw,58px);margin-bottom:14px;}
+.hero-desc{font-size:16px;max-width:540px;margin:0 auto 30px;color:var(--body);}
+.hero-promise{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border-radius:50px;padding:10px 22px;font-size:13px;color:var(--primary);font-weight:600;}
+.hero-promise span{color:var(--coral);}
+
+/* SETUP CARD */
+.setup-card{border:2px solid transparent;transition:border-color .25s;}
+.setup-card.acct-on{border-color:var(--sage);}
+.setup-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.toggle-row{display:flex;align-items:center;gap:12px;}
+.toggle{position:relative;width:48px;height:26px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;background:#ddd;border-radius:50px;cursor:pointer;transition:background .3s;}
+.toggle-track:before{content:'';position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .3s;}
+.toggle input:checked+.toggle-track{background:var(--sage);}
+.toggle input:checked+.toggle-track:before{transform:translateX(22px);}
+.toggle-label{font-size:14px;font-weight:600;color:var(--body);}
+.setup-body{display:none;margin-top:24px;padding-top:24px;border-top:1px solid var(--bg);}
+.setup-body.show{display:block;animation:fadeIn .25s ease;}
+.setup-desc{font-size:14px;margin-bottom:18px;}
+.date-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.date-label{font-family:'Quick',sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--primary);}
+input[type="date"]{border:2px solid var(--bg);border-radius:50px;padding:10px 20px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--body);background:var(--bg);outline:none;cursor:pointer;transition:border-color .2s;}
+input[type="date"]:focus{border-color:var(--primary);}
+
+/* PROGRESS OVERVIEW */
+.progress-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+.progress-num{font-family:'Fraunces',serif;font-weight:900;font-size:44px;color:var(--primary);letter-spacing:-2px;line-height:1;}
+.progress-num sup{font-size:18px;letter-spacing:0;}
+.progress-track{background:var(--bg);border-radius:50px;height:10px;overflow:hidden;margin-bottom:10px;}
+.progress-fill{height:100%;background:var(--sage);border-radius:50px;transition:width .7s cubic-bezier(.4,0,.2,1);min-width:0;}
+.phase-row{display:flex;justify-content:space-between;}
+.phase-lbl{font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--primary);opacity:.45;}
+.phase-lbl.current{opacity:1;color:var(--coral);}
+
+/* PHASE SECTIONS */
+.phase-section{margin-bottom:28px;}
+.phase-hdr{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.phase-pill{display:inline-flex;align-items:center;gap:6px;font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:2px;padding:6px 16px;border-radius:50px;}
+.phase-pill.p1{background:var(--blush);color:var(--coral);}
+.phase-pill.p2{background:var(--mist);color:var(--primary);}
+.phase-pill.p3{background:var(--sage);color:var(--primary);}
+.phase-pill.p4{background:var(--primary);color:#fff;}
+.phase-title{font-family:'Fraunces',serif;font-weight:400;font-size:21px;color:var(--primary);}
+
+/* DAY CARDS */
+.day-card{background:var(--surface);border-radius:16px;margin-bottom:10px;border:2px solid transparent;transition:border-color .2s;overflow:hidden;}
+.day-card.done{border-color:var(--sage);}
+.day-card.today{border-color:var(--coral);}
+.day-card.today .day-hdr{background:#FFFAF9;}
+.day-hdr{display:flex;align-items:center;gap:14px;padding:18px 22px;cursor:pointer;user-select:none;transition:background .15s;}
+.day-hdr:hover{background:#fafafa;}
+.day-num{width:38px;height:38px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;font-size:15px;color:var(--primary);flex-shrink:0;transition:background .2s,color .2s;}
+.day-card.done .day-num{background:var(--sage);color:#fff;}
+.day-card.today .day-num{background:var(--coral);color:#fff;}
+.day-meta{flex:1;min-width:0;}
+.day-lbl{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--coral);margin-bottom:1px;}
+.day-card.done .day-lbl{color:var(--sage);}
+.day-card.today .day-lbl{color:var(--coral);}
+.day-title{font-family:'Fraunces',serif;font-weight:400;font-size:16px;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.day-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.task-pill{font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--body);opacity:.45;white-space:nowrap;}
+.chevron{color:var(--primary);opacity:.35;font-size:11px;transition:transform .3s;}
+.day-card.open .chevron{transform:rotate(180deg);}
+
+/* DAY BODY */
+.day-body{display:none;padding:0 22px 22px;animation:fadeIn .2s ease;}
+.day-card.open .day-body{display:block;}
+.day-body-inner{border-top:1px solid var(--bg);padding-top:18px;}
+.day-date-tag{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--primary);opacity:.5;margin-bottom:14px;}
+
+/* CALLOUTS */
+.callout{border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:14px;line-height:1.6;}
+.callout strong{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;display:block;margin-bottom:5px;}
+.c-expect{background:#EFF7FA;border-left:3px solid var(--primary);color:var(--body);}
+.c-expect strong{color:var(--primary);}
+.c-skip{background:#FFF5F3;border-left:3px solid var(--coral);color:var(--body);}
+.c-skip strong{color:var(--coral);}
+.c-nudge{background:#FFFBF0;border-left:3px solid var(--yellow);color:var(--body);}
+.c-nudge strong{color:#C4922A;}
+.c-milestone{background:#F4FAF7;border:1.5px solid var(--sage);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:14px;}
+.c-milestone strong{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--sage);display:block;margin-bottom:5px;}
+.c-dashboard{background:#F0F5F7;border:1.5px solid var(--primary);border-radius:12px;padding:14px 18px;margin-bottom:16px;font-size:14px;}
+.c-dashboard strong{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--primary);display:block;margin-bottom:5px;}
+
+/* TASKS */
+.tasks{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.task{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;background:var(--bg);border-radius:12px;cursor:pointer;transition:background .15s;}
+.task:hover{background:#ebebeb;}
+.task.checked{background:#F0FAF5;}
+.task-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--primary);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px;background:#fff;transition:background .2s,border-color .2s;}
+.task.checked .task-box{background:var(--sage);border-color:var(--sage);}
+.task-check{color:#fff;font-size:11px;display:none;}
+.task.checked .task-check{display:block;}
+.task-text{font-size:14px;color:var(--body);line-height:1.55;flex:1;}
+.task.checked .task-text{color:var(--primary);opacity:.65;text-decoration:line-through;text-decoration-color:var(--sage);}
+
+/* RESOURCES */
+.resources-section{margin-top:4px;}
+.resources-title{font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--primary);opacity:.6;margin-bottom:10px;}
+.res-links{display:flex;flex-direction:column;gap:8px;}
+.res-link{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg);border-radius:10px;padding:11px 15px;flex-wrap:wrap;gap:8px;}
+.res-link-name{font-size:13px;color:var(--body);font-weight:600;}
+.res-link-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.res-btn{font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:2px;padding:7px 14px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .2s;}
+.res-btn:hover{opacity:.8;}
+.res-btn-lib{background:var(--primary);color:#fff;}
+.res-btn-buy{background:var(--yellow);color:#fff;}
+
+/* COMPLETION MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(136,156,162,.35);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.show{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border-radius:24px;padding:48px 40px;max-width:420px;width:90%;text-align:center;transform:scale(.92);transition:transform .3s;position:relative;}
+.modal-overlay.show .modal{transform:scale(1);}
+.modal-emoji{font-size:52px;margin-bottom:16px;}
+.modal-title{font-family:'Fraunces',serif;font-weight:900;font-size:28px;color:var(--primary);letter-spacing:-1px;text-transform:uppercase;margin-bottom:10px;}
+.modal-body{font-size:15px;color:var(--body);margin-bottom:28px;}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;font-size:20px;color:var(--body);cursor:pointer;opacity:.4;}
+.modal-close:hover{opacity:.8;}
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+.confetti-piece{position:absolute;width:8px;height:8px;border-radius:2px;animation:confettiFall linear forwards;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+/* NUDGE BANNER */
+.nudge-banner{background:#FFFBF0;border:1.5px solid var(--yellow);border-radius:14px;padding:16px 22px;margin-bottom:20px;display:flex;align-items:center;gap:14px;display:none;}
+.nudge-banner.show{display:flex;}
+.nudge-icon{font-size:22px;flex-shrink:0;}
+.nudge-text{font-size:14px;color:var(--body);}
+.nudge-text strong{color:#C4922A;}
+
+/* TODAY INDICATOR */
+.today-tag{display:inline-block;background:var(--coral);color:#fff;font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:2px;padding:3px 10px;border-radius:50px;margin-left:8px;vertical-align:middle;}
+
+/* COMPLETION BANNER */
+.completion-banner{background:var(--surface);border-radius:20px;padding:40px;text-align:center;margin-bottom:20px;border:2px solid var(--sage);display:none;}
+.completion-banner.show{display:block;}
+.completion-banner .emoji{font-size:44px;margin-bottom:14px;}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .page{padding:16px 14px 60px;}
+  .hero{padding:36px 20px 32px;}
+  .hero-title{font-size:34px;}
+  .day-title{font-size:15px;}
+  .day-hdr{padding:15px 16px;gap:10px;}
+  .day-body{padding:0 16px 18px;}
+  .progress-num{font-size:36px;}
+  .task-pill{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="card hero">
+    <div class="hero-badge">Simple Creator Co.</div>
+    <div class="t-title hero-title">The 14-Day Build Plan</div>
+    <p class="hero-desc">Your complete step-by-step roadmap to building the Instagram Passive Sales System — from blank profile to ads running — in two weeks.</p>
+    <div class="hero-promise">✦ <span>Never wonder what to do next.</span></div>
+  </div>
+
+  <!-- ACCOUNTABILITY SETUP -->
+  <div class="card setup-card" id="setupCard">
+    <div class="setup-header">
+      <div>
+        <div class="t-sub" style="margin-bottom:6px;">Accountability Mode</div>
+        <div class="t-head" style="font-size:18px;">Track your real dates</div>
+      </div>
+      <div class="toggle-row">
+        <span class="toggle-label">Off</span>
+        <label class="toggle">
+          <input type="checkbox" id="acctToggle" onchange="toggleAccountability()">
+          <div class="toggle-track"></div>
+        </label>
+        <span class="toggle-label">On</span>
+      </div>
+    </div>
+    <div class="setup-body" id="setupBody">
+      <p class="setup-desc">Enter your start date and the plan will show you real calendar dates for each day — plus a gentle nudge if you fall behind.</p>
+      <div class="date-row">
+        <label class="date-label" for="startDate">Start Date</label>
+        <input type="date" id="startDate" onchange="onDateChange()">
+        <button class="btn btn-sm" onclick="applyDate()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NUDGE BANNER -->
+  <div class="nudge-banner" id="nudgeBanner">
+    <div class="nudge-icon">⏰</div>
+    <div class="nudge-text" id="nudgeText"></div>
+  </div>
+
+  <!-- PROGRESS OVERVIEW -->
+  <div class="card" id="progressCard">
+    <div class="progress-top">
+      <div>
+        <div class="t-sub" style="margin-bottom:6px;">Your progress</div>
+        <div class="progress-num"><span id="pctNum">0</span><sup>%</sup></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;color:var(--body);margin-bottom:2px;" id="tasksCompletedLabel">0 of 0 tasks done</div>
+        <div style="font-family:'Quick',sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:3px;color:var(--coral);" id="currentPhaseLabel">Phase 1 — Foundation</div>
+      </div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="phase-row">
+      <span class="phase-lbl current" id="pl1">Foundation</span>
+      <span class="phase-lbl" id="pl2">Feed + ManyChat</span>
+      <span class="phase-lbl" id="pl3">Pre-Launch</span>
+      <span class="phase-lbl" id="pl4">Ads Live</span>
+    </div>
+  </div>
+
+  <!-- COMPLETION BANNER -->
+  <div class="completion-banner" id="completionBanner">
+    <div class="emoji">🎉</div>
+    <div class="t-head" style="font-size:24px;margin-bottom:10px;">You built the whole thing.</div>
+    <p style="font-size:15px;margin-bottom:22px;">Your profile is live, your ads are running, and your system is working. Keep your ads running — the system doesn't stop here, it starts here.</p>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!--  PHASE 1: FOUNDATION (Days 1–3)   -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="phase-section">
+    <div class="phase-hdr">
+      <div class="phase-pill p1">Phase 1</div>
+      <div class="phase-title">Foundation</div>
+    </div>
+
+    <!-- DAY 1 -->
+    <div class="day-card" id="dc-1">
+      <div class="day-hdr" onclick="toggleDay(1)">
+        <div class="day-num">1</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-1">Day 1</div>
+          <div class="day-title">Watch the course + set up your profile photo</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-1"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-1"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Today is about understanding the system before you touch anything. Module 1 reframes how Instagram works entirely — don't skip it. Then you'll tackle the very first thing cold traffic sees: your profile photo. Trust starts with the face.</div>
+          <ul class="tasks" id="tasks-1">
+            <li class="task" onclick="toggleTask(this,'1-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Module 1 — The Mindset Shift (Lessons 1–3). Understand the full conversion path before building anything: ad → photo → bio → highlights → pins → feed → ManyChat → sale.</span></li>
+            <li class="task" onclick="toggleTask(this,'1-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 4 — Your Profile Photo: The Silent Trust Signal</span></li>
+            <li class="task" onclick="toggleTask(this,'1-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Choose your profile photo: warm and approachable, real over polished — you look like them, not above them. Trust starts before a word is read.</span></li>
+            <li class="task" onclick="toggleTask(this,'1-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Update your profile photo on Instagram</span></li>
+            <li class="task" onclick="toggleTask(this,'1-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 5 — The 4-Line Bio Formula (you'll write it tomorrow, but knowing the framework before you sleep makes Day 2 faster)</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 2 -->
+    <div class="day-card" id="dc-2">
+      <div class="day-hdr" onclick="toggleDay(2)">
+        <div class="day-num">2</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-2">Day 2</div>
+          <div class="day-title">Write your bio + build your highlights</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-2"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-2"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Big day. You're completing the entire first impression layer — bio and highlights. Your bio is your headline. Your highlights are your passive sales team. Together they handle the sales conversation before anyone DMs you.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>Your bio link goes directly to your offer — not a links page. Every line earns its place: value prop, identity qualifier, proof, one CTA. Nothing is decorative. And on highlights: order is not random. Skepticism gets neutralized before proof is presented.</div>
+          <ul class="tasks" id="tasks-2">
+            <li class="task" onclick="toggleTask(this,'2-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Use the Bio Template to write your 4-line bio — Line 1: value prop, Line 2: identity qualifier, Line 3: proof, Line 4: one CTA</span></li>
+            <li class="task" onclick="toggleTask(this,'2-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Update your bio link — link directly to your offer, not a links page</span></li>
+            <li class="task" onclick="toggleTask(this,'2-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 6 — Highlights: Your Passive Sales Team</span></li>
+            <li class="task" onclick="toggleTask(this,'2-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Highlight 1 — Identity / Anti-Guru (kills the #1 objection in your niche upfront)</span></li>
+            <li class="task" onclick="toggleTask(this,'2-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Highlight 2 — Q&A (answer the hesitations so you never have to do it 1:1)</span></li>
+            <li class="task" onclick="toggleTask(this,'2-6')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Highlight 3 — Student Wins (prove it works for people like them)</span></li>
+            <li class="task" onclick="toggleTask(this,'2-7')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Highlight 4 — Freebie / Start Here (low-barrier funnel entry point)</span></li>
+            <li class="task" onclick="toggleTask(this,'2-8')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Design your highlight covers — consistent aesthetic, readable at small size on mobile</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 3 -->
+    <div class="day-card" id="dc-3">
+      <div class="day-hdr" onclick="toggleDay(3)">
+        <div class="day-num">3</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-3">Day 3</div>
+          <div class="day-title">Create your 3 pinned posts — the conversion trio</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-3"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-3"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Your pins take a cold visitor from curious to ready to act. Together they create a single narrative: I'm like you → here's what to do → here's what your life could look like. Today is a content creation day — block real time for it.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>Build Pin 2 first — the Action Trigger. This is your highest-converting funnel entry point and where ManyChat lives. Write it with a keyword CTA (e.g. "comment FREE for the guide") even before ManyChat is set up. The keyword is the placeholder.</div>
+          <ul class="tasks" id="tasks-3">
+            <li class="task" onclick="toggleTask(this,'3-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 7 — Pinned Posts: The Conversion Trio</span></li>
+            <li class="task" onclick="toggleTask(this,'3-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Pin 2 first — Action Trigger (educational carousel format, promises specific actionable value, ManyChat keyword CTA in the caption)</span></li>
+            <li class="task" onclick="toggleTask(this,'3-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Pin 1 — Relatable Proof (specific numbers + relatable identity + objection handled in one hook — makes the outcome feel real and achievable)</span></li>
+            <li class="task" onclick="toggleTask(this,'3-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create Pin 3 — Emotional Proof (sells the lifestyle, not just the money — connects the outcome to something bigger than a number)</span></li>
+            <li class="task" onclick="toggleTask(this,'3-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Pin all three in order: Pin 1 → Pin 2 → Pin 3 from left to right on your profile grid</span></li>
+          </ul>
+          <div class="callout c-milestone"><strong>End of Phase 1 — Milestone ✦</strong>Your profile's entire first impression layer is complete. A cold stranger can land on your page and understand who you help, why you're credible, and exactly what to do next — without you saying a word. That's the system working.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end phase 1 -->
+
+  <!-- ═══════════════════════════════════════ -->
+  <!--  PHASE 2: FEED + MANYCHAT (Days 4–7)  -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="phase-section">
+    <div class="phase-hdr">
+      <div class="phase-pill p2">Phase 2</div>
+      <div class="phase-title">Feed + ManyChat</div>
+    </div>
+
+    <!-- DAY 4 -->
+    <div class="day-card" id="dc-4">
+      <div class="day-hdr" onclick="toggleDay(4)">
+        <div class="day-num">4</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-4">Day 4</div>
+          <div class="day-title">Set up your freebie + email funnel</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-4"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-4"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Before you build your feed or turn on ManyChat, your freebie and email sequence need to be in place. ManyChat collects the email and delivers the freebie — the email sequence closes the sale. Get this built today.</div>
+          <ul class="tasks" id="tasks-4">
+            <li class="task" onclick="toggleTask(this,'4-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Create or finalize your freebie — it should solve one specific problem and deliver quick value</span></li>
+            <li class="task" onclick="toggleTask(this,'4-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Set up your email welcome sequence in your email platform (minimum 3 emails: deliver freebie → pitch offer → follow up)</span></li>
+            <li class="task" onclick="toggleTask(this,'4-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Make sure your email sequence pitches your low-ticket offer — ideally with an order bump</span></li>
+            <li class="task" onclick="toggleTask(this,'4-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Test your email opt-in flow from a second email address — does it deliver the freebie correctly?</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 5 -->
+    <div class="day-card" id="dc-5">
+      <div class="day-hdr" onclick="toggleDay(5)">
+        <div class="day-num">5</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-5">Day 5</div>
+          <div class="day-title">Build your feed — Qualifier + Objection Crusher posts</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-5"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-5"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Your feed is your sales page body copy — and every post in it has one job. Today you're creating the posts that call in your exact buyer and kill objections before they even come up. Aim for 2 of each type — 4 posts total. Every post needs three things: a Hook that stops the scroll, a Body that delivers on the hook's promise, and a Trigger (comment a keyword, DM me, click the link).</div>
+          <ul class="tasks" id="tasks-5">
+            <li class="task" onclick="toggleTask(this,'5-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lessons 8 + 9 — The Qualifier Post and The Objection Crusher Post</span></li>
+            <li class="task" onclick="toggleTask(this,'5-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Write + design 2 Qualifier posts — use hyper-specific identity language. Name the exact person: their situation, their time of night, what they're Googling. Make the right viewer feel seen.</span></li>
+            <li class="task" onclick="toggleTask(this,'5-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Write + design 2 Objection Crusher posts — lead with the objection AS the hook. Kill the #1 and #2 resistance points your buyer has before they even read the rest.</span></li>
+            <li class="task" onclick="toggleTask(this,'5-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Every caption needs a Trigger — a ManyChat keyword CTA, a DM prompt, or a link. No post ends without telling the viewer what to do next.</span></li>
+            <li class="task" onclick="toggleTask(this,'5-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Use the Post Lab to validate each caption against the framework before posting</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 6 -->
+    <div class="day-card" id="dc-6">
+      <div class="day-hdr" onclick="toggleDay(6)">
+        <div class="day-num">6</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-6">Day 6</div>
+          <div class="day-title">Build your feed — Proof + Curiosity Gap posts</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-6"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-6"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Proof posts make the outcome feel real and achievable — be hyper-specific, never vague, never braggy. Curiosity Gap posts create incomplete information that demands resolution, forcing the watch and triggering the DM. Together these complete your foundation feed.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>Every post type — not just Curiosity Gap — needs a Trigger in the caption. A ManyChat keyword, a DM prompt, or a link. Use a different keyword per offer so you can track which posts are driving which funnel entries. Write the keywords into your captions today even before ManyChat is configured.</div>
+          <ul class="tasks" id="tasks-6">
+            <li class="task" onclick="toggleTask(this,'6-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lessons 10 + 11 — The Proof Post and The Curiosity Gap Post</span></li>
+            <li class="task" onclick="toggleTask(this,'6-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Write + design 2 Proof posts — specific numbers, timelines, and relatable context. Never vague, never braggy. Make the outcome feel achievable for someone like your buyer.</span></li>
+            <li class="task" onclick="toggleTask(this,'6-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Write + design 2 Curiosity Gap posts — create incomplete information that forces the watch and demands resolution. End each with a ManyChat keyword CTA.</span></li>
+            <li class="task" onclick="toggleTask(this,'6-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check your feed ratio: ~30% Objection Crusher, ~25% Proof, ~25% Curiosity Gap, ~20% Qualifier</span></li>
+            <li class="task" onclick="toggleTask(this,'6-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Curate your feed — hide anything that doesn't have a clear job. The feed is a living document, not a chronological archive. If you can't name what a post does, hide it.</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 7 -->
+    <div class="day-card" id="dc-7">
+      <div class="day-hdr" onclick="toggleDay(7)">
+        <div class="day-num">7</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-7">Day 7</div>
+          <div class="day-title">Set up ManyChat + test your full funnel</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-7"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-7"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>ManyChat is the loop that closes the sale. Today you're connecting everything — keyword trigger → DM sequence → offer pitch → email opt-in → freebie delivery. Every keyword across all your posts gets wired up. Test every step before moving on.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>ManyChat must do two things: pitch the offer immediately in the DM sequence AND collect the email + deliver the freebie. The offer pitch in the DM comes first — before the email sequence starts. Test this from a second account or you won't catch what's broken.</div>
+          <ul class="tasks" id="tasks-7">
+            <li class="task" onclick="toggleTask(this,'7-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 12 — The ManyChat Loop: How Your Funnel Closes the Sale. Then complete the full ManyChat mini-course bonus.</span></li>
+            <li class="task" onclick="toggleTask(this,'7-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Set up ManyChat using Rebecca's template — connect every keyword from your posts (one keyword per post/offer so you can track which content is driving entries)</span></li>
+            <li class="task" onclick="toggleTask(this,'7-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Build your DM sequence: immediate offer pitch first → email opt-in → freebie delivery</span></li>
+            <li class="task" onclick="toggleTask(this,'7-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Test the entire flow end-to-end from a second account — comment a keyword on one of your posts, go through every step of the DM sequence</span></li>
+            <li class="task" onclick="toggleTask(this,'7-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Confirm the email sequence triggers correctly and the freebie arrives in the test inbox</span></li>
+          </ul>
+          <div class="callout c-milestone"><strong>End of Phase 2 — Milestone ✦</strong>Halfway there — and the hardest part is done. Your profile is built, your feed is live, your funnel is connected and tested. The whole system exists. Phase 3 is making sure it's ready for paid traffic.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end phase 2 -->
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  PHASE 3: PRE-LAUNCH CHECKS (Days 8–9)    -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="phase-section">
+    <div class="phase-hdr">
+      <div class="phase-pill p3">Phase 3</div>
+      <div class="phase-title">Pre-Launch Checks</div>
+    </div>
+
+    <!-- DAY 8 -->
+    <div class="day-card" id="dc-8">
+      <div class="day-hdr" onclick="toggleDay(8)">
+        <div class="day-num">8</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-8">Day 8</div>
+          <div class="day-title">Full profile audit + cold traffic test</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-8"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-8"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Before you spend a dollar on ads, you need to walk your profile like a cold stranger would. This is your final quality check. Anything that would lose a cold visitor gets fixed today.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>Do not run ads to a profile that hasn't passed the cold stranger test. Ads amplify what's already there — good or bad. A broken profile with paid traffic is just money going straight to Meta.</div>
+          <ul class="tasks" id="tasks-8">
+            <li class="task" onclick="toggleTask(this,'8-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Use the Profile Audit Checklist from your library — work through every point</span></li>
+            <li class="task" onclick="toggleTask(this,'8-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">View your profile from a logged-out browser or a second account — what does a cold stranger see?</span></li>
+            <li class="task" onclick="toggleTask(this,'8-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check: does your bio tell them who you help, prove it, and give a clear next step?</span></li>
+            <li class="task" onclick="toggleTask(this,'8-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check: are your highlights in the right order and do they handle objections before showing proof?</span></li>
+            <li class="task" onclick="toggleTask(this,'8-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check: do your 3 pins tell the full story — Pin 1: I'm like you → Pin 2: here's what to do → Pin 3: here's what your life could look like?</span></li>
+            <li class="task" onclick="toggleTask(this,'8-6')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Fix anything that didn't pass. Be honest — a cold stranger has no context.</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 9 -->
+    <div class="day-card" id="dc-9">
+      <div class="day-hdr" onclick="toggleDay(9)">
+        <div class="day-num">9</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-9">Day 9</div>
+          <div class="day-title">Set up your ad campaigns in Meta</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-9"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-9"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Today is setup day — you're building both ad campaigns in Meta Ads Manager, ready to launch tomorrow. You won't turn them on today. Get everything configured and reviewed first.</div>
+          <div class="callout c-skip"><strong>Don't skip this</strong>You need two separate campaigns: a Traffic ad that drives cold strangers to your profile, and an Engagement ad that amplifies your posts and triggers ManyChat comment keywords. Both start at $5–10/day. Watch Lesson 13 in full before you open Ads Manager.</div>
+          <ul class="tasks" id="tasks-9">
+            <li class="task" onclick="toggleTask(this,'9-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Watch Lesson 13 — Running Ads to Your Profile: The Simple Version</span></li>
+            <li class="task" onclick="toggleTask(this,'9-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Set up your Traffic ad in Meta Ads Manager — drives cold strangers to your profile. Use your best-performing organic content as the creative.</span></li>
+            <li class="task" onclick="toggleTask(this,'9-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Set up your Engagement ad — amplifies your posts and triggers ManyChat comment keywords on cold traffic. Use your highest-engagement post as the creative.</span></li>
+            <li class="task" onclick="toggleTask(this,'9-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Set daily budget to $5–10/day per campaign — do not start higher than this</span></li>
+            <li class="task" onclick="toggleTask(this,'9-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Review everything — targeting, creative, budget, destination URL — before submitting for review</span></li>
+            <li class="task" onclick="toggleTask(this,'9-6')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Submit both campaigns for Meta review — ads go live tomorrow on Day 10</span></li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end phase 3 -->
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!--  PHASE 4: ADS LIVE (Days 10–14)           -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="phase-section">
+    <div class="phase-hdr">
+      <div class="phase-pill p4">Phase 4</div>
+      <div class="phase-title">Ads Live</div>
+    </div>
+
+    <!-- DAY 10 -->
+    <div class="day-card" id="dc-10">
+      <div class="day-hdr" onclick="toggleDay(10)">
+        <div class="day-num">10</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-10">Day 10</div>
+          <div class="day-title">Turn on your ads 🎉</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-10"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-10"></div>
+          <div class="callout c-milestone"><strong>Today is a big deal ✦</strong>You built the whole system. Today you flip the switch. Ads on means cold strangers are about to see your profile for the first time — and you've built exactly what they need to see.</div>
+          <div class="callout c-expect"><strong>What to expect</strong>Your ads will be in the learning phase for the first few days. You will not have meaningful data yet — this is normal. Do not make any changes to your campaigns for the first 3 days minimum.</div>
+          <ul class="tasks" id="tasks-10">
+            <li class="task" onclick="toggleTask(this,'10-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Confirm your ads have been approved by Meta (check Ads Manager — should show "Active")</span></li>
+            <li class="task" onclick="toggleTask(this,'10-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Turn on both campaigns</span></li>
+            <li class="task" onclick="toggleTask(this,'10-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Note your starting metrics: follower count, ManyChat DMs, any sales to date</span></li>
+            <li class="task" onclick="toggleTask(this,'10-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Do not touch your campaigns today — let them run</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 11 -->
+    <div class="day-card" id="dc-11">
+      <div class="day-hdr" onclick="toggleDay(11)">
+        <div class="day-num">11</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-11">Day 11</div>
+          <div class="day-title">First look at your numbers</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-11"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-11"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>You've had ads running for about 24 hours. Your data is very early — don't read too deeply into it yet. Today is about getting familiar with what you're looking at, not making decisions.</div>
+          <div class="callout c-nudge"><strong>A gentle reminder</strong>Early data is noisy. If your ROAS looks low or your CTR isn't where you want it, that's completely normal at this stage. Give it until Day 13 before drawing any conclusions.</div>
+          <ul class="tasks" id="tasks-11">
+            <li class="task" onclick="toggleTask(this,'11-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Open Meta Ads Manager and note your Day 1 metrics: spend, reach, link clicks, CTR</span></li>
+            <li class="task" onclick="toggleTask(this,'11-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check ManyChat — are keywords triggering? Are DMs coming in?</span></li>
+            <li class="task" onclick="toggleTask(this,'11-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Screenshot or note your Day 1 metrics somewhere you can reference them — early data is about establishing a baseline, not making decisions</span></li>
+            <li class="task" onclick="toggleTask(this,'11-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Do not make any campaign changes today — you don't have enough data yet</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 12 -->
+    <div class="day-card" id="dc-12">
+      <div class="day-hdr" onclick="toggleDay(12)">
+        <div class="day-num">12</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-12">Day 12</div>
+          <div class="day-title">Watch the funnel — ManyChat + email activity</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-12"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-12"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>Today you're watching the mid-funnel — not just ad clicks, but what happens after people land on your profile. Are they triggering ManyChat? Are they joining your email list? These are the signals that tell you your profile is converting.</div>
+          <ul class="tasks" id="tasks-12">
+            <li class="task" onclick="toggleTask(this,'12-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check ManyChat — how many new subscribers in the last 48 hours?</span></li>
+            <li class="task" onclick="toggleTask(this,'12-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check your email platform — new subscribers coming in from ManyChat opt-ins?</span></li>
+            <li class="task" onclick="toggleTask(this,'12-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check your sales dashboard — any purchases from the email sequence or DM offer pitch?</span></li>
+            <li class="task" onclick="toggleTask(this,'12-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Log your metrics somewhere consistent — spend, ManyChat subs, email subs, sales. This is your baseline.</span></li>
+            <li class="task" onclick="toggleTask(this,'12-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Still do not make ad changes — hold through Day 13</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 13 -->
+    <div class="day-card" id="dc-13">
+      <div class="day-hdr" onclick="toggleDay(13)">
+        <div class="day-num">13</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-13">Day 13</div>
+          <div class="day-title">Read your data — is it working?</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-13"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-13"></div>
+          <div class="callout c-expect"><strong>What to expect</strong>You now have 3 full days of ad data. This is your first real read. You're not optimizing yet — you're looking at the headline numbers and understanding what they're telling you.</div>
+          <ul class="tasks" id="tasks-13">
+            <li class="task" onclick="toggleTask(this,'13-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Pull your 3-day totals: total spend, total revenue, ROAS</span></li>
+            <li class="task" onclick="toggleTask(this,'13-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check your Link CTR — is it above 1%? If not, the ad creative may need attention</span></li>
+            <li class="task" onclick="toggleTask(this,'13-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Check your profile-to-DM conversion — are people who visit your profile triggering ManyChat?</span></li>
+            <li class="task" onclick="toggleTask(this,'13-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Pull your 3-day totals and note what the numbers are telling you — CTR, ROAS, ManyChat entries, sales</span></li>
+            <li class="task" onclick="toggleTask(this,'13-5')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">If ROAS is at 1.4 or above — your system is working. Hold and observe through Day 14.</span></li>
+            <li class="task" onclick="toggleTask(this,'13-6')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">If ROAS is below 1.0 — don't panic. Start with CVR, then CTR, then AOV to understand where the breakdown is</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- DAY 14 -->
+    <div class="day-card" id="dc-14">
+      <div class="day-hdr" onclick="toggleDay(14)">
+        <div class="day-num">14</div>
+        <div class="day-meta">
+          <div class="day-lbl" id="dlbl-14">Day 14</div>
+          <div class="day-title">You built the whole system. 🎉</div>
+        </div>
+        <div class="day-right">
+          <span class="task-pill" id="tpill-14"></span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="day-body">
+        <div class="day-body-inner">
+          <div class="day-date-tag" id="ddate-14"></div>
+          <div class="callout c-milestone"><strong>Day 14 ✦</strong>Two weeks ago this was all theory. Today your profile is optimized, your funnel is live, your ads are running, and your system is working. This is exactly what you paid to learn — and you did the work.</div>
+          <ul class="tasks" id="tasks-14">
+            <li class="task" onclick="toggleTask(this,'14-1')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Do a final audit of everything: bio → highlights → pins → feed → ManyChat → ads — all live and connected?</span></li>
+            <li class="task" onclick="toggleTask(this,'14-2')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Screenshot your current metrics as your baseline — you'll use these to measure growth</span></li>
+            <li class="task" onclick="toggleTask(this,'14-3')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Keep your ads running — the system doesn't stop here, it starts here</span></li>
+            <li class="task" onclick="toggleTask(this,'14-4')"><div class="task-box"><span class="task-check">✓</span></div><span class="task-text">Keep tracking your metrics week over week — your ads are live and the data is starting to build</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end phase 4 -->
+
+</div><!-- end page -->
+
+<!-- COMPLETION MODAL -->
+<div class="modal-overlay" id="completionModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-emoji" id="modalEmoji">🎉</div>
+    <div class="modal-title" id="modalTitle">Day Complete!</div>
+    <p class="modal-body" id="modalBody">Keep the momentum going — you're one day closer to a fully running system.</p>
+    <button class="btn" onclick="closeModal()">Keep Going →</button>
+  </div>
+</div>
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<script>
+// ══════════════════════════════════════
+//  DATA & STATE
+// ══════════════════════════════════════
+const STORAGE_KEY = 'scc_14day_v1';
+const TOTAL_DAYS = 14;
+
+const DAY_TASKS = {
+  1:5, 2:8, 3:5, 4:4, 5:5, 6:5, 7:5,
+  8:6, 9:6, 10:4, 11:4, 12:5, 13:6, 14:4
+};
+
+const PHASE_MAP = { 1:[1,3], 2:[4,7], 3:[8,9], 4:[10,14] };
+
+const DAY_CELEBRATIONS = {
+  1:  { emoji:'✨', title:'Day 1 Done!', body:'Your bio and photo are live. That\'s your first impression sorted — cold traffic now has a reason to trust you before they read a single word.' },
+  2:  { emoji:'💼', title:'Day 2 Done!', body:'Four highlights, in the right order. Your passive sales team is officially on the clock.' },
+  3:  { emoji:'📌', title:'Day 3 Done!', body:'The conversion trio is live. Profile → Highlights → Pins — that\'s the full first-impression layer complete.' },
+  4:  { emoji:'📧', title:'Day 4 Done!', body:'Freebie + email funnel ready. The backend of your system is built — now you need the front end to send people into it.' },
+  5:  { emoji:'🎯', title:'Day 5 Done!', body:'Qualifier and Objection Crusher posts are live. Your feed is starting to call in your exact buyer and kill resistance before it starts.' },
+  6:  { emoji:'💡', title:'Day 6 Done!', body:'Proof and Curiosity Gap posts live. Your feed is complete — and ManyChat has somewhere to live.' },
+  7:  { emoji:'🔁', title:'Day 7 Done!', body:'ManyChat is connected and your whole funnel tested. Halfway through the plan and the entire system is built. The rest is turning it on.' },
+  8:  { emoji:'🔍', title:'Day 8 Done!', body:'Your profile passed the cold stranger test. You\'re not sending paid traffic to a broken page — that matters more than most people realize.' },
+  9:  { emoji:'🚀', title:'Day 9 Done!', body:'Campaigns built and submitted. Tomorrow you turn them on. Biggest day of the whole plan.' },
+  10: { emoji:'🎉', title:'Ads Are Live!', body:'The system is on. Cold strangers are landing on your profile for the first time. You built exactly what they needed to see.' },
+  11: { emoji:'👀', title:'Day 11 Done!', body:'First look at the numbers in the books. Early data, but the machine is running.' },
+  12: { emoji:'📊', title:'Day 12 Done!', body:'Mid-funnel is showing signs of life. Keep logging, keep watching.' },
+  13: { emoji:'🧠', title:'Day 13 Done!', body:'You read the data. You know what\'s happening. Three full days of signal — that\'s a real foundation.' },
+  14: { emoji:'🏆', title:'You Built the Whole System.', body:'Profile optimized. Feed curated. Funnel connected. Ads running. Two weeks ago this was a plan. Today it\'s a system. Now go track the results.' }
+};
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const s = localStorage.getItem(STORAGE_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  return { checked:{}, startDate:null, acctOn:false, openDays:[] };
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  if (state.acctOn) {
+    document.getElementById('acctToggle').checked = true;
+    document.getElementById('setupCard').classList.add('acct-on');
+    document.getElementById('setupBody').classList.add('show');
+    if (state.startDate) {
+      document.getElementById('startDate').value = state.startDate;
+    }
+  }
+  restoreChecks();
+  restoreOpenDays();
+  updateAll();
+});
+
+function restoreChecks() {
+  Object.keys(state.checked).forEach(key => {
+    if (state.checked[key]) {
+      const el = document.querySelector(`[onclick*="'${key}'"]`);
+      if (el) el.classList.add('checked');
+    }
+  });
+}
+
+function restoreOpenDays() {
+  (state.openDays || []).forEach(d => {
+    const card = document.getElementById('dc-' + d);
+    if (card) card.classList.add('open');
+  });
+}
+
+// ══════════════════════════════════════
+//  ACCOUNTABILITY TOGGLE
+// ══════════════════════════════════════
+function toggleAccountability() {
+  const on = document.getElementById('acctToggle').checked;
+  state.acctOn = on;
+  document.getElementById('setupCard').classList.toggle('acct-on', on);
+  document.getElementById('setupBody').classList.toggle('show', on);
+  if (!on) {
+    state.startDate = null;
+    clearDateDisplays();
+    hideNudge();
+  }
+  saveState();
+  updateAll();
+}
+
+function onDateChange() {}
+
+function applyDate() {
+  const val = document.getElementById('startDate').value;
+  if (!val) return;
+  state.startDate = val;
+  saveState();
+  updateAll();
+}
+
+function clearDateDisplays() {
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const el = document.getElementById('ddate-' + d);
+    if (el) el.textContent = '';
+  }
+}
+
+// ══════════════════════════════════════
+//  DATE HELPERS
+// ══════════════════════════════════════
+function getDateForDay(dayNum) {
+  if (!state.startDate) return null;
+  const start = new Date(state.startDate + 'T00:00:00');
+  const d = new Date(start);
+  d.setDate(d.getDate() + dayNum - 1);
+  return d;
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric' });
+}
+
+function getTodayDayNum() {
+  if (!state.startDate) return null;
+  const start = new Date(state.startDate + 'T00:00:00');
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  start.setHours(0,0,0,0);
+  const diff = Math.floor((today - start) / 86400000) + 1;
+  return diff;
+}
+
+// ══════════════════════════════════════
+//  TASK TOGGLE
+// ══════════════════════════════════════
+function toggleTask(el, key) {
+  const wasDone = el.classList.contains('checked');
+  el.classList.toggle('checked');
+  state.checked[key] = !wasDone;
+  saveState();
+
+  // check if whole day complete
+  const dayNum = parseInt(key.split('-')[0]);
+  checkDayCompletion(dayNum, !wasDone);
+  updateAll();
+}
+
+function checkDayCompletion(dayNum, justChecked) {
+  if (!justChecked) return;
+  const total = DAY_TASKS[dayNum];
+  let done = 0;
+  for (let t = 1; t <= total; t++) {
+    if (state.checked[dayNum + '-' + t]) done++;
+  }
+  if (done === total) {
+    showCelebration(dayNum);
+  }
+}
+
+// ══════════════════════════════════════
+//  DAY TOGGLE
+// ══════════════════════════════════════
+function toggleDay(dayNum) {
+  const card = document.getElementById('dc-' + dayNum);
+  const isOpen = card.classList.contains('open');
+  card.classList.toggle('open', !isOpen);
+
+  if (!state.openDays) state.openDays = [];
+  if (!isOpen) {
+    if (!state.openDays.includes(dayNum)) state.openDays.push(dayNum);
+  } else {
+    state.openDays = state.openDays.filter(d => d !== dayNum);
+  }
+  saveState();
+}
+
+// ══════════════════════════════════════
+//  UPDATE ALL UI
+// ══════════════════════════════════════
+function updateAll() {
+  updateProgress();
+  updateDayCards();
+  updateNudge();
+  updateCompletionBanner();
+}
+
+function updateProgress() {
+  let totalTasks = 0, doneTasks = 0;
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const t = DAY_TASKS[d];
+    totalTasks += t;
+    for (let i = 1; i <= t; i++) {
+      if (state.checked[d + '-' + i]) doneTasks++;
+    }
+  }
+  const pct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+  document.getElementById('pctNum').textContent = pct;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('tasksCompletedLabel').textContent = doneTasks + ' of ' + totalTasks + ' tasks done';
+
+  // current phase
+  const todayDay = state.acctOn && state.startDate ? getTodayDayNum() : null;
+  let currentPhase = 1;
+  if (todayDay) {
+    if (todayDay >= 10) currentPhase = 4;
+    else if (todayDay >= 8) currentPhase = 3;
+    else if (todayDay >= 4) currentPhase = 2;
+  } else {
+    // derive from progress
+    const firstIncomplete = getFirstIncompleteDay();
+    if (firstIncomplete >= 10) currentPhase = 4;
+    else if (firstIncomplete >= 8) currentPhase = 3;
+    else if (firstIncomplete >= 4) currentPhase = 2;
+  }
+
+  const phaseNames = ['Foundation','Feed + ManyChat','Pre-Launch','Ads Live'];
+  document.getElementById('currentPhaseLabel').textContent = 'Phase ' + currentPhase + ' — ' + phaseNames[currentPhase-1];
+
+  // phase labels
+  for (let p = 1; p <= 4; p++) {
+    document.getElementById('pl' + p).classList.toggle('current', p === currentPhase);
+  }
+}
+
+function getFirstIncompleteDay() {
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const t = DAY_TASKS[d];
+    for (let i = 1; i <= t; i++) {
+      if (!state.checked[d + '-' + i]) return d;
+    }
+  }
+  return TOTAL_DAYS + 1;
+}
+
+function isDayComplete(d) {
+  const t = DAY_TASKS[d];
+  for (let i = 1; i <= t; i++) {
+    if (!state.checked[d + '-' + i]) return false;
+  }
+  return true;
+}
+
+function updateDayCards() {
+  const todayDayNum = state.acctOn && state.startDate ? getTodayDayNum() : null;
+
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    const card = document.getElementById('dc-' + d);
+    const done = isDayComplete(d);
+    const isToday = todayDayNum === d;
+
+    card.classList.toggle('done', done);
+    card.classList.toggle('today', isToday && !done);
+
+    // label
+    const lbl = document.getElementById('dlbl-' + d);
+    if (lbl) {
+      if (done) {
+        lbl.textContent = 'Complete ✓';
+        lbl.classList.add('done-lbl');
+      } else if (isToday) {
+        lbl.textContent = 'Today · Day ' + d;
+        lbl.classList.remove('done-lbl');
+      } else {
+        lbl.textContent = 'Day ' + d;
+        lbl.classList.remove('done-lbl');
+      }
+    }
+
+    // date display inside card
+    const dateEl = document.getElementById('ddate-' + d);
+    if (dateEl) {
+      if (state.acctOn && state.startDate) {
+        const dt = getDateForDay(d);
+        dateEl.textContent = dt ? formatDate(dt) : '';
+      } else {
+        dateEl.textContent = '';
+      }
+    }
+
+    // task pill
+    const pill = document.getElementById('tpill-' + d);
+    if (pill) {
+      const total = DAY_TASKS[d];
+      let doneTasks = 0;
+      for (let i = 1; i <= total; i++) {
+        if (state.checked[d + '-' + i]) doneTasks++;
+      }
+      pill.textContent = doneTasks + '/' + total + ' tasks';
+    }
+
+    // day num badge
+    const badge = card.querySelector('.day-num');
+    if (badge && done) badge.textContent = '✓';
+    else if (badge) badge.textContent = d;
+  }
+}
+
+function updateNudge() {
+  const banner = document.getElementById('nudgeBanner');
+  if (!state.acctOn || !state.startDate) { banner.classList.remove('show'); return; }
+  const todayDayNum = getTodayDayNum();
+  if (!todayDayNum || todayDayNum < 1) { banner.classList.remove('show'); return; }
+
+  // check if behind — incomplete tasks from previous days
+  let behindDays = 0;
+  const checkDay = Math.min(todayDayNum - 1, TOTAL_DAYS);
+  for (let d = 1; d <= checkDay; d++) {
+    if (!isDayComplete(d)) behindDays++;
+  }
+
+  if (behindDays > 0) {
+    banner.classList.add('show');
+    document.getElementById('nudgeText').innerHTML = '<strong>You\'re a little behind — no stress.</strong> You have ' + behindDays + ' day' + (behindDays > 1 ? 's' : '') + ' with incomplete tasks from before today. Pick up where you left off — you\'ve got this.';
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function hideNudge() {
+  document.getElementById('nudgeBanner').classList.remove('show');
+}
+
+function updateCompletionBanner() {
+  let allDone = true;
+  for (let d = 1; d <= TOTAL_DAYS; d++) {
+    if (!isDayComplete(d)) { allDone = false; break; }
+  }
+  document.getElementById('completionBanner').classList.toggle('show', allDone);
+}
+
+// ══════════════════════════════════════
+//  CELEBRATION MODAL
+// ══════════════════════════════════════
+function showCelebration(dayNum) {
+  const c = DAY_CELEBRATIONS[dayNum] || { emoji:'🎉', title:'Day ' + dayNum + ' Done!', body:'Keep going — the system is coming together.' };
+  document.getElementById('modalEmoji').textContent = c.emoji;
+  document.getElementById('modalTitle').textContent = c.title;
+  document.getElementById('modalBody').textContent = c.body;
+  document.getElementById('completionModal').classList.add('show');
+  launchConfetti();
+}
+
+function closeModal() {
+  document.getElementById('completionModal').classList.remove('show');
+  document.getElementById('confettiWrap').innerHTML = '';
+}
+
+function launchConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  const colors = ['#F49C8E','#889CA2','#F3B548','#BFD9CC','#F6D5CD','#B3DCDA'];
+  for (let i = 0; i < 55; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const delay = Math.random() * 0.8;
+    const duration = 1.8 + Math.random() * 1.2;
+    const size = 6 + Math.random() * 6;
+    piece.style.cssText = `left:${left}%;background:${color};width:${size}px;height:${size}px;animation-delay:${delay}s;animation-duration:${duration}s;`;
+    wrap.appendChild(piece);
+  }
+  setTimeout(() => { wrap.innerHTML = ''; }, 3500);
+}
+</script>
+</body>
+</html>
