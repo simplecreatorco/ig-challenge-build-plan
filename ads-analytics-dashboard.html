@@ -191,6 +191,37 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 .modal-camp-section-title{font-family:'Fraunces',serif;font-weight:400;font-size:16px;color:var(--blue);margin-bottom:4px;}
 .modal-camp-section-type{font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--coral);margin-bottom:14px;}
 
+/* Log table */
+.log-table{width:100%;border-collapse:collapse;font-size:12px;}
+.log-table th{font-family:'Quick',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--body);padding:6px 10px;text-align:left;border-bottom:1px solid #E8E8E8;}
+.log-table td{padding:10px 10px;border-bottom:1px solid #F2F2F2;color:#333;vertical-align:top;}
+.log-table tr:last-child td{border-bottom:none;}
+.log-table .camp-name{font-size:11px;color:var(--body);margin-top:2px;}
+.metric-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;}
+.pill-green{background:#E8F5EE;color:#3A7D57;}
+.pill-yellow{background:#FFF5E0;color:#A07000;}
+.pill-red{background:#FDECEA;color:#B03020;}
+.pill-neutral{background:#F0F0F0;color:#555;}
+
+/* Verdict / insight boxes */
+.insight-box.green{background:#E8F5EE;border-color:#B5DEC8;}
+.insight-box.yellow{background:#FFF5E0;border-color:#F0D080;}
+.insight-box.red{background:#FDECEA;border-color:#F0B0A8;}
+.insight-box .btn{display:block;width:100%;text-align:left;}
+.insight-box .insight-body strong{font-weight:700;color:#333;}
+
+/* Chart */
+.chart-wrap{position:relative;height:180px;margin-top:8px;}
+.chart-svg{width:100%;height:100%;}
+
+/* Budget timeline */
+.budget-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F2F2F2;font-size:13px;}
+.budget-row:last-child{border-bottom:none;}
+.budget-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+.budget-date{color:var(--body);font-size:11px;min-width:80px;}
+.budget-amount{font-weight:600;color:#333;}
+.budget-change{font-size:11px;color:var(--coral);margin-left:4px;}
+
 @media(max-width:640px){
   .form-row,.resource-grid,.resources-inner{grid-template-columns:1fr;}
   .camp-type-row{grid-template-columns:1fr;}
@@ -506,7 +537,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         </div>
         <button class="add-btn" onclick="openAddIgCampaign()">+ Add Campaign</button>
       </div>
-      <div class="metric-grid">
+      <div class="metric-grid" id="traffic-metric-grid">
         <div class="metric-card"><div class="metric-label">7-Day ROAS</div><div class="metric-value">—</div><div class="metric-sub">Target: 1.4+</div></div>
         <div class="metric-card"><div class="metric-label">7-Day Revenue</div><div class="metric-value">—</div><div class="metric-sub">New buyer sales</div></div>
         <div class="metric-card"><div class="metric-label">Cost / Visit</div><div class="metric-value">—</div><div class="metric-sub">Target: under $0.25</div></div>
@@ -514,7 +545,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div class="metric-card"><div class="metric-label">Combined Spend</div><div class="metric-value">—</div><div class="metric-sub">Traffic + Engage</div></div>
         <div class="metric-card"><div class="metric-label">Profile Visits</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
       </div>
-      <div class="insight-box blue">
+      <div id="traffic-insight-box" class="insight-box blue">
         <div class="insight-title">Log your first entry to see your numbers.</div>
         <div class="insight-body">Upload today's screenshots to get started. Your metrics, chart, and first verdict appear after your first entry. Full evaluation unlocks at Day 3.</div>
         <div style="margin-top:12px;"><button class="btn btn-sm" onclick="openStatsModal('traffic')">+ Log Ad Stats</button></div>
@@ -524,9 +555,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
     <div class="card">
       <div class="section-label">Performance Over Time</div>
       <div class="section-title" style="margin-bottom:8px;">Ad Spend vs. Revenue</div>
-      <div class="empty-state">
-        <div class="empty-title">Your chart builds after 3 days of data</div>
-        <div class="empty-body">Keep logging daily and your trend will appear here automatically.</div>
+      <div id="traffic-chart-area">
+        <div class="empty-state">
+          <div class="empty-title">Your chart builds after 3 days of data</div>
+          <div class="empty-body">Keep logging daily and your trend will appear here automatically.</div>
+        </div>
       </div>
     </div>
 
@@ -535,18 +568,22 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div><div class="section-label">Daily Data Log</div><div class="section-title">IG Traffic + Engagement</div></div>
         <button class="btn btn-sm" onclick="openStatsModal('traffic')">+ Log Ad Stats</button>
       </div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">No entries yet</div>
-        <div class="empty-body">Your log appears after your first screenshot upload.</div>
+      <div id="traffic-log-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">No entries yet</div>
+          <div class="empty-body">Your log appears after your first screenshot upload.</div>
+        </div>
       </div>
     </div>
 
     <div class="card">
       <div class="section-label">Budget History</div>
       <div class="section-title" style="margin-bottom:8px;">Scaling Timeline</div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">Builds automatically from your daily entries</div>
-        <div class="empty-body">Every time your budget changes in a daily log entry, it's recorded here.</div>
+      <div id="traffic-budget-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">Builds automatically from your daily entries</div>
+          <div class="empty-body">Every time your budget changes in a daily log entry, it's recorded here.</div>
+        </div>
       </div>
     </div>
 
@@ -555,9 +592,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div><div class="section-label">Sales Log</div><div class="section-title">Recent Purchases</div></div>
         <button class="btn btn-sm" onclick="openSaleModal()">+ Log a Sale</button>
       </div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">No sales logged yet</div>
-        <div class="empty-body">Hit "+ Log a Sale" when your first purchase comes in.</div>
+      <div id="traffic-sales-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">No sales logged yet</div>
+          <div class="empty-body">Hit "+ Log a Sale" when your first purchase comes in.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -573,7 +612,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         </div>
         <button class="add-btn" onclick="openAddDtpCampaign()">+ Add Campaign</button>
       </div>
-      <div class="metric-grid">
+      <div class="metric-grid" id="dtp-metric-grid">
         <div class="metric-card"><div class="metric-label">7-Day ROAS</div><div class="metric-value">—</div><div class="metric-sub">Target: 1.4+</div></div>
         <div class="metric-card"><div class="metric-label">Avg AOV</div><div class="metric-value">—</div><div class="metric-sub">Target: $40+</div></div>
         <div class="metric-card"><div class="metric-label">CVR</div><div class="metric-value">—</div><div class="metric-sub">Target: 3%+</div></div>
@@ -581,7 +620,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div class="metric-card"><div class="metric-label">Total Spend</div><div class="metric-value">—</div><div class="metric-sub">Campaign total</div></div>
         <div class="metric-card"><div class="metric-label">Revenue</div><div class="metric-value">—</div><div class="metric-sub">Campaign total</div></div>
       </div>
-      <div class="insight-box blue">
+      <div id="dtp-insight-box" class="insight-box blue">
         <div class="insight-title">Log your first entry to see your numbers.</div>
         <div class="insight-body">Upload your campaign screenshot to get started. First evaluation unlocks at Day 3 with $75 in total spend.</div>
         <div style="margin-top:12px;"><button class="btn btn-sm" onclick="openStatsModal('dtp')">+ Log Ad Stats</button></div>
@@ -591,9 +630,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
     <div class="card">
       <div class="section-label">Performance Over Time</div>
       <div class="section-title" style="margin-bottom:8px;">Ad Spend vs. Revenue</div>
-      <div class="empty-state">
-        <div class="empty-title">Your chart builds after 3 days of data</div>
-        <div class="empty-body">Keep logging daily and your trend will appear here automatically.</div>
+      <div id="dtp-chart-area">
+        <div class="empty-state">
+          <div class="empty-title">Your chart builds after 3 days of data</div>
+          <div class="empty-body">Keep logging daily and your trend will appear here automatically.</div>
+        </div>
       </div>
     </div>
 
@@ -602,18 +643,22 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div><div class="section-label">Daily Data Log</div><div class="section-title">Direct to Product</div></div>
         <button class="btn btn-sm" onclick="openStatsModal('dtp')">+ Log Ad Stats</button>
       </div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">No entries yet</div>
-        <div class="empty-body">Your log appears after your first screenshot upload.</div>
+      <div id="dtp-log-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">No entries yet</div>
+          <div class="empty-body">Your log appears after your first screenshot upload.</div>
+        </div>
       </div>
     </div>
 
     <div class="card">
       <div class="section-label">Budget History</div>
       <div class="section-title" style="margin-bottom:8px;">Scaling Timeline</div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">Builds automatically from your daily entries</div>
-        <div class="empty-body">Every time your budget changes in a daily log entry, it's recorded here.</div>
+      <div id="dtp-budget-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">Builds automatically from your daily entries</div>
+          <div class="empty-body">Every time your budget changes in a daily log entry, it's recorded here.</div>
+        </div>
       </div>
     </div>
 
@@ -622,9 +667,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
         <div><div class="section-label">Sales Log</div><div class="section-title">Recent Purchases</div></div>
         <button class="btn btn-sm" onclick="openSaleModal()">+ Log a Sale</button>
       </div>
-      <div class="empty-state" style="padding:20px;">
-        <div class="empty-title">No sales logged yet</div>
-        <div class="empty-body">Hit "+ Log a Sale" when your first purchase comes in.</div>
+      <div id="dtp-sales-area">
+        <div class="empty-state" style="padding:20px;">
+          <div class="empty-title">No sales logged yet</div>
+          <div class="empty-body">Hit "+ Log a Sale" when your first purchase comes in.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1032,7 +1079,8 @@ function buildDashboard(){
   buildTabs();
   buildSaleCampSelect();
   const hbtn=document.getElementById('header-stats-btn');
-  hbtn.onclick=()=>openStatsModal(state.hasTraffic?'traffic':'dtp');
+  if(hbtn) hbtn.onclick=()=>openStatsModal(state.hasTraffic?'traffic':'dtp');
+  setTimeout(renderDashboardData, 50);
 }
 
 function buildSaleProducts(){
@@ -1047,13 +1095,7 @@ function buildSaleProducts(){
 
 function buildSaleCampSelect(){
   const sel=document.getElementById('sale-camp-sel');
-  const opts=[];
-  const hasTraffic=state.campaigns.some(c=>c.type==='traffic'||c.type==='engage');
-  if(hasTraffic) opts.push('<option value="IG Traffic/Engagement">IG Traffic/Engagement</option>');
-  state.campaigns.filter(c=>c.type==='dtp').forEach(c=>{
-    opts.push(`<option value="${c.name}">${c.name}</option>`);
-  });
-  sel.innerHTML=opts.join('');
+  sel.innerHTML=state.campaigns.map(c=>`<option>${c.name}</option>`).join('');
 }
 
 function buildCampaignPills(){
@@ -1158,6 +1200,7 @@ function saveSaleEntry(){
     });
     closeModal('modal-sale');
     showToast('Sale saved');
+    renderDashboardData();
     // Reset form
     if(buyerEl) buyerEl.value = '';
     document.querySelectorAll('.sale-product').forEach(c => c.checked = false);
@@ -1349,6 +1392,497 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// ═══════════════════════════════════════════════════════
+// DASHBOARD RENDERING ENGINE
+// Populates all metric cards, log tables, charts, and
+// insight boxes from state.dailyLogs and state.sales
+// ═══════════════════════════════════════════════════════
+
+// Safely parse a numeric value from stored strings like "$2.50", "2.50", 2.5
+function n(val) {
+  if (val === null || val === undefined || val === '') return 0;
+  return parseFloat(String(val).replace(/[^0-9.-]/g, '')) || 0;
+}
+
+// Get logs for a specific tab type — handles both legacy and current field names
+function getLogsForType(type) {
+  if (type === 'traffic') return state.dailyLogs.filter(l => l.campaignType === 'traffic');
+  if (type === 'engage') return state.dailyLogs.filter(l => l.campaignType === 'engage');
+  if (type === 'dtp') return state.dailyLogs.filter(l => l.campaignType === 'dtp');
+  return [];
+}
+
+// Get all IG logs (traffic + engage combined)
+function getIgLogs() {
+  return state.dailyLogs.filter(l => l.campaignType === 'traffic' || l.campaignType === 'engage');
+}
+
+// Get logs for last N days
+function getRecentLogs(logs, days) {
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  return logs.filter(l => new Date(l.date) >= cutoff);
+}
+
+// Format a number as currency
+function fmt$(val, decimals=2) {
+  const v = n(val);
+  if (v === 0) return '—';
+  return '$' + v.toFixed(decimals);
+}
+
+// Format a plain number
+function fmtN(val, decimals=2) {
+  const v = n(val);
+  if (v === 0) return '—';
+  return decimals === 0 ? Math.round(v).toString() : v.toFixed(decimals);
+}
+
+// Get spent from a log — handles both legacy (tSpent/eSpent) and current (spent)
+function getSpent(log) {
+  return n(log.spent) || n(log.tSpent) || n(log.eSpent) || 0;
+}
+function getBudget(log) {
+  return n(log.budget) || n(log.tBudget) || n(log.eBudget) || 0;
+}
+function getVisits(log) { return n(log.visits) || 0; }
+function getCpv(log) { return n(log.cpv) || 0; }
+function getEng(log) { return n(log.eng) || 0; }
+function getCpe(log) { return n(log.cpe) || 0; }
+
+// Render a metric card value (targets the nth .metric-card in a grid)
+function setMetric(gridId, index, value, sub) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const cards = grid.querySelectorAll('.metric-card');
+  if (!cards[index]) return;
+  cards[index].querySelector('.metric-value').textContent = value;
+  if (sub !== undefined) cards[index].querySelector('.metric-sub').textContent = sub;
+}
+
+// ─────────────────────────────────────────────
+// RENDER IG TAB
+// ─────────────────────────────────────────────
+function renderIgTab() {
+  const trafficLogs = getLogsForType('traffic').sort((a,b) => a.date.localeCompare(b.date));
+  const engageLogs = getLogsForType('engage').sort((a,b) => a.date.localeCompare(b.date));
+  const allIgLogs = [...trafficLogs, ...engageLogs].sort((a,b) => a.date.localeCompare(b.date));
+
+  if (allIgLogs.length === 0) return; // keep empty states
+
+  // ── Metrics ──
+  const recent7Traffic = getRecentLogs(trafficLogs, 7);
+  const recent7Engage = getRecentLogs(engageLogs, 7);
+  const recent7Sales = getRecentLogs(state.sales.map(s => ({...s, date: s.rawDate})), 7);
+
+  const totalRevenue7 = recent7Sales.reduce((sum, s) => sum + n(s.amount.toString().replace('$','')), 0);
+  const totalSpend7 = [...recent7Traffic, ...recent7Engage].reduce((sum, l) => sum + getSpent(l), 0);
+  const roas7 = totalSpend7 > 0 ? (totalRevenue7 / totalSpend7) : 0;
+
+  const avgCpv = recent7Traffic.length > 0
+    ? recent7Traffic.reduce((sum,l) => sum + getCpv(l), 0) / recent7Traffic.length : 0;
+  const avgCpe = recent7Engage.length > 0
+    ? recent7Engage.reduce((sum,l) => sum + getCpe(l), 0) / recent7Engage.length : 0;
+
+  const totalTrafficSpend7 = recent7Traffic.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalEngageSpend7 = recent7Engage.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalVisits7 = recent7Traffic.reduce((sum,l) => sum + getVisits(l), 0);
+
+  setMetric('traffic-metric-grid', 0, roas7 > 0 ? roas7.toFixed(2) : '—');
+  setMetric('traffic-metric-grid', 1, totalRevenue7 > 0 ? '$' + totalRevenue7.toFixed(0) : '—');
+  setMetric('traffic-metric-grid', 2, avgCpv > 0 ? '$' + avgCpv.toFixed(2) : '—');
+  setMetric('traffic-metric-grid', 3, avgCpe > 0 ? '$' + avgCpe.toFixed(2) : '—');
+  setMetric('traffic-metric-grid', 4, (totalTrafficSpend7 + totalEngageSpend7) > 0 ? '$' + (totalTrafficSpend7 + totalEngageSpend7).toFixed(2) : '—');
+  setMetric('traffic-metric-grid', 5, totalVisits7 > 0 ? totalVisits7.toString() : '—');
+
+  // ── Insight box ──
+  renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, totalSpend7);
+
+  // ── Log table ──
+  renderIgLogTable(trafficLogs, engageLogs);
+
+  // ── Chart ──
+  renderChart('traffic-chart-area', allIgLogs, state.sales);
+
+  // ── Budget timeline ──
+  renderBudgetTimeline('traffic-budget-area', [...trafficLogs, ...engageLogs]);
+
+  // ── Sales ──
+  renderSalesLog('traffic-sales-area');
+}
+
+function renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, totalSpend7) {
+  const box = document.getElementById('traffic-insight-box');
+  if (!box) return;
+
+  const allLogs = [...trafficLogs, ...engageLogs];
+  const days = [...new Set(allLogs.map(l => l.date))].length;
+  const totalVisits = trafficLogs.reduce((sum,l) => sum + getVisits(l), 0);
+  const totalSpend = allLogs.reduce((sum,l) => sum + getSpent(l), 0);
+  const hasSales = state.sales.length > 0;
+  const cpvOk = avgCpv > 0 && avgCpv <= 0.25;
+  const cpeOk = avgCpe > 0 && avgCpe <= 0.15;
+  const cpvNote = avgCpv > 0
+    ? (cpvOk ? ' CPV is on target at $' + avgCpv.toFixed(2) + '.' : ' CPV is $' + avgCpv.toFixed(2) + ' — above the $0.25 target.')
+    : '';
+  const cpeNote = avgCpe > 0
+    ? (cpeOk ? ' CPE is on target at $' + avgCpe.toFixed(2) + '.' : ' CPE is $' + avgCpe.toFixed(2) + ' — above the $0.15 target.')
+    : '';
+
+  // ── Days 1–2: too early, just check CPV ──
+  if (days < 3) {
+    const cpvLine = avgCpv > 0
+      ? (cpvOk ? 'Your CPV is on target — the ad is doing its job.' : 'Your CPV is above $0.25 — consider testing a new hook or visual.')
+      : 'Upload your screenshots daily to start tracking CPV.';
+    box.className = 'insight-box blue';
+    box.innerHTML = `<div class="insight-title">Day ${days} of 7 — you\'re just getting started.</div>
+      <div class="insight-body">Cold audiences take time. There\'s nothing to evaluate yet — just keep logging every day and let the traffic build. ${cpvLine}</div>`;
+    return;
+  }
+
+  // ── Has sales: full ROAS evaluation ──
+  if (hasSales) {
+    let color, title, body;
+    if (roas7 >= 1.4) {
+      color = 'green';
+      title = 'Scaling territory. ROAS is ' + roas7.toFixed(2) + '.';
+      body = 'You\'re above 1.4x — increase your budget by 20% every 3–4 days while results hold.' + cpvNote + cpeNote;
+    } else if (roas7 >= 1.0) {
+      color = 'yellow';
+      title = 'Optimize before scaling. ROAS is ' + roas7.toFixed(2) + '.';
+      const fix = !cpvOk && avgCpv > 0
+        ? 'Your CPV is above target — tighten your ad creative first.'
+        : !cpeOk && avgCpe > 0
+          ? 'Your CPE is above target — test boosting a different post.'
+          : 'Check your pinned post trio and make sure your offer is clear on your sales page.';
+      body = 'You\'re breaking even. ' + fix;
+    } else {
+      color = 'red';
+      title = 'Below 1.0 ROAS. Pause and review.';
+      body = 'You\'re spending more than you\'re making.' + cpvNote + ' If CPV is under $0.25 but sales aren\'t converting, the issue is your sales page or offer.';
+    }
+    box.className = 'insight-box ' + color;
+    box.innerHTML = `<div class="insight-title">${title}</div><div class="insight-body">${body}</div>`;
+    return;
+  }
+
+  // ── Days 3–6, no sales: encourage, check CPV ──
+  if (days < 7 || totalSpend < 35) {
+    const cpvLine = avgCpv > 0
+      ? (cpvOk
+          ? 'Your CPV is on target — traffic is reaching your profile. Cold audiences need time to convert.'
+          : 'Your CPV is above $0.25. Test a new hook or visual — getting cheaper visits will make your first sale happen sooner.')
+      : '';
+    const spendLine = totalSpend < 35
+      ? ` You\'ve spent $${totalSpend.toFixed(0)} of the $35 minimum before a full evaluation.`
+      : '';
+    box.className = 'insight-box blue';
+    box.innerHTML = `<div class="insight-title">Day ${days} — no sale yet, and that\'s okay.</div>
+      <div class="insight-body">You\'re showing your content to cold people who have never seen it before. Keep logging.${spendLine} ${cpvLine}</div>`;
+    return;
+  }
+
+  // ── Day 7+, $35+ spent, no sales: interactive diagnostic ──
+  box.className = 'insight-box yellow';
+  box.innerHTML = `
+    <div class="insight-title">Day ${days} with $${totalSpend.toFixed(0)} spent — let\'s figure out where the gap is.</div>
+    <div class="insight-body" style="margin-bottom:14px;">You\'ve given it enough time and spend to see a sale. Before pausing, let\'s diagnose the right thing. What\'s been happening on your profile?</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-sm" style="text-align:left;justify-content:flex-start;" onclick="igDiagnostic('engaged')">People are visiting my profile and I\'m getting follows or link clicks</button>
+      <button class="btn btn-ghost btn-sm" style="text-align:left;justify-content:flex-start;" onclick="igDiagnostic('no-traction')">I\'m not seeing much engagement or profile activity</button>
+    </div>`;
+}
+
+function igDiagnostic(answer) {
+  const box = document.getElementById('traffic-insight-box');
+  if (!box) return;
+  if (answer === 'engaged') {
+    box.className = 'insight-box yellow';
+    box.innerHTML = `<div class="insight-title">Traffic is working — this is an offer or sales page issue.</div>
+      <div class="insight-body">People are reaching your profile but not buying. Pause your ads and audit two things:<br><br>
+      <strong>1. Your offer.</strong> Is it clear what they get, who it\'s for, and why it\'s worth buying right now? Cold audiences need a strong reason to buy from someone they just discovered.<br><br>
+      <strong>2. Your sales page.</strong> Does the page speak directly to the cold buyer your ad is bringing in? Review your headline, your proof, and your call to action.</div>`;
+  } else {
+    box.className = 'insight-box yellow';
+    box.innerHTML = `<div class="insight-title">Your posts may need work before more ad spend.</div>
+      <div class="insight-body">If people are visiting your profile but not engaging, the content isn\'t converting them into followers or buyers. Pause your ads and focus on your four post types — Qualifier, Objection Crusher, Proof, and Curiosity Gap.<br><br>
+      The Post Lab is built specifically for this — it helps you write captions that convert cold profile visitors. <a href="https://learn.thesimplecreator.com/library" target="_blank" style="color:var(--blue);font-weight:600;">Access it in your IPSS course →</a></div>`;
+  }
+}
+
+function renderIgLogTable(trafficLogs, engageLogs) {
+  const area = document.getElementById('traffic-log-area');
+  if (!area) return;
+  const allLogs = [...trafficLogs, ...engageLogs].sort((a,b) => b.date.localeCompare(a.date));
+  if (allLogs.length === 0) return;
+
+  const rows = allLogs.map(log => {
+    const isTraffic = log.campaignType === 'traffic';
+    const spent = getSpent(log);
+    const budget = getBudget(log);
+    const result = isTraffic ? getVisits(log) : getEng(log);
+    const cpr = isTraffic ? getCpv(log) : getCpe(log);
+    const target = isTraffic ? 0.25 : 0.15;
+    const pillClass = cpr === 0 ? 'pill-neutral' : cpr <= target ? 'pill-green' : 'pill-red';
+    const cprLabel = isTraffic ? 'CPV' : 'CPE';
+    const resultLabel = isTraffic ? 'visits' : 'eng';
+
+    return `<tr>
+      <td><div style="font-weight:500;">${log.date}</div><div class="camp-name">${log.campaignName || ''}</div></td>
+      <td><span class="metric-pill ${isTraffic ? 'pill-neutral' : 'pill-neutral'}" style="background:${isTraffic?'#EEF2F4':'#FFF5E0'};color:${isTraffic?'#3A6070':'#7A5800'}">${isTraffic?'Traffic':'Engage'}</span></td>
+      <td>${budget > 0 ? '$' + budget.toFixed(2) : '—'}</td>
+      <td>${spent > 0 ? '$' + spent.toFixed(2) : '—'}</td>
+      <td>${result > 0 ? result : '—'}</td>
+      <td><span class="metric-pill ${pillClass}">${cpr > 0 ? '$' + cpr.toFixed(2) : '—'}</span></td>
+    </tr>`;
+  }).join('');
+
+  area.innerHTML = `<div style="overflow-x:auto;">
+    <table class="log-table">
+      <thead><tr>
+        <th>Date</th><th>Type</th><th>Budget</th><th>Spent</th><th>Results</th><th>Cost/Result</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// ─────────────────────────────────────────────
+// RENDER DTP TAB
+// ─────────────────────────────────────────────
+function renderDtpTab() {
+  const logs = getLogsForType('dtp').sort((a,b) => a.date.localeCompare(b.date));
+  if (logs.length === 0) return;
+
+  // ── Metrics ──
+  const recent7 = getRecentLogs(logs, 7);
+  const totalSpend = logs.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalRevenue = logs.reduce((sum,l) => sum + n(l.revenue), 0);
+  const totalPurchases = logs.reduce((sum,l) => sum + n(l.purchases), 0);
+  const totalClicks = logs.reduce((sum,l) => sum + n(l.clicks), 0);
+
+  const roas7 = recent7.length > 0
+    ? (() => { const s = recent7.reduce((a,l)=>a+getSpent(l),0); const r = recent7.reduce((a,l)=>a+n(l.revenue),0); return s > 0 ? r/s : 0; })() : 0;
+  const avgCtr = logs.length > 0 ? logs.reduce((sum,l)=>sum+n(l.ctr),0)/logs.length : 0;
+  const cvr = totalClicks > 0 ? (totalPurchases / totalClicks) * 100 : 0;
+  const aov = totalPurchases > 0 ? totalRevenue / totalPurchases : 0;
+
+  setMetric('dtp-metric-grid', 0, roas7 > 0 ? roas7.toFixed(2) : '—');
+  setMetric('dtp-metric-grid', 1, aov > 0 ? '$' + aov.toFixed(0) : '—');
+  setMetric('dtp-metric-grid', 2, cvr > 0 ? cvr.toFixed(1) + '%' : '—');
+  setMetric('dtp-metric-grid', 3, avgCtr > 0 ? avgCtr.toFixed(2) + '%' : '—');
+  setMetric('dtp-metric-grid', 4, totalSpend > 0 ? '$' + totalSpend.toFixed(2) : '—');
+  setMetric('dtp-metric-grid', 5, totalRevenue > 0 ? '$' + totalRevenue.toFixed(2) : '—');
+
+  // ── Insight ──
+  renderDtpInsight(logs, roas7, totalSpend, cvr, avgCtr);
+
+  // ── Log table ──
+  renderDtpLogTable(logs);
+
+  // ── Chart ──
+  renderChart('dtp-chart-area', logs, state.sales);
+
+  // ── Budget timeline ──
+  renderBudgetTimeline('dtp-budget-area', logs);
+
+  // ── Sales ──
+  renderSalesLog('dtp-sales-area');
+}
+
+function renderDtpInsight(logs, roas7, totalSpend, cvr, avgCtr) {
+  const box = document.getElementById('dtp-insight-box');
+  if (!box) return;
+  const days = [...new Set(logs.map(l => l.date))].length;
+
+  if (days < 3 || totalSpend < 75) {
+    box.className = 'insight-box blue';
+    box.innerHTML = `<div class="insight-title">Day ${days} — ${totalSpend < 75 ? '$' + totalSpend.toFixed(0) + ' of $75 minimum spend' : 'evaluation unlocks today'}.</div>
+      <div class="insight-body">Keep logging daily. Full evaluation unlocks at Day 3 with at least $75 in total spend.</div>`;
+    return;
+  }
+
+  let color, title, body;
+  if (roas7 >= 1.4) {
+    color = 'green';
+    title = 'Scaling territory. ROAS is ' + roas7.toFixed(2) + '.';
+    body = 'Above 1.4x. Increase budget by 20% every 3–4 days while ROAS holds.';
+  } else if (roas7 >= 1.0) {
+    color = 'yellow';
+    title = 'Optimize before scaling. ROAS is ' + roas7.toFixed(2) + '.';
+    body = cvr < 3
+      ? 'CVR is below 3% — your sales page may be the bottleneck. Review your page copy and offer clarity.'
+      : avgCtr < 1
+        ? 'CTR is below 1% — your ad creative needs work. Test a new hook or visual.'
+        : 'You\'re breaking even. Diagnose CVR then CTR before increasing spend.';
+  } else if (roas7 > 0) {
+    color = 'red';
+    title = 'Pause and review. ROAS is below 1.0.';
+    body = 'You\'re losing money on ad spend. Pause if this is the second consecutive day below 1.0. Diagnose: CVR → CTR → AOV.';
+  } else {
+    color = 'blue';
+    title = 'No revenue logged yet.';
+    body = 'Log a sale when your first purchase comes in to unlock your ROAS evaluation.';
+  }
+
+  box.className = 'insight-box ' + color;
+  box.innerHTML = `<div class="insight-title">${title}</div><div class="insight-body">${body}</div>`;
+}
+
+function renderDtpLogTable(logs) {
+  const area = document.getElementById('dtp-log-area');
+  if (!area) return;
+  const sorted = [...logs].sort((a,b) => b.date.localeCompare(a.date));
+
+  const rows = sorted.map(log => {
+    const spent = getSpent(log);
+    const roas = n(log.roas);
+    const roasPill = roas === 0 ? 'pill-neutral' : roas >= 1.4 ? 'pill-green' : roas >= 1.0 ? 'pill-yellow' : 'pill-red';
+    const ctr = n(log.ctr);
+    const ctrPill = ctr === 0 ? 'pill-neutral' : ctr >= 1 ? 'pill-green' : 'pill-yellow';
+
+    return `<tr>
+      <td><div style="font-weight:500;">${log.date}</div><div class="camp-name">${log.campaignName || ''}</div></td>
+      <td>${spent > 0 ? '$' + spent.toFixed(2) : '—'}</td>
+      <td><span class="metric-pill ${roasPill}">${roas > 0 ? roas.toFixed(2) : '—'}</span></td>
+      <td>${n(log.revenue) > 0 ? '$' + n(log.revenue).toFixed(2) : '—'}</td>
+      <td><span class="metric-pill ${ctrPill}">${ctr > 0 ? ctr.toFixed(2) + '%' : '—'}</span></td>
+      <td>${n(log.purchases) > 0 ? Math.round(n(log.purchases)) : '—'}</td>
+    </tr>`;
+  }).join('');
+
+  area.innerHTML = `<div style="overflow-x:auto;">
+    <table class="log-table">
+      <thead><tr>
+        <th>Date</th><th>Spent</th><th>ROAS</th><th>Revenue</th><th>CTR</th><th>Purchases</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// ─────────────────────────────────────────────
+// SHARED: CHART
+// ─────────────────────────────────────────────
+function renderChart(areaId, logs, sales) {
+  const area = document.getElementById(areaId);
+  if (!area || logs.length < 2) return;
+
+  const sorted = [...logs].sort((a,b) => a.date.localeCompare(b.date));
+  const dates = [...new Set(sorted.map(l => l.date))];
+  if (dates.length < 2) return;
+
+  const spendByDate = {};
+  sorted.forEach(l => { spendByDate[l.date] = (spendByDate[l.date] || 0) + getSpent(l); });
+
+  const revenueByDate = {};
+  sales.forEach(s => {
+    const d = s.rawDate || s.date;
+    if (d) revenueByDate[d] = (revenueByDate[d] || 0) + n((s.amount||'').toString().replace('$',''));
+  });
+
+  const spends = dates.map(d => spendByDate[d] || 0);
+  const revenues = dates.map(d => revenueByDate[d] || 0);
+  const maxVal = Math.max(...spends, ...revenues, 1);
+
+  const W = 600, H = 160, pad = { t: 10, r: 10, b: 30, l: 40 };
+  const chartW = W - pad.l - pad.r;
+  const chartH = H - pad.t - pad.b;
+  const xStep = dates.length > 1 ? chartW / (dates.length - 1) : chartW;
+
+  const pts = (arr) => arr.map((v,i) => `${pad.l + i * xStep},${pad.t + chartH - (v / maxVal) * chartH}`).join(' ');
+  const spendPts = pts(spends);
+  const revPts = pts(revenues);
+
+  const spendPath = `M ${spendPts.split(' ').join(' L ')}`;
+  const revPath = `M ${revPts.split(' ').join(' L ')}`;
+
+  const labels = dates.map((d,i) => {
+    const x = pad.l + i * xStep;
+    // Only show first, last, and middle labels
+    if (i !== 0 && i !== dates.length - 1 && i !== Math.floor(dates.length / 2)) return '';
+    const short = d.slice(5); // MM-DD
+    return `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#999">${short}</text>`;
+  }).join('');
+
+  area.innerHTML = `
+    <div style="display:flex;gap:16px;margin-bottom:8px;font-size:11px;">
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:2px;background:#889CA2;display:inline-block;"></span>Spend</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:20px;height:2px;background:#D4925A;display:inline-block;"></span>Revenue</span>
+    </div>
+    <div class="chart-wrap">
+      <svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+        <path d="${spendPath}" fill="none" stroke="#889CA2" stroke-width="2" stroke-linejoin="round"/>
+        <path d="${revPath}" fill="none" stroke="#D4925A" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4,3"/>
+        ${labels}
+      </svg>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────
+// SHARED: BUDGET TIMELINE
+// ─────────────────────────────────────────────
+function renderBudgetTimeline(areaId, logs) {
+  const area = document.getElementById(areaId);
+  if (!area) return;
+  const sorted = [...logs].sort((a,b) => a.date.localeCompare(b.date));
+
+  // Find budget changes
+  const changes = [];
+  let lastBudget = null;
+  sorted.forEach(log => {
+    const budget = getBudget(log);
+    if (budget > 0 && budget !== lastBudget) {
+      changes.push({ date: log.date, budget, prev: lastBudget });
+      lastBudget = budget;
+    }
+  });
+
+  if (changes.length === 0) return;
+
+  area.innerHTML = changes.map(c => {
+    const change = c.prev !== null
+      ? (c.budget > c.prev ? `↑ from $${c.prev.toFixed(2)}` : `↓ from $${c.prev.toFixed(2)}`)
+      : 'Starting budget';
+    return `<div class="budget-row">
+      <div class="budget-dot"></div>
+      <div class="budget-date">${c.date}</div>
+      <div class="budget-amount">$${c.budget.toFixed(2)}/day</div>
+      <div class="budget-change">${change}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────────
+// SHARED: SALES LOG
+// ─────────────────────────────────────────────
+function renderSalesLog(areaId) {
+  const area = document.getElementById(areaId);
+  if (!area || state.sales.length === 0) return;
+
+  const sorted = [...state.sales].sort((a,b) => (b.rawDate||'').localeCompare(a.rawDate||''));
+
+  area.innerHTML = `<div style="overflow-x:auto;">
+    <table class="log-table">
+      <thead><tr><th>Date</th><th>Buyer</th><th>Products</th><th>Amount</th></tr></thead>
+      <tbody>${sorted.map(s => `<tr>
+        <td>${s.date || s.rawDate || ''}</td>
+        <td style="color:var(--body);font-size:12px;">${s.buyer || '—'}</td>
+        <td style="font-size:11px;color:var(--body);">${(s.products||[]).join(', ') || '—'}</td>
+        <td style="font-weight:600;">${s.amount || '—'}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+// ─────────────────────────────────────────────
+// MAIN RENDER CALL — called after buildDashboard
+// ─────────────────────────────────────────────
+function renderDashboardData() {
+  if (state.hasTraffic) renderIgTab();
+  if (state.hasDtp) renderDtpTab();
+}
 
 // ── HELPERS ──
 function parsePx(s){return parseFloat((s||'0').replace(/[^0-9.]/g,''))||0;}
@@ -1579,6 +2113,7 @@ function validateTrafficEntry(){
   Promise.all(promises).then(()=>{
     closeModal('modal-traffic');
     showToast('Entry saved');
+    renderDashboardData();
   }).catch(err=>{
     console.error('Save IG log error:',err);
     showToast('Could not save entry — please try again.',true);
@@ -1633,6 +2168,7 @@ function validateDtpEntry(){
     });
     closeModal('modal-dtp');
     showToast('Entry saved');
+    renderDashboardData();
     fields.forEach(id => document.getElementById(id).value = '');
   }).catch(err => {
     console.error('Save DTP log error:', err);
