@@ -1024,21 +1024,24 @@ async function regenerateCaption() {
 }
 
 // ══ FULL ASSESSMENT ══
-function buildAssessmentPrompts() {
+function buildAssessmentPrompts(isReanalysis) {
   const carousel=isCarousel(), g=captionStructureText();
   const offerCtx=[S.identity&&`Creator: ${S.identity}`,S.audience&&`Audience: ${S.audience}`,S.product&&`Offer: ${S.product}`,S.proof&&`Proof: ${S.proof}`].filter(Boolean).join('\n');
+  const prevScore=S.assessment?S.assessment.overallScore:null;
 
   const system=`You are a framework evaluator for Rebecca's Instagram Sales Page System course at Simple Creator Co. Evaluate a completed Instagram post against Rebecca's framework. Be specific — reference the actual content, not just the framework.
 
 ${isPinned()?`Pinned post context: ${pinnedContext()}`:''}
 ${carousel?'Carousel: Slide 1 = hook, middle slides = caption, last slide = CTA.':''}
 ${offerCtx?`Creator context:\n${offerCtx}`:''}
+${isReanalysis&&prevScore?`Previous score: ${prevScore}/100. The creator has made edits based on your feedback. Evaluate the revised content carefully — only adjust the score if the content has genuinely improved or worsened. Do not re-score downward simply because this is a fresh evaluation. Be consistent.`:''}
 
 Framework rules:
 - Hook (${carousel?'Slide 1':'first frame'}): name specific person/problem/number, create knowledge gap, clear over clever
 - Caption (${carousel?'middle slides':'main content'}): ${g?g.label+' — '+g.text.replace(/<[^>]+>/g,''):'deliver on hook\'s promise with correct structure'}
 - CTA (${carousel?'last slide':'end'}): one specific action — comment keyword, DM trigger, or link in bio
 - Proof specificity: vague numbers ("a lot", "significantly") are weak; exact numbers are strong
+- Scoring must be consistent — a post that scored ${prevScore||'well'} previously should score similarly unless specific elements have changed
 - Goal: 85+ overall
 
 Respond in JSON only. No markdown:
@@ -1060,7 +1063,7 @@ async function runFullAssessment() {
   document.getElementById('assessmentContent').style.display='none';
   document.getElementById('scoreBar').style.width='0%';
 
-  const {system,user}=buildAssessmentPrompts();
+  const {system,user}=buildAssessmentPrompts(false);
   try {
     const raw=await callClaude(system,user,1000);
     const result=raw==='__DEMO__'?demoAssessment():JSON.parse(raw.replace(/```json|```/g,'').trim());
@@ -1164,7 +1167,7 @@ async function reanalyzeFromEdit() {
   document.getElementById('assessmentLoading').style.display='block';
   document.getElementById('scoreBar').style.width='0%';
   window.scrollTo({top:0,behavior:'smooth'});
-  const {system,user}=buildAssessmentPrompts();
+  const {system,user}=buildAssessmentPrompts(true);
   try {
     const raw=await callClaude(system,user,1000);
     let result;
@@ -1187,7 +1190,7 @@ async function reanalyzeFromEdit() {
 function savePost() {
   if(!S.assessment) return;
   const saved=getSaved();
-  saved.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),postType:S.postType,format:S.format,purpose:S.purpose,hook:S.hook,cta:S.cta,caption:S.caption,score:S.assessment.overallScore});
+  saved.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),postType:S.postType,format:S.format,purpose:S.purpose,hook:S.hook,cta:S.cta,caption:S.caption,score:S.assessment.overallScore,assessment:S.assessment});
   localStorage.setItem(SAVED_KEY,JSON.stringify(saved));
   renderSidebar(); flash('saveSuccess');
 }
@@ -1222,6 +1225,7 @@ function loadSaved(id) {
   if(!post) return;
   S.postType=post.postType;S.format=post.format;S.purpose=post.purpose;
   S.hook=post.hook;S.cta=post.cta;S.caption=post.caption;
+  S.assessment=post.assessment||{overallScore:post.score,hookScore:post.score,ctaScore:post.score,captionScore:post.score,whatsWorking:[],whatToTighten:[]};
   document.querySelectorAll('#postTypeGrid .type-card').forEach(c=>c.classList.toggle('selected',c.dataset.value===post.postType));
   updatePurposeGrid();
   const purposeCard=document.querySelector(`#purposeGrid [data-value="${post.purpose}"]`);
@@ -1234,8 +1238,12 @@ function loadSaved(id) {
   setCaptionMode('write');
   checkCaptionReady();
   toggleSidebar();
-  S.currentStep = 5;
-  runFullAssessment();
+  // Restore saved assessment directly — no re-run
+  S.currentStep=5;
+  goToStep(6);
+  document.getElementById('assessmentLoading').style.display='none';
+  document.getElementById('assessmentContent').style.display='none';
+  renderAssessment(S.assessment);
 }
 
 function deleteSaved(id){localStorage.setItem(SAVED_KEY,JSON.stringify(getSaved().filter(p=>p.id!==id)));renderSidebar();}
