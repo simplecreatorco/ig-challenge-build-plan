@@ -1660,12 +1660,12 @@ function renderDtpTab() {
   // ── Metrics ──
   const recent7 = getRecentLogs(logs, 7);
   const totalSpend = logs.reduce((sum,l) => sum + getSpent(l), 0);
-  const totalRevenue = logs.reduce((sum,l) => sum + n(l.revenue), 0);
+  const totalRevenue = logs.reduce((sum,l) => sum + (n(l.revenue) || n(l.rev)), 0);
   const totalPurchases = logs.reduce((sum,l) => sum + n(l.purchases), 0);
   const totalClicks = logs.reduce((sum,l) => sum + n(l.clicks), 0);
 
   const roas7 = recent7.length > 0
-    ? (() => { const s = recent7.reduce((a,l)=>a+getSpent(l),0); const r = recent7.reduce((a,l)=>a+n(l.revenue),0); return s > 0 ? r/s : 0; })() : 0;
+    ? (() => { const s = recent7.reduce((a,l)=>a+getSpent(l),0); const r = recent7.reduce((a,l)=>a+(n(l.revenue)||n(l.rev)),0); return s > 0 ? r/s : 0; })() : 0;
   const avgCtr = logs.length > 0 ? logs.reduce((sum,l)=>sum+n(l.ctr),0)/logs.length : 0;
   const cvr = totalClicks > 0 ? (totalPurchases / totalClicks) * 100 : 0;
   const aov = totalPurchases > 0 ? totalRevenue / totalPurchases : 0;
@@ -1748,7 +1748,7 @@ function renderDtpLogTable(logs) {
       <td><div style="font-weight:500;">${log.date}</div><div class="camp-name">${log.campaignName || ''}</div></td>
       <td>${spent > 0 ? '$' + spent.toFixed(2) : '—'}</td>
       <td><span class="metric-pill ${roasPill}">${roas > 0 ? roas.toFixed(2) : '—'}</span></td>
-      <td>${n(log.revenue) > 0 ? '$' + n(log.revenue).toFixed(2) : '—'}</td>
+      <td>${(n(log.revenue) || n(log.rev)) > 0 ? '$' + (n(log.revenue) || n(log.rev)).toFixed(2) : '—'}</td>
       <td><span class="metric-pill ${ctrPill}">${ctr > 0 ? ctr.toFixed(2) + '%' : '—'}</span></td>
       <td>${n(log.purchases) > 0 ? Math.round(n(log.purchases)) : '—'}</td>
     </tr>`;
@@ -2143,7 +2143,7 @@ function validateDtpEntry(){
     budget: document.getElementById('dl-budget').value.trim(),
     spent: document.getElementById('dl-spent').value.trim(),
     roas: document.getElementById('dl-roas').value.trim(),
-    rev: document.getElementById('dl-rev').value.trim(),
+    revenue: document.getElementById('dl-rev').value.trim(),
     ctr: document.getElementById('dl-ctr').value.trim(),
     clicks: document.getElementById('dl-clicks').value.trim(),
     purchases: document.getElementById('dl-purchases').value.trim(),
