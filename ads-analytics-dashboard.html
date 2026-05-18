@@ -220,7 +220,8 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 .budget-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0;}
 .budget-date{color:var(--body);font-size:11px;min-width:80px;}
 .budget-amount{font-weight:600;color:#333;}
-.budget-change{font-size:11px;color:var(--coral);margin-left:4px;}
+.delete-row-btn{background:none;border:none;color:#CCC;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:4px;line-height:1;transition:color 0.15s,background 0.15s;}
+.delete-row-btn:hover{color:#C0443A;background:#FDECEA;}
 
 @media(max-width:640px){
   .form-row,.resource-grid,.resources-inner{grid-template-columns:1fr;}
@@ -385,7 +386,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 <div class="modal-overlay hidden" id="modal-traffic">
 <div class="modal">
   <div class="modal-header"><div class="modal-title" id="traffic-modal-lbl">+ Log Ad Stats</div><button class="modal-close" onclick="closeModal('modal-traffic')">×</button></div>
-  <div class="modal-sub">IG Traffic + Engagement — upload screenshots and enter stats.</div>
+  <div class="modal-sub">Before screenshotting, set your Ads Manager date range to a <strong>single day</strong> — the same day you're logging. IG Traffic + Engagement — upload each campaign screenshot below.</div>
   <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="traffic-log-date"></div>
   <div id="ig-campaign-sections"></div>
   <div class="form-actions">
@@ -399,7 +400,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 <div class="modal-overlay hidden" id="modal-dtp">
 <div class="modal">
   <div class="modal-header"><div class="modal-title" id="dtp-modal-lbl">+ Log Ad Stats</div><button class="modal-close" onclick="closeModal('modal-dtp')">×</button></div>
-  <div class="modal-sub">Direct to Product — upload your campaign screenshot and enter today's budget.</div>
+  <div class="modal-sub">Before screenshotting, set your Ads Manager date range to a <strong>single day</strong> — the same day you're logging. Then upload your campaign screenshot below.</div>
   <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="dtp-log-date"></div>
   <div class="form-group">
     <label class="form-label">Campaign Screenshot</label>
@@ -539,11 +540,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
       </div>
       <div class="metric-grid" id="traffic-metric-grid">
         <div class="metric-card"><div class="metric-label">7-Day ROAS</div><div class="metric-value">—</div><div class="metric-sub">Target: 1.4+</div></div>
-        <div class="metric-card"><div class="metric-label">7-Day Revenue</div><div class="metric-value">—</div><div class="metric-sub">New buyer sales</div></div>
-        <div class="metric-card"><div class="metric-label">Cost / Visit</div><div class="metric-value">—</div><div class="metric-sub">Target: under $0.25</div></div>
-        <div class="metric-card"><div class="metric-label">Cost / Engagement</div><div class="metric-value">—</div><div class="metric-sub">Target: under $0.15</div></div>
-        <div class="metric-card"><div class="metric-label">Combined Spend</div><div class="metric-value">—</div><div class="metric-sub">Traffic + Engage</div></div>
-        <div class="metric-card"><div class="metric-label">Profile Visits</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
+        <div class="metric-card"><div class="metric-label">7-Day Revenue</div><div class="metric-value">—</div><div class="metric-sub">From logged sales</div></div>
+        <div class="metric-card"><div class="metric-label">Avg Cost / Visit</div><div class="metric-value">—</div><div class="metric-sub">Target: under $0.25</div></div>
+        <div class="metric-card"><div class="metric-label">Avg Cost / Engagement</div><div class="metric-value">—</div><div class="metric-sub">Target: under $0.15</div></div>
+        <div class="metric-card"><div class="metric-label">7-Day Spend</div><div class="metric-value">—</div><div class="metric-sub">Traffic + Engage</div></div>
+        <div class="metric-card"><div class="metric-label">7-Day Visits</div><div class="metric-value">—</div><div class="metric-sub">Profile visits</div></div>
       </div>
       <div id="traffic-insight-box" class="insight-box blue">
         <div class="insight-title">Log your first entry to see your numbers.</div>
@@ -614,11 +615,11 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
       </div>
       <div class="metric-grid" id="dtp-metric-grid">
         <div class="metric-card"><div class="metric-label">7-Day ROAS</div><div class="metric-value">—</div><div class="metric-sub">Target: 1.4+</div></div>
-        <div class="metric-card"><div class="metric-label">Avg AOV</div><div class="metric-value">—</div><div class="metric-sub">Target: $40+</div></div>
-        <div class="metric-card"><div class="metric-label">CVR</div><div class="metric-value">—</div><div class="metric-sub">Target: 3%+</div></div>
-        <div class="metric-card"><div class="metric-label">Link CTR</div><div class="metric-value">—</div><div class="metric-sub">Target: 1%+</div></div>
-        <div class="metric-card"><div class="metric-label">Total Spend</div><div class="metric-value">—</div><div class="metric-sub">Campaign total</div></div>
-        <div class="metric-card"><div class="metric-label">Revenue</div><div class="metric-value">—</div><div class="metric-sub">Campaign total</div></div>
+        <div class="metric-card"><div class="metric-label">Avg AOV</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
+        <div class="metric-card"><div class="metric-label">CVR</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
+        <div class="metric-card"><div class="metric-label">Avg Link CTR</div><div class="metric-value">—</div><div class="metric-sub">Target: 1%+</div></div>
+        <div class="metric-card"><div class="metric-label">7-Day Spend</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
+        <div class="metric-card"><div class="metric-label">7-Day Revenue</div><div class="metric-value">—</div><div class="metric-sub">Last 7 days</div></div>
       </div>
       <div id="dtp-insight-box" class="insight-box blue">
         <div class="insight-title">Log your first entry to see your numbers.</div>
@@ -1451,6 +1452,16 @@ function getCpv(log) { return n(log.cpv) || 0; }
 function getEng(log) { return n(log.eng) || 0; }
 function getCpe(log) { return n(log.cpe) || 0; }
 
+// Get the latest total spend per campaign and sum them (true combined spend)
+function getLatestTotalSpend(logs) {
+  const byCamp = {};
+  logs.forEach(l => {
+    const key = l.campaignName || l.campaignType;
+    if (!byCamp[key] || l.date > byCamp[key].date) byCamp[key] = l;
+  });
+  return Object.values(byCamp).reduce((sum, l) => sum + getSpent(l), 0);
+}
+
 // Render a metric card value (targets the nth .metric-card in a grid)
 function setMetric(gridId, index, value, sub) {
   const grid = document.getElementById(gridId);
@@ -1471,13 +1482,15 @@ function renderIgTab() {
 
   if (allIgLogs.length === 0) return; // keep empty states
 
-  // ── Metrics ──
+  // ── Metrics — all calculated on 7-day window ──
   const recent7Traffic = getRecentLogs(trafficLogs, 7);
   const recent7Engage = getRecentLogs(engageLogs, 7);
   const recent7Sales = getRecentLogs(state.sales.map(s => ({...s, date: s.rawDate})), 7);
 
   const totalRevenue7 = recent7Sales.reduce((sum, s) => sum + n(s.amount.toString().replace('$','')), 0);
-  const totalSpend7 = [...recent7Traffic, ...recent7Engage].reduce((sum, l) => sum + getSpent(l), 0);
+  const totalTrafficSpend7 = recent7Traffic.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalEngageSpend7 = recent7Engage.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalSpend7 = totalTrafficSpend7 + totalEngageSpend7;
   const roas7 = totalSpend7 > 0 ? (totalRevenue7 / totalSpend7) : 0;
 
   const avgCpv = recent7Traffic.length > 0
@@ -1485,19 +1498,19 @@ function renderIgTab() {
   const avgCpe = recent7Engage.length > 0
     ? recent7Engage.reduce((sum,l) => sum + getCpe(l), 0) / recent7Engage.length : 0;
 
-  const totalTrafficSpend7 = recent7Traffic.reduce((sum,l) => sum + getSpent(l), 0);
-  const totalEngageSpend7 = recent7Engage.reduce((sum,l) => sum + getSpent(l), 0);
   const totalVisits7 = recent7Traffic.reduce((sum,l) => sum + getVisits(l), 0);
 
   setMetric('traffic-metric-grid', 0, roas7 > 0 ? roas7.toFixed(2) : '—');
   setMetric('traffic-metric-grid', 1, totalRevenue7 > 0 ? '$' + totalRevenue7.toFixed(0) : '—');
   setMetric('traffic-metric-grid', 2, avgCpv > 0 ? '$' + avgCpv.toFixed(2) : '—');
   setMetric('traffic-metric-grid', 3, avgCpe > 0 ? '$' + avgCpe.toFixed(2) : '—');
-  setMetric('traffic-metric-grid', 4, (totalTrafficSpend7 + totalEngageSpend7) > 0 ? '$' + (totalTrafficSpend7 + totalEngageSpend7).toFixed(2) : '—');
+  setMetric('traffic-metric-grid', 4, totalSpend7 > 0 ? '$' + totalSpend7.toFixed(2) : '—');
   setMetric('traffic-metric-grid', 5, totalVisits7 > 0 ? totalVisits7.toString() : '—');
 
-  // ── Insight box ──
-  renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, totalSpend7);
+  // ── Insight — uses all-time spend and visits for threshold checks ──
+  const allTimeIgSpend = [...trafficLogs, ...engageLogs].reduce((sum,l) => sum + getSpent(l), 0);
+  const allTimeVisits = trafficLogs.reduce((sum,l) => sum + getVisits(l), 0);
+  renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, allTimeIgSpend, allTimeVisits);
 
   // ── Log table ──
   renderIgLogTable(trafficLogs, engageLogs);
@@ -1512,14 +1525,14 @@ function renderIgTab() {
   renderSalesLog('traffic-sales-area');
 }
 
-function renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, totalSpend7) {
+function renderIgInsight(trafficLogs, engageLogs, roas7, avgCpv, avgCpe, allTimeSpend, allTimeVisits) {
   const box = document.getElementById('traffic-insight-box');
   if (!box) return;
 
   const allLogs = [...trafficLogs, ...engageLogs];
   const days = [...new Set(allLogs.map(l => l.date))].length;
-  const totalVisits = trafficLogs.reduce((sum,l) => sum + getVisits(l), 0);
-  const totalSpend = allLogs.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalSpend = allTimeSpend;
+  const totalVisits = allTimeVisits;
   const hasSales = state.sales.length > 0;
   const cpvOk = avgCpv > 0 && avgCpv <= 0.25;
   const cpeOk = avgCpe > 0 && avgCpe <= 0.15;
@@ -1632,18 +1645,19 @@ function renderIgLogTable(trafficLogs, engageLogs) {
 
     return `<tr>
       <td><div style="font-weight:500;">${log.date}</div><div class="camp-name">${log.campaignName || ''}</div></td>
-      <td><span class="metric-pill ${isTraffic ? 'pill-neutral' : 'pill-neutral'}" style="background:${isTraffic?'#EEF2F4':'#FFF5E0'};color:${isTraffic?'#3A6070':'#7A5800'}">${isTraffic?'Traffic':'Engage'}</span></td>
+      <td><span class="metric-pill" style="background:${isTraffic?'#EEF2F4':'#FFF5E0'};color:${isTraffic?'#3A6070':'#7A5800'}">${isTraffic?'Traffic':'Engage'}</span></td>
       <td>${budget > 0 ? '$' + budget.toFixed(2) : '—'}</td>
       <td>${spent > 0 ? '$' + spent.toFixed(2) : '—'}</td>
       <td>${result > 0 ? result : '—'}</td>
       <td><span class="metric-pill ${pillClass}">${cpr > 0 ? '$' + cpr.toFixed(2) : '—'}</span></td>
+      <td><button class="delete-row-btn" onclick="deleteLogEntry('${log.id}','ig')" title="Delete entry">×</button></td>
     </tr>`;
   }).join('');
 
   area.innerHTML = `<div style="overflow-x:auto;">
     <table class="log-table">
       <thead><tr>
-        <th>Date</th><th>Type</th><th>Budget</th><th>Spent</th><th>Results</th><th>Cost/Result</th>
+        <th>Date</th><th>Type</th><th>Budget</th><th>Spent</th><th>Results</th><th>Cost/Result</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
@@ -1657,16 +1671,15 @@ function renderDtpTab() {
   const logs = getLogsForType('dtp').sort((a,b) => a.date.localeCompare(b.date));
   if (logs.length === 0) return;
 
-  // ── Metrics ──
+  // ── Metrics — all on 7-day window ──
   const recent7 = getRecentLogs(logs, 7);
-  const totalSpend = logs.reduce((sum,l) => sum + getSpent(l), 0);
-  const totalRevenue = logs.reduce((sum,l) => sum + (n(l.revenue) || n(l.rev)), 0);
-  const totalPurchases = logs.reduce((sum,l) => sum + n(l.purchases), 0);
-  const totalClicks = logs.reduce((sum,l) => sum + n(l.clicks), 0);
+  const totalSpend = recent7.reduce((sum,l) => sum + getSpent(l), 0);
+  const totalRevenue = recent7.reduce((sum,l) => sum + (n(l.revenue) || n(l.rev)), 0);
+  const totalPurchases = recent7.reduce((sum,l) => sum + n(l.purchases), 0);
+  const totalClicks = recent7.reduce((sum,l) => sum + n(l.clicks), 0);
 
-  const roas7 = recent7.length > 0
-    ? (() => { const s = recent7.reduce((a,l)=>a+getSpent(l),0); const r = recent7.reduce((a,l)=>a+(n(l.revenue)||n(l.rev)),0); return s > 0 ? r/s : 0; })() : 0;
-  const avgCtr = logs.length > 0 ? logs.reduce((sum,l)=>sum+n(l.ctr),0)/logs.length : 0;
+  const roas7 = totalSpend > 0 ? totalRevenue / totalSpend : 0;
+  const avgCtr = recent7.length > 0 ? recent7.reduce((sum,l)=>sum+n(l.ctr),0)/recent7.length : 0;
   const cvr = totalClicks > 0 ? (totalPurchases / totalClicks) * 100 : 0;
   const aov = totalPurchases > 0 ? totalRevenue / totalPurchases : 0;
 
@@ -1677,8 +1690,9 @@ function renderDtpTab() {
   setMetric('dtp-metric-grid', 4, totalSpend > 0 ? '$' + totalSpend.toFixed(2) : '—');
   setMetric('dtp-metric-grid', 5, totalRevenue > 0 ? '$' + totalRevenue.toFixed(2) : '—');
 
-  // ── Insight ──
-  renderDtpInsight(logs, roas7, totalSpend, cvr, avgCtr);
+  // ── Insight — uses all-time spend for threshold check ──
+  const allTimeSpend = logs.reduce((sum,l) => sum + getSpent(l), 0);
+  renderDtpInsight(logs, roas7, allTimeSpend, cvr, avgCtr);
 
   // ── Log table ──
   renderDtpLogTable(logs);
@@ -1751,13 +1765,14 @@ function renderDtpLogTable(logs) {
       <td>${(n(log.revenue) || n(log.rev)) > 0 ? '$' + (n(log.revenue) || n(log.rev)).toFixed(2) : '—'}</td>
       <td><span class="metric-pill ${ctrPill}">${ctr > 0 ? ctr.toFixed(2) + '%' : '—'}</span></td>
       <td>${n(log.purchases) > 0 ? Math.round(n(log.purchases)) : '—'}</td>
+      <td><button class="delete-row-btn" onclick="deleteLogEntry('${log.id}','dtp')" title="Delete entry">×</button></td>
     </tr>`;
   }).join('');
 
   area.innerHTML = `<div style="overflow-x:auto;">
     <table class="log-table">
       <thead><tr>
-        <th>Date</th><th>Spent</th><th>ROAS</th><th>Revenue</th><th>CTR</th><th>Purchases</th>
+        <th>Date</th><th>Spent</th><th>ROAS</th><th>Revenue</th><th>CTR</th><th>Purchases</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
@@ -1886,6 +1901,22 @@ function renderDashboardData() {
   if (state.hasDtp) renderDtpTab();
 }
 
+function deleteLogEntry(logId, tab) {
+  if (!logId) { showToast('Cannot delete — entry has no ID.', true); return; }
+  if (!confirm('Delete this entry? This cannot be undone.')) return;
+
+  sheetsCall({ action: 'delete_daily_log', email: state.email, log_id: logId })
+    .then(() => {
+      state.dailyLogs = state.dailyLogs.filter(l => l.id !== logId);
+      renderDashboardData();
+      showToast('Entry deleted');
+    })
+    .catch(err => {
+      console.error('Delete error:', err);
+      showToast('Could not delete — please try again.', true);
+    });
+}
+
 // ── HELPERS ──
 function parsePx(s){return parseFloat((s||'0').replace(/[^0-9.]/g,''))||0;}
 function updateTotal(){
@@ -1987,22 +2018,18 @@ function openSaleModal(){document.getElementById('sale-date').value=getYesterday
 function confirmReset(){
   const btn=document.getElementById('reset-confirm-btn');
   setBtnLoading(btn,true);
-  // Clear from Google Sheets — save empty products/campaigns, logs and sales stay in sheet as history
+  const email=state.email;
   sheetsCall({
-    action:'save_user_setup',
-    email:state.email,
-    products:[],
-    campaigns:[]
+    action:'clear_user_data',
+    email:email
   }).then(()=>{
-    // Clear local state
-    localStorage.removeItem('scc_dashboard_email');
-    state={products:[],campaigns:[],hasTraffic:false,hasDtp:false,dailyLogs:[],sales:[]};
+    // Keep email in localStorage so they don't have to re-enter it
+    state={email:email,products:[],campaigns:[],hasTraffic:false,hasDtp:false,dailyLogs:[],sales:[]};
     closeModal('modal-reset');
-    // Hide dashboard, show onboarding
     document.getElementById('dashboard').style.display='none';
     document.getElementById('onboarding').classList.remove('hidden');
-    // Reset onboarding to email gate
     document.querySelectorAll('.ob-screen').forEach(s=>s.classList.remove('active'));
+    setProgress(-1);
     showEmailGate();
     showToast('Dashboard reset — start fresh anytime');
   }).catch(err=>{
