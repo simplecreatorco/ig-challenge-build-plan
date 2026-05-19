@@ -386,7 +386,7 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 <div class="modal-overlay hidden" id="modal-traffic">
 <div class="modal">
   <div class="modal-header"><div class="modal-title" id="traffic-modal-lbl">+ Log Ad Stats</div><button class="modal-close" onclick="closeModal('modal-traffic')">×</button></div>
-  <div class="modal-sub">Before screenshotting, set your Ads Manager date range to a <strong>single day</strong> — the same day you're logging. IG Traffic + Engagement — upload each campaign screenshot below.</div>
+  <div class="modal-sub">Before screenshotting, set your Ads Manager date range to a <strong>single day</strong> — the same day you're logging. Only fill in the campaigns you're currently running — leave the rest blank.</div>
   <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="traffic-log-date"></div>
   <div id="ig-campaign-sections"></div>
   <div class="form-actions">
@@ -1102,8 +1102,29 @@ function buildSaleCampSelect(){
 function buildCampaignPills(){
   const tPills=document.getElementById('traffic-camp-pills');
   const dPills=document.getElementById('dtp-camp-pills');
-  tPills.innerHTML=state.campaigns.filter(c=>c.type==='traffic'||c.type==='engage').map(c=>`<span class="camp-pill traffic">${c.name}</span>`).join('');
-  dPills.innerHTML=state.campaigns.filter(c=>c.type==='dtp').map(c=>`<span class="camp-pill dtp">${c.name}</span>`).join('');
+  tPills.innerHTML=state.campaigns.filter(c=>c.type==='traffic'||c.type==='engage').map((c,i)=>{
+    const idx=state.campaigns.indexOf(c);
+    return `<span class="camp-pill traffic">${c.name}<button onclick="deleteCampaign(${idx})" title="Remove campaign" style="background:none;border:none;color:#889CA2;cursor:pointer;margin-left:6px;font-size:13px;line-height:1;padding:0;vertical-align:middle;">×</button></span>`;
+  }).join('');
+  dPills.innerHTML=state.campaigns.filter(c=>c.type==='dtp').map((c,i)=>{
+    const idx=state.campaigns.indexOf(c);
+    return `<span class="camp-pill dtp">${c.name}<button onclick="deleteCampaign(${idx})" title="Remove campaign" style="background:none;border:none;color:#889CA2;cursor:pointer;margin-left:6px;font-size:13px;line-height:1;padding:0;vertical-align:middle;">×</button></span>`;
+  }).join('');
+}
+
+function deleteCampaign(idx){
+  const camp=state.campaigns[idx];
+  if(!camp) return;
+  if(!confirm(`Remove "${camp.name}"? This won't delete any logged data.`)) return;
+  state.campaigns.splice(idx,1);
+  state.hasTraffic=state.campaigns.some(c=>c.type==='traffic'||c.type==='engage');
+  state.hasDtp=state.campaigns.some(c=>c.type==='dtp');
+  sheetsCall({action:'update_user_setup',email:state.email,campaigns:state.campaigns})
+    .catch(err=>console.error('Failed to save campaign removal:',err));
+  buildCampaignPills();
+  buildTabs();
+  buildSaleCampSelect();
+  showToast('Campaign removed');
 }
 
 function buildTabs(){
@@ -2089,16 +2110,32 @@ function validateTrafficEntry(){
   if(!dateEl.value){dateEl.classList.add('invalid');ok=false;}else{dateEl.classList.remove('invalid');}
 
   const igCamps=state.campaigns.filter(c=>c.type==='traffic'||c.type==='engage');
-  const allFieldIds=[];
 
+  // Determine which campaign sections have any data entered
+  const activeCamps=igCamps.filter((camp,i)=>{
+    const slug='ig-'+i;
+    const spentEl=document.getElementById(slug+'-spent');
+    const budgetEl=document.getElementById(slug+'-budget');
+    // Consider a section active if either spent or budget has a value
+    return (spentEl&&spentEl.value.trim()) || (budgetEl&&budgetEl.value.trim());
+  });
+
+  if(activeCamps.length===0 && dateEl.value){
+    showToast('Enter stats for at least one campaign.',true);
+    return;
+  }
+
+  // Only validate fields for active (filled-in) sections
   igCamps.forEach((camp,i)=>{
     const slug='ig-'+i;
+    const isActive=activeCamps.includes(camp);
+    if(!isActive) return; // skip blank sections entirely
+
     const isTraffic=camp.type==='traffic';
     const fields=[slug+'-budget',slug+'-spent'];
     if(isTraffic){fields.push(slug+'-visits',slug+'-cpv');}
     else{fields.push(slug+'-eng',slug+'-cpe');}
     fields.forEach(id=>{
-      allFieldIds.push(id);
       const el=document.getElementById(id);
       const err=document.getElementById(id+'-err');
       if(!el||!el.value.trim()){if(el)el.classList.add('invalid');if(err)err.classList.add('visible');ok=false;}
@@ -2111,10 +2148,12 @@ function validateTrafficEntry(){
   const saveBtn=document.querySelector('#modal-traffic .form-actions .btn:not(.btn-ghost)');
   setBtnLoading(saveBtn,true);
 
-  // Save one log entry per IG campaign
+  // Save one log entry per active campaign only
   const date=dateEl.value;
-  const promises=igCamps.map((camp,i)=>{
-    const slug='ig-'+i;
+  const promises=igCamps.filter(camp=>activeCamps.includes(camp)).map((camp,i)=>{
+    // Find the correct slug index based on original position in igCamps
+    const origIdx=igCamps.indexOf(camp);
+    const slug='ig-'+origIdx;
     const isTraffic=camp.type==='traffic';
     const logData=isTraffic?{
       budget:document.getElementById(slug+'-budget').value.trim(),
