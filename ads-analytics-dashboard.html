@@ -479,6 +479,18 @@ body{background:var(--bg);font-family:'Nunito',sans-serif;color:var(--body);line
 </div>
 </div>
 
+<!-- Custom Confirm Modal -->
+<div class="modal-overlay hidden" id="modal-confirm">
+<div class="modal" style="max-width:400px;">
+  <div class="modal-header"><div class="modal-title" id="confirm-title">Are you sure?</div><button class="modal-close" onclick="closeModal('modal-confirm')">×</button></div>
+  <div style="padding:4px 0 20px;font-size:14px;color:var(--body);line-height:1.7;" id="confirm-body"></div>
+  <div class="form-actions">
+    <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-confirm')">Cancel</button>
+    <button class="btn btn-sm" id="confirm-ok-btn" style="background:var(--red);">Delete</button>
+  </div>
+</div>
+</div>
+
 <!-- ══════════ DASHBOARD ══════════ -->
 <div id="dashboard">
 <div class="page">
@@ -1115,16 +1127,22 @@ function buildCampaignPills(){
 function deleteCampaign(idx){
   const camp=state.campaigns[idx];
   if(!camp) return;
-  if(!confirm(`Remove "${camp.name}"? This won't delete any logged data.`)) return;
-  state.campaigns.splice(idx,1);
-  state.hasTraffic=state.campaigns.some(c=>c.type==='traffic'||c.type==='engage');
-  state.hasDtp=state.campaigns.some(c=>c.type==='dtp');
-  sheetsCall({action:'update_user_setup',email:state.email,campaigns:state.campaigns})
-    .catch(err=>console.error('Failed to save campaign removal:',err));
-  buildCampaignPills();
-  buildTabs();
-  buildSaleCampSelect();
-  showToast('Campaign removed');
+  showConfirm(
+    'Remove this campaign?',
+    `"${camp.name}" will be removed from your dashboard. Your logged data for this campaign won't be deleted.`,
+    ()=>{
+      state.campaigns.splice(idx,1);
+      state.hasTraffic=state.campaigns.some(c=>c.type==='traffic'||c.type==='engage');
+      state.hasDtp=state.campaigns.some(c=>c.type==='dtp');
+      sheetsCall({action:'update_user_setup',email:state.email,campaigns:state.campaigns})
+        .catch(err=>console.error('Failed to save campaign removal:',err));
+      buildCampaignPills();
+      buildTabs();
+      buildSaleCampSelect();
+      showToast('Campaign removed');
+    },
+    'Remove Campaign'
+  );
 }
 
 function buildTabs(){
@@ -1922,20 +1940,33 @@ function renderDashboardData() {
   if (state.hasDtp) renderDtpTab();
 }
 
+function showConfirm(title, body, onConfirm, confirmLabel) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-body').textContent = body;
+  const btn = document.getElementById('confirm-ok-btn');
+  btn.textContent = confirmLabel || 'Delete';
+  btn.onclick = () => { closeModal('modal-confirm'); onConfirm(); };
+  openModal('modal-confirm');
+}
+
 function deleteLogEntry(logId, tab) {
   if (!logId) { showToast('Cannot delete — entry has no ID.', true); return; }
-  if (!confirm('Delete this entry? This cannot be undone.')) return;
-
-  sheetsCall({ action: 'delete_daily_log', email: state.email, log_id: logId })
-    .then(() => {
-      state.dailyLogs = state.dailyLogs.filter(l => l.id !== logId);
-      renderDashboardData();
-      showToast('Entry deleted');
-    })
-    .catch(err => {
-      console.error('Delete error:', err);
-      showToast('Could not delete — please try again.', true);
-    });
+  showConfirm(
+    'Delete this entry?',
+    'This will permanently remove this log entry and cannot be undone.',
+    ()=>{
+      sheetsCall({ action: 'delete_daily_log', email: state.email, log_id: logId })
+        .then(() => {
+          state.dailyLogs = state.dailyLogs.filter(l => l.id !== logId);
+          renderDashboardData();
+          showToast('Entry deleted');
+        })
+        .catch(err => {
+          console.error('Delete error:', err);
+          showToast('Could not delete — please try again.', true);
+        });
+    }
+  );
 }
 
 // ── HELPERS ──
