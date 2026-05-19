@@ -717,7 +717,7 @@ async function sheetsCall(payload) {
   } catch (e) {
     // If it's an HTML page but the status was 200, the save likely went through
     // (Apps Script redirect quirk). For write actions, treat as success.
-    if (res.ok && ['save_user_setup','save_daily_log','save_sale','update_user_setup','update_daily_log','update_sale'].includes(payload.action)) {
+    if (res.ok && ['save_user_setup','save_daily_log','save_sale','update_user_setup','update_daily_log','update_sale','clear_user_data','delete_daily_log','delete_sale'].includes(payload.action)) {
       return { success: true, id: 'gs-' + Date.now() };
     }
     throw new Error('Unexpected response from server');
