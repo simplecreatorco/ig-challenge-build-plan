@@ -916,7 +916,7 @@ function proceedToAssessment() {
 // ══ API ══
 async function callClaude(system, user, maxTokens) {
   if(IS_DEMO){await new Promise(r=>setTimeout(r,1400));return '__DEMO__';}
-  const res=await fetch('https://post-lab.black-bread-143b.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens||1000,system,messages:[{role:'user',content:user}]})});
+  const res=await fetch('https://post-lab.black-bread-143b.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:maxTokens||1000,system,messages:[{role:'user',content:user}]})});
   const data=await res.json();
   if(data.error) throw new Error(data.error.message);
   return data.content[0].text;
